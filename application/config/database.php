@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'lokal.stimiksepnop.ac.id',
-	'username' => 'simak1011',
-	'password' => 'stimik@db1011',
-	'database' => 'simak1011',
+	'hostname' => 'localhost',
+	'username' => 'u3011751_root',
+	'password' => 'Stimik@1011',
+	'database' => 'u3011751_simak1011',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

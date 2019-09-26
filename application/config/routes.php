@@ -82,6 +82,9 @@ $route['api/approvedkrsm/GetHistori'] = 'api/ApprovedKrsm/ambilHistori';
 $route['api/sksMahasiswa/AmbilSks'] = 'api/SksMahasiswa/GetSKS';
 $route['api/Mahasiswa/GetDataMahasiswa'] = 'api/Mahasiswa/GetMahasiswa';
 $route['api/Perwalian/GetMahasiswa'] = 'api/Perwalian/MahasiswaWali';
+//Penelitian
+
+$route['api/Penelitian/AmbilPenelitian'] = 'api/Penelitian/getpenelitian';
 
 
 $route['api/KrsmMahasiswa/GetKrsmMahasiswa'] = 'api/KrsmMahasiswa/GetAll';
