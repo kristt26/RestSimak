@@ -115,49 +115,63 @@ class Jadwal_Model extends CI_Model
                 $this->db->where('gg', $DataTA->gg);
                 $resultDU = $this->db->get('daftar_ulang');
                 if($resultDU->num_rows()){
-                    $this->db->where('npm', $DataMahasiswa->npm);
-                    $this->db->where('thakademik', $DataTA->thakademik);
-                    $this->db->where('gg', $DataTA->gg);
-                    $resultTemKrsm = $this->db->get($this->TemKrsmTable);
-                    if ($resultTemKrsm->num_rows()) {
-                        $this->db->where('IdKrsm', $resultTemKrsm->row('Id'));
-                        $resultDetailKrsm = $this->db->get($this->TemDetailKrsmTable);
-                        $Datas = array(
-                            'TemKrsm' => json_encode($resultTemKrsm->result()),
-                            'TemDetailKrsm' => json_encode($resultDetailKrsm->result()),
-                            'message' => "TemKrsm",
-                        );
-                        return $Datas;
-                    } else {
-                        if ($DataTahunAkademik->num_rows()) {
-                            $this->db->select('*');
-                            $this->db->join('matakuliah', 'matakuliah.kmk = jadwal_kuliah.kmk', 'left');
-                            $this->db->where('jadwal_kuliah.kdps', $DataMahasiswa->kdps);
-                            $this->db->where('jadwal_kuliah.thakademik', $DataTA->thakademik);
-                            $this->db->where('jadwal_kuliah.gg', $DataTA->gg);
-                            // $this->db->where('kelas', $DataMahasiswa->kelas);
-                            $this->db->group_start();
-                            $this->db->where('kurikulum', $DataMahasiswa->kurikulum);
-                            $this->db->or_where('kurikulum', 'ALL');
-                            $this->db->group_end();
-                            $this->db->order_by('matakuliah.smt', 'ASC');
-                            $ItemJadwal = $this->db->get($this->JadwalTable);
-                            if ($ItemJadwal->num_rows()) {
-                                $DataJadwal = array(
-                                    'Jadwal' => json_encode($ItemJadwal->result()),
-                                    'Kelas' => $DataMahasiswa->kelas,
-                                    'message' => 'Jadwal',
-                                    'status' => true
-                                );
-                                return $DataJadwal;
-                            }else{
-                                $DataJadwal = array(
-                                    'message' => 'Jadwal',
-                                    'status' => false
-                                );
-                                return $DataJadwal;
+                    $tgl = date('Y-m-d');
+                    $tglmhs = $resultDU->row('last_reg');
+                    $Tanggal_sistem = strtotime($tgl);
+                    $TglReg = strtotime($tglmhs);
+                    if($Tanggal_sistem<$TglReg){
+                        $this->db->where('npm', $DataMahasiswa->npm);
+                        $this->db->where('thakademik', $DataTA->thakademik);
+                        $this->db->where('gg', $DataTA->gg);
+                        $resultTemKrsm = $this->db->get($this->TemKrsmTable);
+                        if ($resultTemKrsm->num_rows()) {
+                            $this->db->where('IdKrsm', $resultTemKrsm->row('Id'));
+                            $resultDetailKrsm = $this->db->get($this->TemDetailKrsmTable);
+                            $Datas = array(
+                                'TemKrsm' => json_encode($resultTemKrsm->result()),
+                                'TemDetailKrsm' => json_encode($resultDetailKrsm->result()),
+                                'message' => "TemKrsm",
+                            );
+                            return $Datas;
+                        } else {
+                            if ($DataTahunAkademik->num_rows()) {
+                                $this->db->select('*');
+                                $this->db->join('matakuliah', 'matakuliah.kmk = jadwal_kuliah.kmk', 'left');
+                                $this->db->where('jadwal_kuliah.kdps', $DataMahasiswa->kdps);
+                                $this->db->where('jadwal_kuliah.thakademik', $DataTA->thakademik);
+                                $this->db->where('jadwal_kuliah.gg', $DataTA->gg);
+                                // $this->db->where('kelas', $DataMahasiswa->kelas);
+                                $this->db->group_start();
+                                $this->db->where('kurikulum', $DataMahasiswa->kurikulum);
+                                $this->db->or_where('kurikulum', 'ALL');
+                                $this->db->group_end();
+                                $this->db->order_by('matakuliah.smt', 'ASC');
+                                $ItemJadwal = $this->db->get($this->JadwalTable);
+                                if ($ItemJadwal->num_rows()) {
+                                    $DataJadwal = array(
+                                        'Jadwal' => json_encode($ItemJadwal->result()),
+                                        'Kelas' => $DataMahasiswa->kelas,
+                                        'message' => 'Jadwal',
+                                        'status' => true,
+                                        'streg' =>true
+                                    );
+                                    return $DataJadwal;
+                                }else{
+                                    $DataJadwal = array(
+                                        'message' => 'Jadwal',
+                                        'status' => false,
+                                        'streg' =>true
+                                    );
+                                    return $DataJadwal;
+                                }
                             }
                         }
+                    }else{
+                        $DataJadwal = array(
+                            'message' => 'BatasReg',
+                            'status' => true
+                        );
+                        return $DataJadwal;
                     }
                 }else{
                     $DataJadwal = array(

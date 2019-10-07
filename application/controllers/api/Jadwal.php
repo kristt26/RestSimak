@@ -143,14 +143,31 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
                         ];
                         $this->response($message, REST_Controller::HTTP_NOT_FOUND);
                     }
-
-                } else {
+                } else if($Output['message'] == 'Krsm') {
                     $Datakirim = array(
+                        'status' => false,
                         'data' => $Output,
                     );
                     $message = [
                         'status' => true,
                         'data' => $Datakirim,
+                        'set' => $Output['message']
+                    ];
+                    $this->response($message, REST_Controller::HTTP_OK);
+                }else if($Output['message'] == 'Daftar Ulang') {
+                    $Datakirim = array(
+                        'status' => false,
+                        'data' => $Output,
+                    );
+                    $message = [
+                        'status' => true,
+                        'data' => $Datakirim,
+                        'set' => $Output['message']
+                    ];
+                    $this->response($message, REST_Controller::HTTP_OK);
+                }else{
+                    $message = [
+                        'status' => false,
                         'set' => $Output['message']
                     ];
                     $this->response($message, REST_Controller::HTTP_OK);
