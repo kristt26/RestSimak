@@ -88,3 +88,6 @@ $route['api/Penelitian/AmbilPenelitian'] = 'api/Penelitian/getpenelitian';
 
 
 $route['api/KrsmMahasiswa/GetKrsmMahasiswa'] = 'api/KrsmMahasiswa/GetAll';
+
+//BeritaAcara
+$route['api/beritaacara/AddBaMengajar']['post'] = 'api/BeritaAcara/AddBaMengajar';
