@@ -26,18 +26,18 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
             $Output = $this->BeritaAcaraModel->insert($data);
             if($data){
                 $message= [
-                    "status" => $Output
+                    "data" => $Output
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }else{
                 $message= [
-                    "status" => $Output
+                    "data" => $Output
                 ];
                 $this->response($message, REST_Controller::HTTP_NOT_FOUND);
             }
         }else{
             $message= [
-                "result" => "Session anda telah habis"
+                "data" => "Session anda telah habis"
             ];
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         }
@@ -59,18 +59,18 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
             if(!empty($Output)){
                 $message= [
                     "status" => true,
-                    "result" => $Output
+                    "data" => $Output
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }else{
                 $message= [
-                    "status" => false
+                    "data" => false
                 ];
                 $this->response($message, REST_Controller::HTTP_NOT_FOUND);
             }
         }else{
             $message= [
-                "result" => "Session anda telah habis"
+                "data" => "Session anda telah habis"
             ];
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         }
@@ -90,19 +90,19 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
             $Output = $this->BeritaAcaraModel->update($decoded_input);
             if($Output){
                 $message = [
-                    "result" => $Output
+                    "data" => $Output
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }else{
                 $message = [
-                    "result" => $Output
+                    "data" => $Output
                 ];
                 $this->response($message, REST_Controller::HTTP_NOT_FOUND);
             }
             
         }else{
             $message = [
-                "result" => "Session Habis"
+                "data" => "Session Habis"
             ];
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         }
