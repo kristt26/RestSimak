@@ -92,3 +92,5 @@ $route['api/KrsmMahasiswa/GetKrsmMahasiswa'] = 'api/KrsmMahasiswa/GetAll';
 //BeritaAcara
 $route['api/beritaacara/AddBaMengajar']['post'] = 'api/BeritaAcara/AddBaMengajar';
 $route['api/beritaacara/GetBaMengajar']['get'] = 'api/BeritaAcara/GetBaMengajar';
+$route['api/beritaacara/updateBaMengajar']['put'] = 'api/BeritaAcara/updateBaMengajar';
+

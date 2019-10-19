@@ -575,7 +575,6 @@ $config['allowed_cors_headers'] = [
 $config['allowed_cors_methods'] = [
   'GET',
   'POST',
-  'OPTIONS',
   'PUT',
   'PATCH',
   'DELETE'
