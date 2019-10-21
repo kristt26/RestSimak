@@ -5,7 +5,7 @@ class Perwalian_Model extends CI_Model
     {
         $resultMahasiswa = $this->db->query("
             SELECT
-                `mahasiswa`.*
+                `mahasiswa`.*, `pegawai`.*
             FROM
                 `dosen_wali`
                 RIGHT JOIN `dosen` ON `dosen_wali`.`iddosen` = `dosen`.`iddosen`
@@ -14,10 +14,6 @@ class Perwalian_Model extends CI_Model
             WHERE 
                 pegawai.IdUser = '1121' and (mahasiswa.statuskul<>'DO' AND mahasiswa.statuskul<>'LULUS' AND mahasiswa.statuskul<>'UNDUR DIRI' AND mahasiswa.statuskul<>'PINDAH')
         ");
-        if($resultMahasiswa->num_rows()){
-            foreach ($resultMahasiswa->result_object() as $key => $value) {
-                $a = $value;
-            }            
-        }
+        return $resultMahasiswa->result_array();
     }
 }
