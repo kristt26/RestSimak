@@ -4,7 +4,6 @@ class BeritaAcara_Model extends CI_Model{
     public function Insert($data)
     {
         $result = $this->db->insert("bamengajardosen", $data);
-        $data['idbamengajardosen']=$this->db->insert_id();
         $id = $this->db->insert_id();
         $this->db->where("idbamengajardosen", $id);
         $data = $this->db->get("bamengajardosen");
@@ -12,11 +11,6 @@ class BeritaAcara_Model extends CI_Model{
             $data = [
                 "status" => true,
                 "data" => $data->result_array()
-            ];
-            return $result;
-        }else{
-            $data = [
-                "status" => false
             ];
             return $result;
         }
