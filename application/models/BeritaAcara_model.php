@@ -4,16 +4,12 @@ class BeritaAcara_Model extends CI_Model{
     public function Insert($data)
     {
         $result = $this->db->insert("bamengajardosen", $data);
-        $id = $this->db->insert_id();
-        $this->db->where("idbamengajardosen", $id);
-        $data = $this->db->get("bamengajardosen");
         if($result){
-            $data = [
-                "status" => true,
-                "data" => $data->result_array()
-            ];
-            return $result;
+            return $this->db->insert_id();
+        }else{
+            return 0;
         }
+        
     }
 
     public function get($idjadwal, $nidn)

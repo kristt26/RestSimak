@@ -24,7 +24,7 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
         $data =json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
         if ($is_valid_token['status'] === true) {
             $Output = $this->BeritaAcaraModel->insert($data);
-            if($Output['status']){
+            if($Output>0){
                 $message= [
                     "data" => $Output
                 ];
