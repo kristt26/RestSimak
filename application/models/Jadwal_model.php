@@ -34,7 +34,7 @@ class Jadwal_Model extends CI_Model
                 `tahun_akademik`.`gg`
                 RIGHT JOIN `dosen` ON `dosen`.`nidn` = `dosen_pengampu`.`nidn`
                 RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`            
-            WHERE tahun_akademik.status = 'AKTIF' AND pegawai.IdUser='$data->id'
+            WHERE tahun_akademik.status = 'AKTIF' AND pegawai.IdUser='$data->id' AND  dosen_pengampu.mengajar='Y'
         ");
         if($result->num_rows()){
             return $result->result_object();
