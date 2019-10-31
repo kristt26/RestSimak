@@ -64,7 +64,8 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
                 $this->response($message, REST_Controller::HTTP_OK);
             }else{
                 $message= [
-                    "data" => false
+                    "status" => true,
+                    "data" => []
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }
