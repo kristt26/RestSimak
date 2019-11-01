@@ -22,8 +22,8 @@ class Jadwal_Model extends CI_Model
     {
         $result = $this->db->query("
             SELECT
-            `dosen`.`nidn`,
-            `jadwal_kuliah`.*
+                `dosen`.`nidn`,
+                `jadwal_kuliah`.*
             FROM
                 `jadwal_kuliah`
                 RIGHT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`kmk` = `dosen_pengampu`.`kmk`
@@ -33,8 +33,13 @@ class Jadwal_Model extends CI_Model
                 `tahun_akademik`.`thakademik` AND `dosen_pengampu`.`gg` =
                 `tahun_akademik`.`gg`
                 RIGHT JOIN `dosen` ON `dosen`.`nidn` = `dosen_pengampu`.`nidn`
-                RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`            
-            WHERE tahun_akademik.status = 'AKTIF' AND pegawai.IdUser='$data->id' AND  dosen_pengampu.mengajar='Y'
+                RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
+                RIGHT JOIN `matakuliah` ON `matakuliah`.`kmk` = `jadwal_kuliah`.`kmk`
+            WHERE
+                `tahun_akademik`.`status` = 'AKTIF' AND
+                `pegawai`.`IdUser` = '$data->id' AND
+                `dosen_pengampu`.`mengajar` = 'Y' AND
+                `matakuliah`.`kurikulum` != '2011'
         ");
         if($result->num_rows()){
             return $result->result_object();

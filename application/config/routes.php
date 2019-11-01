@@ -98,3 +98,6 @@ $route['api/beritaacara/updateBaMengajar']['put'] = 'api/BeritaAcara/updateBaMen
 
 $route['api/Perwalian/MahasiswaWali']['get'] = 'api/Perwalian/MahasiswaWali';
 
+//Berita Acara Mengajar
+
+$route['beritaacara']['get'] = 'api/BeritaAcara/LaporanBa';
