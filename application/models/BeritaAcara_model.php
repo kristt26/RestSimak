@@ -34,7 +34,7 @@ class BeritaAcara_Model extends CI_Model{
             FROM
                 `matakuliah`
             WHERE 
-                matakuliah.kurikulum != 'null' OR matakuliah.kurikulum!=2011
+                matakuliah.kurikulum IN (2018,2019, 'ALL')
       
         ");
         $DataMatakuliah = $result->result_array();
