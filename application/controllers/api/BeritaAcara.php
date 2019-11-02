@@ -48,7 +48,7 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json; charset=UTF-8");
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-        header("Access-Control-Allow-Methods: GET, OPTIONS");
+        header("Access-Control-Allow-Methods: GET");
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
