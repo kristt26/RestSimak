@@ -81,7 +81,9 @@ class BeritaAcara_Model extends CI_Model{
                 $resultMatkul = [
                     "BeritaAcara" => array(),
                     "Matakuliah" => $value1['nmmk'],
-                    "Kmk" => $value1['kmk']
+                    "Kmk" => $value1['kmk'],
+                    "kelas"=> $value1['kelas'],
+                    "dosen"=> $value1['Nama']
                 ];
                 if($value['kdps']==$value1['kdps']){
                     foreach ($DataBa as $key2 => $value2) {
