@@ -61,10 +61,11 @@ class BeritaAcara_Model extends CI_Model{
                             array_push($resultMatkul["BeritaAcara"], $value2);
                         }
                     }
-                    array_push($resultprodi["Matakuliah"], $resultMatkul);
+                    array_push($message['data'], $resultMatkul);
+                    // array_push($resultprodi["Matakuliah"], $resultMatkul);
                 }
             }
-            array_push($message['data'], $resultprodi);
+            // array_push($message['data'], $resultprodi);
         }
         return $message;
     }
