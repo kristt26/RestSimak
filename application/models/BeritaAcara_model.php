@@ -43,8 +43,6 @@ class BeritaAcara_Model extends CI_Model{
                 *
             FROM
                 `bamengajardosen`
-            WHERE
-                status = 'non'
         ");
         $DataBa = $result->result_array();
         foreach ($DataProdi as $key => $value) {
