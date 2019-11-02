@@ -3,12 +3,20 @@
 class BeritaAcara_Model extends CI_Model{
     public function Insert($data)
     {
-        $result = $this->db->insert("bamengajardosen", $data);
-        if($result){
-            return $this->db->insert_id();
+        $this->db->where("tanggal", $data->tanggal);
+        $this->db->where("kmk", $data->kmk);
+        $cek = $this->db->get("bamengajardosen");
+        if($cek->num_rows()){
+            return false;
         }else{
-            return 0;
+            $result = $this->db->insert("bamengajardosen", $data);
+            if($result){
+                return $this->db->insert_id();
+            }else{
+                return 0;
+            }
         }
+       
         
     }
 
@@ -30,11 +38,30 @@ class BeritaAcara_Model extends CI_Model{
         $DataProdi = $result->result_array();
         $result = $this->db->query("
             SELECT
-                *
+                `matakuliah`.`kmk`,
+                `matakuliah`.`nmmk`,
+                `matakuliah`.`kdps`,
+                `matakuliah`.`kurikulum`,
+                `matakuliah`.`idmatakuliah`,
+                `jadwal_kuliah`.`kelas`,
+                `jadwal_kuliah`.`sks`,
+                `pegawai`.`Nama`,
+                `tahun_akademik`.`thakademik`,
+                `tahun_akademik`.`gg`
             FROM
-                `matakuliah`
-            WHERE 
-                matakuliah.kurikulum IN (2018,2019, 'ALL')
+                `jadwal_kuliah`
+                LEFT JOIN `tahun_akademik` ON `jadwal_kuliah`.`thakademik` =
+                `tahun_akademik`.`thakademik` AND `jadwal_kuliah`.`gg` =
+                `tahun_akademik`.`gg`
+                LEFT JOIN `matakuliah` ON `matakuliah`.`kmk` = `jadwal_kuliah`.`kmk`
+                AND `matakuliah`.`kdps` = `jadwal_kuliah`.`kdps`
+                LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`kmk` = `dosen_pengampu`.`kmk`
+                RIGHT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
+                RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
+            WHERE
+                `tahun_akademik`.status ='AKTIF' and
+                dosen_pengampu.mengajar = 'Y' AND
+                matakuliah.kurikulum != 2011
       
         ");
         $DataMatakuliah = $result->result_array();
@@ -53,7 +80,8 @@ class BeritaAcara_Model extends CI_Model{
             foreach ($DataMatakuliah as $key1 => $value1) {
                 $resultMatkul = [
                     "BeritaAcara" => array(),
-                    "Matakuliah" => $value1['nmmk']
+                    "Matakuliah" => $value1['nmmk'],
+                    "Kmk" => $value1['kmk']
                 ];
                 if($value['kdps']==$value1['kdps']){
                     foreach ($DataBa as $key2 => $value2) {
