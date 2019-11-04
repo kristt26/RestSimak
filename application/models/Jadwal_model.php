@@ -38,8 +38,7 @@ class Jadwal_Model extends CI_Model
             WHERE
                 `tahun_akademik`.`status` = 'AKTIF' AND
                 `pegawai`.`IdUser` = '$data->id' AND
-                `dosen_pengampu`.`mengajar` = 'Y' AND
-                `matakuliah`.`kurikulum` != '2011'
+                `dosen_pengampu`.`mengajar` = 'Y'  
         ");
         if($result->num_rows()){
             return $result->result_object();
