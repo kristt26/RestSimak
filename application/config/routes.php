@@ -104,3 +104,4 @@ $route['api/BeritaAcara/LaporanBa']['get'] = 'api/BeritaAcara/LaporanBa';
 
 // Dosen
 $route['api/Dosen/GetDosen']['get'] = 'api/Dosen/GetDosen';
+$route['api/Dosen/GetPublikasi']['get'] = 'api/Dosen/GetPublikasi';

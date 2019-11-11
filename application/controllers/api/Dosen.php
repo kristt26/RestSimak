@@ -33,5 +33,22 @@ class Dosen extends \Restserver\Libraries\REST_Controller
             $this->response($message, REST_Controller::HTTP_OK);
         }
     }
+    public function GetPublikasi_get()
+    {
+        
+        // $_POST = $this->security->xss_clean($_POST);
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $a = "http://cse.bth.se/~fer/googlescholar-api/googlescholar.php?user=".$_GET["schoolarId"];
+            $result = $this->DosenModel->CallAPI($a);
+            // $message = [
+            //     'status' => true,
+            //     'data' => $result,
+            //     'message' => "Success",
+            // ];
+            $this->response($result, REST_Controller::HTTP_OK);
+        }
+    }
 
 }

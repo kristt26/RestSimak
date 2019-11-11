@@ -10,26 +10,25 @@ class Dosen_Model extends CI_Model
                 *
             FROM
                 `dosen`
-                RIGHT JOIN `pegawai` ON `dosen`.`idpegawai` = `pegawai`.`idpegawai` 
-            WHERE 
+                RIGHT JOIN `pegawai` ON `dosen`.`idpegawai` = `pegawai`.`idpegawai`
+            WHERE
                 `dosen`.nidn!='null' AND
                 `dosen`.scholarId!='null'
         ");
-        $Data = $result->result_array();
-        $b=array(
-            "Data"=>array()
-        );
-        foreach ($Data as $ke => $value) {
-            $a = "http://cse.bth.se/~fer/googlescholar-api/googlescholar.php?user=".$value['scholarId'];
-            $response = file_get_contents($a);
-            $data = array(
-                "nidn"=>$value["nidn"],
-                "nmsdn"=>$value["nmdsn"],
-                "pendidikan"=>$value['pendakhir'],
-                "Publikasi"=> $response
-            );
-            array_push($b["Data"], $data);
-        }
-        return $b["Data"];
-    }    
+        return $result->result_array();
+    }
+    public function CallAPI($a)
+    {
+        
+        $ch = curl_init();
+        // set url
+        curl_setopt($ch, CURLOPT_URL, $a);
+        // $output contains the output json
+        $output = curl_exec($ch);
+        // close curl resource to free up system resources
+        curl_close($ch);
+        // {"name":"Baron","gender":"male","probability":0.88,"count":26}
+
+        return $output;
+    }
 }
