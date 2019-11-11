@@ -4,6 +4,7 @@ class Dosen_Model extends CI_Model
 {
     public function get()
     {
+
         $result = $this->db->query("
             SELECT
                 *
@@ -14,6 +15,21 @@ class Dosen_Model extends CI_Model
                 `dosen`.nidn!='null' AND
                 `dosen`.scholarId!='null'
         ");
-        return $result->result_array();
+        $Data = $result->result_array();
+        $b=array(
+            "Data"=>array()
+        );
+        foreach ($Data as $ke => $value) {
+            $a = "http://cse.bth.se/~fer/googlescholar-api/googlescholar.php?user=".$value['scholarId'];
+            $response = file_get_contents($a);
+            $data = array(
+                "nidn"=>$value["nidn"],
+                "nmsdn"=>$value["nmdsn"],
+                "pendidikan"=>$value['pendakhir'],
+                "Publikasi"=> $response
+            );
+            array_push($b["Data"], $data);
+        }
+        return $b["Data"];
     }    
 }
