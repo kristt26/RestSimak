@@ -42,12 +42,12 @@ class Dosen extends \Restserver\Libraries\REST_Controller
         if ($is_valid_token['status'] === true) {
             $a = "http://cse.bth.se/~fer/googlescholar-api/googlescholar.php?user=".$_GET["schoolarId"];
             $result = $this->DosenModel->CallAPI($a);
-            // $message = [
-            //     'status' => true,
-            //     'data' => $result,
-            //     'message' => "Success",
-            // ];
-            $this->response($result, REST_Controller::HTTP_OK);
+            $message = [
+                'status' => true,
+                'data' => $result,
+                'message' => "Success",
+            ];
+            $this->response($message, REST_Controller::HTTP_OK);
         }
     }
 
