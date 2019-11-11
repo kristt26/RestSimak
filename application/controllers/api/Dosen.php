@@ -5,7 +5,7 @@ use Restserver\Libraries\REST_Controller;
 
 require APPPATH . '/libraries/REST_Controller.php';
 
-class Home extends \Restserver\Libraries\REST_Controller
+class Dosen extends \Restserver\Libraries\REST_Controller
 {
     public function __construct($config = 'rest')
     {
@@ -14,31 +14,24 @@ class Home extends \Restserver\Libraries\REST_Controller
         header("Content-Type: application/json; charset=UTF-8");
         header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT, OPTIONS");
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-        $this->load->model('Home_model', 'HomeModel');
+        $this->load->model('Dosen_model', 'DosenModel');
     }
-    public function ambilinfo_get()
+
+    public function GetDosen_get()
     {
-        $role = $this->get('role');
+        
+        // $_POST = $this->security->xss_clean($_POST);
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
-            $Output = $this->HomeModel->GetBiodata($is_valid_token['data'], $role);
-            if ($Output != 0) {
-                $message = [
-                    'status' => true,
-                    'message' => 'Success!!!',
-                    'data' => $Output,
-                ];
-                $this->response($message, REST_Controller::HTTP_OK);
-            } else {
-                $message = [
-                    'status' => false,
-                    'message' => 'empty!!!',
-                    'data' => [],
-                ];
-                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
-            }
-
+            $result = $this->DosenModel->get();
+            $message = [
+                'status' => true,
+                'data' => $result,
+                'message' => "Success",
+            ];
+            $this->response($message, REST_Controller::HTTP_OK);
         }
     }
+
 }

@@ -36,11 +36,13 @@ class BeritaAcara_Model extends CI_Model
                 `matakuliah`.`kdps`,
                 `matakuliah`.`kurikulum`,
                 `matakuliah`.`idmatakuliah`,
+                `jadwal_kuliah`.`idjadwal`,
                 `jadwal_kuliah`.`kelas`,
                 `jadwal_kuliah`.`sks`,
                 `pegawai`.`Nama`,
                 `tahun_akademik`.`thakademik`,
-                `tahun_akademik`.`gg`
+                `tahun_akademik`.`gg`,
+                `program_studi`.`nmps`
             FROM
                 `jadwal_kuliah`
                 LEFT JOIN `tahun_akademik` ON `jadwal_kuliah`.`thakademik` =
@@ -51,10 +53,11 @@ class BeritaAcara_Model extends CI_Model
                 LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`kmk` = `dosen_pengampu`.`kmk`
                 RIGHT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
                 RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
+                LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `matakuliah`.`kdps`
             WHERE
-                `tahun_akademik`.status ='AKTIF' and
-                dosen_pengampu.mengajar = 'Y' AND
-                matakuliah.kurikulum != 2011
+                `tahun_akademik`.`status` = 'AKTIF' AND
+                `dosen_pengampu`.`mengajar` = 'Y' AND
+                `matakuliah`.`kurikulum` NOT IN (2011)
 
         ");
         $DataMatakuliah = $result->result_array();
@@ -65,15 +68,22 @@ class BeritaAcara_Model extends CI_Model
                 `bamengajardosen`
         ");
         $DataBa = $result->result_array();
-        foreach ($DataProdi as $key => $value) {
-            $resultprodi = [
-                "Matakuliah" => array(),
-                "Prodi" => $value['nmps'],
+        foreach ($DataMatakuliah as $key1 => $value1) {
+            $DatasMatakuliah = [
+                "Matakuliah"=>$value1['nmmk'],
+                "dosen"=>$value1['Nama'],
+                "kmk"=>$value1['kmk'],
+                "kelas"=>$value1['kelas'],
+                "sks"=>$value1['sks'],
+                "jurusan"=>$value1['nmps'],
+                "beritaacara"=> array()
             ];
-            foreach ($DataMatakuliah as $key1 => $value1) {
-                 
+            foreach ($DataBa as $key => $value2) {
+                if($value1['idjadwal']==$value2['idjadwal']){
+                    array_push($DatasMatakuliah['beritaacara'], $value2);
+                }
             }
-            // array_push($message['data'], $resultprodi);
+            array_push($message['data'], $DatasMatakuliah);
         }
         return $message;
     }
