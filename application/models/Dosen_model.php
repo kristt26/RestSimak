@@ -10,25 +10,61 @@ class Dosen_Model extends CI_Model
                 *
             FROM
                 `dosen`
-                RIGHT JOIN `pegawai` ON `dosen`.`idpegawai` = `pegawai`.`idpegawai`
-            WHERE
+                RIGHT JOIN `pegawai` ON `dosen`.`idpegawai` = `pegawai`.`idpegawai` 
+            WHERE 
                 `dosen`.nidn!='null' AND
                 `dosen`.scholarId!='null'
         ");
-        return $result->result_array();
-    }
-    public function CallAPI($a)
-    {
-        
-        $ch = curl_init();
-        // set url
-        curl_setopt($ch, CURLOPT_URL, $a);
-        // $output contains the output json
-        $output = curl_exec($ch);
-        // close curl resource to free up system resources
-        curl_close($ch);
-        // {"name":"Baron","gender":"male","probability":0.88,"count":26}
-
-        return $output;
-    }
+        $Data = $result->result_array();
+        $b=array(
+            "Data"=>array()
+        );
+        foreach ($Data as $ke => $value) {
+            $a = "http://cse.bth.se/~fer/googlescholar-api/googlescholar.php?user=".$value['scholarId'];
+            $response = $this->callAPI("GET", $a, false);
+            // $c = str_replace('"{',$replace,$arr)
+            $data = array(
+                "nidn"=>$value["nidn"],
+                "nmsdn"=>$value["nmdsn"],
+                "pendidikan"=>$value['pendakhir'],
+                "Publikasi"=> $response
+            );
+            array_push($b["Data"], $data);
+        }
+        return $b["Data"];
+    }    
+    public function callAPI($method, $url, $data){
+        $curl = curl_init();
+     
+        switch ($method){
+           case "POST":
+              curl_setopt($curl, CURLOPT_POST, 1);
+              if ($data)
+                 curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+              break;
+           case "PUT":
+              curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+              if ($data)
+                 curl_setopt($curl, CURLOPT_POSTFIELDS, $data);			 					
+              break;
+           default:
+              if ($data)
+                 $url = sprintf("%s?%s", $url, http_build_query($data));
+        }
+     
+        // OPTIONS:
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+           'APIKEY: 111111111111111111111',
+           'Content-Type: application/json',
+        ));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+     
+        // EXECUTE:
+        $result = curl_exec($curl);
+        if(!$result){die("Connection Failure");}
+        curl_close($curl);
+        return $result;
+     }
 }
