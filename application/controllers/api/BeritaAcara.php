@@ -132,5 +132,95 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         }
     }
+    public function Persetujuan_get()
+    {
+        header("Access-Control-Allow-Methods: PUT");
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->BeritaAcaraModel->Persetujuan();
+            if ($Output) {
+                $message = [
+                    "data" => $Output,
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            } else {
+                $message = [
+                    "data" => $Output,
+                ];
+                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+            }
+        } else {
+            $message = [
+                "data" => "Session Habis",
+            ];
+            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+    public function Rekap_put()
+    {
+        header("Access-Control-Allow-Methods: PUT");
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->BeritaAcaraModel->rekap();
+            if ($Output) {
+                $message = [
+                    "data" => $Output,
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            } else {
+                $message = [
+                    "data" => $Output,
+                ];
+                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+            }
+        } else {
+            $message = [
+                "data" => "Session Habis",
+            ];
+            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function HapusBa_delete()
+    {
+        header("Access-Control-Allow-Methods: PUT");
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $decoded_input = json_decode(file_get_contents("php://input"), true);
+            $id = $decoded_input["idbamengajardosen"];
+            $Output = $this->BeritaAcaraModel->hapus($id);
+            if ($Output) {
+                $message = [
+                    "data" => $Output,
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            } else {
+                $message = [
+                    "data" => $Output,
+                ];
+                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+            }
+        } else {
+            $message = [
+                "data" => "Session Habis",
+            ];
+            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+    
+    
+
 
 }

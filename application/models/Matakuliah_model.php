@@ -15,7 +15,8 @@ class Matakuliah_Model extends CI_Model
                 LEFT JOIN `matakuliah` ON `matakuliah`.`kdps` = `program_studi`.`kdps`
             WHERE 
                 program_studi.status = 'true' and
-                matakuliah.kurikulum != 'null'
+                matakuliah.kurikulum in(2011,2018,2019)
         ");
+        return $result->result_array();
     }
 }

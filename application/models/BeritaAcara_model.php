@@ -90,8 +90,48 @@ class BeritaAcara_Model extends CI_Model
 
     public function update($data)
     {
+        $this->db->set("persetujuan1", $data["persetujuan1"]);
         $this->db->where("idbamengajardosen", $data["idbamengajardosen"]);
-        $result = $this->db->update("bamengajardosen", $data);
+        $result = $this->db->update("bamengajardosen");
+        return $result;
+    }
+    public function Persetujuan()
+    {
+        $result = $this->db->query("
+            SELECT
+                `bamengajardosen`.*,
+                `matakuliah`.`nmmk`,
+                `matakuliah`.`sks`,
+                `matakuliah`.`smt`,
+                `matakuliah`.`kdps`,
+                `jadwal_kuliah`.`kelas`,
+                `jadwal_kuliah`.`dsn_saji`
+            FROM
+                `bamengajardosen`
+                LEFT JOIN `matakuliah` ON `bamengajardosen`.`kmk` = `matakuliah`.`kmk`
+                LEFT JOIN `jadwal_kuliah` ON `jadwal_kuliah`.`idjadwal` =
+                `bamengajardosen`.`idjadwal`
+            WHERE
+                `bamengajardosen`.`status` = 'non'
+            ORDER BY
+                `matakuliah`.`nmmk`,
+                `jadwal_kuliah`.`kelas`,
+                `bamengajardosen`.`tanggal` DESC
+                
+        ");
+        return $result->result_array();
+    }
+    public function rekap()
+    {
+        $this->db->set("status", "rekap");
+        $this->db->where("status", "non");
+        $result = $this->db->update("bamengajardosen");
+        return $result;
+    }
+    public function hapus($id)
+    {
+        $this->db->where("idbamengajardosen", $id);
+        $result = $this->db->delete("bamengajardosen");
         return $result;
     }
 }

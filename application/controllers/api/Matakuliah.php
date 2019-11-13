@@ -19,12 +19,10 @@ class Matakuliah extends \Restserver\Libraries\REST_Controller
         header("Access-Control-Allow-Methods: GET");
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-        $kurikulum = $this->get('kurikulum');   
-        $Output = $this->MatakuliahModel->AmbilMatakuliah($kurikulum);
+        $Output = $this->MatakuliahModel->AmbilMatakuliah();
         $message = [
             'status' => true,
-            'data' => $Output['data'],
-            'message' => "Success!",
+            'data' => $Output
         ];
         $this->response($message, REST_Controller::HTTP_OK);
     }
