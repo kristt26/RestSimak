@@ -30,6 +30,7 @@ class Dosen_Model extends CI_Model
                 "nidn"=>$value["nidn"],
                 "nmsdn"=>$value["nmdsn"],
                 "pendidikan"=>$value['pendakhir'],
+                "scholarId" => $value['scholarId'],
                 "Publikasi"=> $response
             );
             array_push($b["Data"], $data);
