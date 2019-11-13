@@ -22,6 +22,9 @@ class Dosen_Model extends CI_Model
         foreach ($Data as $ke => $value) {
             $a = "http://cse.bth.se/~fer/googlescholar-api/googlescholar.php?user=".$value['scholarId'];
             $response = $this->callAPI("GET", $a, false);
+            if(strpos($response, '"total_citations": ,')){
+                $response = str_replace('"total_citations":', '"total_citations": 0',$response);
+            }
             // $c = str_replace('"{',$replace,$arr)
             $data = array(
                 "nidn"=>$value["nidn"],
