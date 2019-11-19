@@ -106,7 +106,7 @@ class Khsm_Model extends CI_Model
                 }
                 $Totalnxsks += (int) $nilai;
             }
-            array_push($KhsmData['Datas'], json_encode($item));
+            array_push($KhsmData['Datas'], $item);
 
         }
         $IPK = 0;
