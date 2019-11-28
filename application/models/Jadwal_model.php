@@ -73,21 +73,24 @@ class Jadwal_Model extends CI_Model
     public function getAllJadwal(Type $var = null)
     {
         $hasil = $this->db->query("
-        SELECT
-            `jadwal_kuliah`.*,
-            `matakuliah`.`smt`,
-            `matakuliah`.`kurikulum`
-        FROM
-            `jadwal_kuliah`
-            LEFT JOIN `tahun_akademik` ON `jadwal_kuliah`.`thakademik` =
-            `tahun_akademik`.`thakademik` AND `jadwal_kuliah`.`gg` =
-            `tahun_akademik`.`gg`
-            LEFT JOIN `matakuliah` ON `matakuliah`.`kmk` = `jadwal_kuliah`.`kmk`
-            AND `matakuliah`.`kdps` = `jadwal_kuliah`.`kdps`
-        WHERE
-            `tahun_akademik`.`status` = 'AKTIF'
-        ORDER BY
-            `matakuliah`.`smt`");
+            SELECT
+                `jadwal_kuliah`.*,
+                `matakuliah`.`smt`,
+                `matakuliah`.`kurikulum`,
+                `program_studi`.`nmps`
+            FROM
+                `jadwal_kuliah`
+                LEFT JOIN `tahun_akademik` ON `jadwal_kuliah`.`thakademik` =
+                    `tahun_akademik`.`thakademik` AND `jadwal_kuliah`.`gg` =
+                    `tahun_akademik`.`gg`
+                LEFT JOIN `matakuliah` ON `matakuliah`.`kmk` = `jadwal_kuliah`.`kmk`
+                    AND `matakuliah`.`kdps` = `jadwal_kuliah`.`kdps`
+                LEFT JOIN `program_studi` ON `jadwal_kuliah`.`kdps` = `program_studi`.`kdps`
+            WHERE
+                `tahun_akademik`.`status` = 'AKTIF'
+            ORDER BY
+                `matakuliah`.`smt`
+        ");
         if($hasil->num_rows())
         {
             return $hasil->result_object();
