@@ -9,6 +9,10 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
 {
     public function __construct($config = 'rest')
     {
+        header("Access-Control-Allow-Methods: OPTIONS");
+        if ( "OPTIONS" === $_SERVER['REQUEST_METHOD'] ) {
+            die();
+        }
         parent::__construct($config);
         $this->load->model('BeritaAcara_model', 'BeritaAcaraModel');
     }
