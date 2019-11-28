@@ -7,9 +7,9 @@ require APPPATH . '/libraries/REST_Controller.php';
 
 class BeritaAcara extends \Restserver\Libraries\REST_Controller
 {
-    public function __construct($config = 'rest')
+    public function __construct()
     {
-        parent::__construct($config);
+        parent::__construct();
         $this->load->model('BeritaAcara_model', 'BeritaAcaraModel');
     }
 
