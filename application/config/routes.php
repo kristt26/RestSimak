@@ -111,3 +111,7 @@ $route['api/Dosen/GetPublikasi']['get'] = 'api/Dosen/GetPublikasi';
 
 // MataKuliah
 $route['api/Matakuliah/GetMatakuliah']['get'] = 'api/Matakuliah/GetMatakuliah';
+
+//Pengampuh
+
+$route['api/Pengampuh/GetPengampuh']['get'] = 'api/Pengampuh/GetPengampuh';
