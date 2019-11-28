@@ -7,18 +7,18 @@ require APPPATH . '/libraries/REST_Controller.php';
 
 class BeritaAcara extends \Restserver\Libraries\REST_Controller
 {
-    public function __construct()
+    public function __construct($config = 'rest')
     {
-        parent::__construct();
+        parent::__construct($config);
         $this->load->model('BeritaAcara_model', 'BeritaAcaraModel');
     }
 
     public function AddBaMengajar_post()
     {
+        header("Access-Control-Allow-Methods: POST");
         header("Access-Control-Allow-Origin: *");
         header("Content-Type: application/json; charset=UTF-8");
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-        header("Access-Control-Allow-Methods: POST");
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
