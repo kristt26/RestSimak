@@ -12,7 +12,7 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
         parent::__construct($config);
         header("Access-Control-Allow-Methods:  GET, POST, OPTIONS, PUT, DELETE");
         header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
+        // header("Content-Type: application/json; charset=UTF-8");
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         $method = $_SERVER['REQUEST_METHOD'];
         if ($method == "OPTIONS") {
