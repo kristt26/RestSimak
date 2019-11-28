@@ -9,17 +9,20 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
 {
     public function __construct($config = 'rest')
     {
-        
         parent::__construct($config);
+        header("Access-Control-Allow-Methods:  GET, POST, OPTIONS, PUT, DELETE");
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if ($method == "OPTIONS") {
+            die();
+        }
         $this->load->model('BeritaAcara_model', 'BeritaAcaraModel');
     }
 
     public function AddBaMengajar_post()
     {
-        header("Access-Control-Allow-Methods: POST, OPTIONS");
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
-        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
@@ -46,10 +49,6 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
 
     public function LaporanBa_get()
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
-        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-        header("Access-Control-Allow-Methods: GET");
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
@@ -70,10 +69,6 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
 
     public function GetBaMengajar_get()
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
-        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-        header("Access-Control-Allow-Methods: GET");
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
@@ -104,10 +99,6 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
 
     public function updateBaMengajar_put()
     {
-        header("Access-Control-Allow-Methods: PUT");
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
-        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         // $data =json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
@@ -135,10 +126,6 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
     }
     public function Persetujuan_get()
     {
-        header("Access-Control-Allow-Methods: PUT");
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
-        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
@@ -163,10 +150,6 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
     }
     public function Rekap_put()
     {
-        header("Access-Control-Allow-Methods: PUT");
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
-        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
@@ -192,10 +175,6 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
 
     public function HapusBa_delete()
     {
-        header("Access-Control-Allow-Methods: PUT");
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
-        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
