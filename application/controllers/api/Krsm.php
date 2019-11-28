@@ -16,66 +16,6 @@ class Krsm extends \Restserver\Libraries\REST_Controller
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         $this->load->model('Krsm_model', 'KrsmModel');
     }
-
-    /**
-     *  Add New User
-     * @method : POST
-     */
-
-    // public function all_get()
-    // {
-    //     $this->load->library('Authorization_Token');
-    //     $is_valid_token = $this->authorization_token->validateToken();
-    //     if ($is_valid_token['status'] === true) {
-    //         $Output = $this->JadwalModel->fetch_all_jadwal($is_valid_token['data']->id);
-    //         if (!empty($Output && $Output != false)) {
-    //             $Datakirim = array(
-    //                 'data' => array(),
-    //             );
-    //             foreach ($Output as $value) {
-    //                 $return_data = [
-    //                     'thakademik' => $value->thakademik,
-    //                     'gg' => $value->gg,
-    //                     'hari' => $value->hari,
-    //                     'wm' => $value->wm,
-    //                     'ws' => $value->ws,
-    //                     'kdps' => $value->kdps,
-    //                     'kmk' => $value->kmk,
-    //                     'kelas' => $value->kelas,
-    //                     'nmmk' => $value->nmmk,
-    //                     'sks' => $value->sks,
-    //                     'ket' => $value->ket,
-    //                     'ruangan' => $value->ruangan,
-    //                     'dsn_saji' => $value->dsn_saji,
-    //                     'idjadwal' => $value->idjadwal,
-    //                     'smt' => $value->smt,
-    //                 ];
-    //                 array_push($Datakirim['data'], $return_data);
-
-    //             }
-
-    //             $message = [
-    //                 'status' => true,
-    //                 'data' => $Datakirim,
-    //             ];
-    //             $this->response($message, REST_Controller::HTTP_OK);
-    //         } else {
-    //             $message = [
-    //                 'status' => false,
-    //                 'message' => "Tidak Ada Data Jadwal",
-    //             ];
-    //             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
-    //         }
-    //     } else {
-    //         $message = [
-    //             'status' => false,
-    //             'message' => "Sessiom Habis",
-    //         ];
-    //         $this->response($message, REST_Controller::HTTP_NOT_FOUND);
-    //     }
-
-    // }
-
     public function ambilTemkrsm_post()
     {
         $this->load->library('Authorization_Token');
