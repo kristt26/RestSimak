@@ -16,5 +16,4 @@ class Pengampuh_Model extends CI_Model
         ");
         return $result->result_array();
     }
-    
 }
