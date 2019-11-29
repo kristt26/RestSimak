@@ -17,7 +17,6 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
         
         $this->load->model('BeritaAcara_model', 'BeritaAcaraModel');
     }
-
     public function AddBaMengajar_post()
     {
         $method = $_SERVER['REQUEST_METHOD'];
@@ -47,7 +46,6 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
                 $this->response($message, REST_Controller::HTTP_NOT_FOUND);
             }
         }
-        
     }
 
     public function LaporanBa_get()

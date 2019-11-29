@@ -12,7 +12,7 @@ class Pengampuh_Model extends CI_Model
                 `dosen_pengampu`
             LEFT JOIN `dosen` ON `dosen`.`nidn` = `dosen_pengampu`.`nidn` 
             WHERE 
-                `dosen_pengampu`.idpengampu = '$id'
+                `dosen_pengampu`.idpengampu = '$id' AND `dosen_pengampu`.`mengajar`='Y'
         ");
         return $result->result_array();
     }
