@@ -76,4 +76,89 @@ class Khsm extends \Restserver\Libraries\REST_Controller
             $this->response($message, REST_Controller::HTTP_OK);
         }
     }
+    public function CreateKHS_post()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $item = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
+            $Output = $this->KhsmModel->insert($item);
+            if ($Output) {
+                $message = [
+                    'status' => true,
+                    'data' => (object) $Output,
+                    'message' => "Success",
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }else{
+                $message = [
+                    'status' => false,
+                    'message' => "Gagal Simpan",
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }
+        }else{
+            $message = [
+                'status' => false,
+                'message' => "Session Anda Habis"
+            ];
+            $this->response($message, Rest_Controller::HTTP_OK);
+        }
+    }
+    public function GetlistKHS_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->KhsmModel->getNilai($is_valid_token['data']);
+            if (!empty($Output)) {
+                $message = [
+                    'status' => true,
+                    'data' => (object) $Output,
+                    'message' => "Success",
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }else{
+                $message = [
+                    'status' => false,
+                    'message' => "Gagal Simpan",
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }
+        }else{
+            $message = [
+                'status' => false,
+                'message' => "Session Anda Habis"
+            ];
+            $this->response($message, Rest_Controller::HTTP_OK);
+        }
+    }
+    public function PutDetaiKHS_put()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $item = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
+            $Output = $this->KhsmModel->putNilai($item);
+            if ($Output) {
+                $message = [
+                    'status' => true,
+                    'message' => "Success",
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }else{
+                $message = [
+                    'status' => false,
+                    'message' => "Gagal",
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }
+        }else{
+            $message = [
+                'status' => false,
+                'message' => "Session Anda Habis"
+            ];
+            $this->response($message, Rest_Controller::HTTP_OK);
+        }
+    }
 }
