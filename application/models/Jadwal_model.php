@@ -77,17 +77,22 @@ class Jadwal_Model extends CI_Model
                 `jadwal_kuliah`.*,
                 `matakuliah`.`smt`,
                 `matakuliah`.`kurikulum`,
-                `program_studi`.`nmps`
+                `program_studi`.`nmps`,
+                `dosen`.`nmdsn`,
+                `dosen_pengampu`.`nidn`
             FROM
                 `jadwal_kuliah`
                 LEFT JOIN `tahun_akademik` ON `jadwal_kuliah`.`thakademik` =
-                    `tahun_akademik`.`thakademik` AND `jadwal_kuliah`.`gg` =
-                    `tahun_akademik`.`gg`
+                `tahun_akademik`.`thakademik` AND `jadwal_kuliah`.`gg` =
+                `tahun_akademik`.`gg`
                 LEFT JOIN `matakuliah` ON `matakuliah`.`kmk` = `jadwal_kuliah`.`kmk`
-                    AND `matakuliah`.`kdps` = `jadwal_kuliah`.`kdps`
+                AND `matakuliah`.`kdps` = `jadwal_kuliah`.`kdps`
                 LEFT JOIN `program_studi` ON `jadwal_kuliah`.`kdps` = `program_studi`.`kdps`
+                LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`kmk` = `dosen_pengampu`.`kmk`
+                RIGHT JOIN `dosen` ON `dosen`.`nidn` = `dosen_pengampu`.`nidn`
             WHERE
-                `tahun_akademik`.`status` = 'AKTIF'
+                `tahun_akademik`.`status` = 'AKTIF' AND
+                `dosen_pengampu`.`mengajar` = 'Y'
             ORDER BY
                 `matakuliah`.`smt`
         ");
