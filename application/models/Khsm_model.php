@@ -336,7 +336,7 @@ class Khsm_Model extends CI_Model
 
         $this->db->trans_start();
         if($num == 0){
-            $tg = date("Y/m/d");
+            $tg = date("Y-m-d");
             $data = [
                 "thakademik" => $item['thakademik'],
                 "gg" => $item['gg'],

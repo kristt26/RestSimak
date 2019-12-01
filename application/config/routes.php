@@ -123,3 +123,11 @@ $route['api/Khsm/PutDetaiKHS']['put'] = 'api/Khsm/PutDetaiKHS';
 
 // Grade Nilai
 $route['api/GradeNilai/GetGradeNilai']['get'] = 'api/GradeNilai/GetGradeNilai';
+
+// Matakuliah
+$route['api/Matakuliah/GetKrsm']['get'] = 'api/Matakuliah/GetKrsm';
+
+// Penilaian
+$route['api/Kompetensi/GetKompetensi']['get'] = 'api/Kompetensi/GetKompetensi';
+$route['api/PeriodePenilaian/GetPeriodeAktif']['get'] = 'api/PeriodePenilaian/GetPeriodeAktif';
+
