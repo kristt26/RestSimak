@@ -20,7 +20,7 @@ class Matakuliah_Model extends CI_Model
         return $result->result_array();
     }
 
-    public function ambilkrsm($IdUser)
+    public function ambilkrsm($data)
     {
         $result = $this->db->query("
             SELECT
@@ -36,7 +36,7 @@ class Matakuliah_Model extends CI_Model
                 `krsm_detail`.`kelas`
                 LEFT JOIN `mahasiswa` ON `krsm_detail`.`npm` = `mahasiswa`.`npm`
             WHERE
-                `mahasiswa`.`IdUser` = '$IdUser' AND
+                `mahasiswa`.`IdUser` = '$data->id' AND
                 `tahun_akademik`.`status` = 'AKTIF' AND
                 `dosen_pengampu`.`mengajar` = 'Y'
         ");
