@@ -32,12 +32,23 @@ class Matakuliah extends \Restserver\Libraries\REST_Controller
         header("Content-Type: application/json; charset=UTF-8");
         header("Access-Control-Allow-Methods: GET");
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-        $npm = $this->get('npm');
-        $Output = $this->MatakuliahModel->ambilkrsm($npm);
-        $message = [
-            'status' => true,
-            'data' => $Output
-        ];
-        $this->response($message, REST_Controller::HTTP_OK);
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->MatakuliahModel->ambilkrsm($is_valid_token['data']);
+            $message = [
+                'status' => true,
+                'data' => $Output
+            ];
+            $this->response($message, REST_Controller::HTTP_OK);
+        }else{
+            $message = [
+                'status' => true,
+                'data' => [],
+                'message' => "Session Anda telah kadaluarsa"
+            ];
+            $this->response($message, REST_Controller::HTTP_OK);
+        }
+        
     }
 }

@@ -77,7 +77,8 @@ class User_Model extends CI_Model
             if ($roleinuser->num_rows()) {
                 $this->db->where('Id', $roleinuser->row('RoleId'));
                 $role = $this->db->get($this->RoleTable);
-                if ($role->row('Nama') == 'Mahasiswa') {
+                $datarole = $role->row('Nama');
+                if ($datarole == 'Mahasiswa') {
                     $this->db->where('IdUser', $q->row('Id'));
                     $Biodata = $this->db->get($this->MahasiswaTable);
                     if ($Biodata->num_rows()) {
@@ -89,7 +90,22 @@ class User_Model extends CI_Model
                         $a->$Nama = $Biodata->row('nmmhs');
                         $a->$Role = (object) $roleitem;
                     }
-                } else {
+                } else if($datarole == 'AdminPenggunaLain'){
+                    $this->db->where('IdUser', $q->row('Id'));
+                    $Biodata = $this->db->get("PenggunaLain");
+                    if ($Biodata->num_rows()) {
+                        $roleitem = array('Role' => array());
+                        foreach ($Tampung as &$value) {
+                            $item = array('Nama' => $value['Nama']);
+                            array_push($roleitem['Role'], $item);
+                        }
+                        $Nama = "NamaUser";
+                        $Role = "role";
+                        $a->$Nama = $Biodata->row('Nama');
+                        $a->$Role = (object) $roleitem;
+                    }
+                }
+                else {
                     $this->db->where('IdUser', $q->row('Id'));
                     $Biodata = $this->db->get($this->PegawaiTable);
                     if ($Biodata->num_rows()) {
