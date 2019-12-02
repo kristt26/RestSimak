@@ -121,7 +121,7 @@ class Khsm extends \Restserver\Libraries\REST_Controller
             }else{
                 $message = [
                     'status' => false,
-                    'message' => "Gagal Simpan",
+                    'message' => "Kosong",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }

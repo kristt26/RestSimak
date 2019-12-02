@@ -131,3 +131,5 @@ $route['api/Matakuliah/GetKrsm']['get'] = 'api/Matakuliah/GetKrsm';
 $route['api/Kompetensi/GetKompetensi']['get'] = 'api/Kompetensi/GetKompetensi';
 $route['api/PeriodePenilaian/GetPeriodeAktif']['get'] = 'api/PeriodePenilaian/GetPeriodeAktif';
 
+$route['api/Users/GetBiodata']['get'] = 'api/Users/GetBiodata';
+

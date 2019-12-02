@@ -184,6 +184,22 @@ class Users extends \Restserver\Libraries\REST_Controller
         }
     }
 
+    public function GetBiodata_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->UserModel->GetBiodata($is_valid_token['data']);
+            if (!empty($Output && $Output != false)) {
+                $message = [
+                    'status' => true,
+                    'data' => $Output
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }
+        }
+    }
+
     // /**
     //  *  Fetch All User Data
     //  * @method : GET

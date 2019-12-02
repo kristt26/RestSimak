@@ -245,6 +245,11 @@ class Khsm_Model extends CI_Model
         $resultkhs = $this->db->insert('khsm', $data->khsm);
         $idkhs = $this->db->insert_id();
         foreach ($data['detailkhsm'] as $key => $value) {
+            $detail = [
+                'idPengampu' => $value['idPengampu'],
+                'idKrs' => $idkhs
+
+            ];
             $this->db->insert("khsm_detail", $value);
         }
         $this->db->trans_complete();
@@ -361,6 +366,22 @@ class Khsm_Model extends CI_Model
             $this->db->where("npm", $value['npm']);
             $this->db->where("kmk", $value['kmk']);
             $this->db->update("khsm_detail");
+            $this->db->where("npm", $value['npm']);
+            $this->db->where("kdps", $item['kdps']);
+            $this->db->where("kmk", $value['kmk']);
+            $result =  $this->db->get('transkip');
+            if($result->num_rows()>0){
+                $DataTranskip = $result->result_object();
+                if($value['nxsks'] > $DataTranskip[0]->nxsks){
+                    $this->db->set("nxsks", $value['nxsks']);
+                    $this->db->set("nilai", $value['nilai']);
+                    $this->db->set("ket", $value['ket']);
+                    $this->db->where("npm", $value['npm']);
+                    $this->db->where("kdps", $item['kdps']);
+                    $this->db->where("kmk", $value['kmk']);
+                    $this->db->update("transkip");
+                }
+            }
         }
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();

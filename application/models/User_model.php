@@ -127,4 +127,51 @@ class User_Model extends CI_Model
             return false;
         }
     }
+    public function GetBiodata($data)
+    {
+        $result = $this->db->query("
+            SELECT
+                `role`.`Nama`
+            FROM
+                `user`
+            LEFT JOIN `userinrole` ON `user`.`Id` = `userinrole`.`IdUser`
+            LEFT JOIN `role` ON `role`.`Id` = `userinrole`.`RoleId`
+            WHERE
+                `user`.`Id` = '$data->id'
+        ");
+        if($result->num_rows()>0){
+            $dataresult = $result->result_object();
+            $a = $dataresult[0];
+            if($a->Nama =="Mahasiswa"){
+                $resultMahasiswa = $this->db->query("
+                    SELECT
+                        *
+                    FROM
+                        `mahasiswa`
+                    WHERE IdUser = '$data->id'
+                ");
+                return $resultMahasiswa->result_array();
+            }else if($a->Nama =="AdminPenggunaLain"){
+                $resultMahasiswa = $this->db->query("
+                    SELECT
+                        *
+                    FROM
+                        `PenggunaLain`
+                    WHERE IdUser = '$data->id'
+                ");
+                return $resultMahasiswa->result_array();
+            }else{
+                $resultMahasiswa = $this->db->query("
+                    SELECT
+                        *
+                    FROM
+                        `pegawai`
+                    WHERE IdUser = '$data->id'
+                ");
+                return $resultMahasiswa->result_array();
+            }
+        }else{
+            return false;
+        }
+    }
 }
