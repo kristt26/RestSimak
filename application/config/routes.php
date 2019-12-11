@@ -133,3 +133,6 @@ $route['api/PeriodePenilaian/GetPeriodeAktif']['get'] = 'api/PeriodePenilaian/Ge
 
 $route['api/Users/GetBiodata']['get'] = 'api/Users/GetBiodata';
 
+// Penilaian Dosen
+$route['api/PenilaianDosen/CekPenilaianDosen']['get'] = 'api/PenilaianDosen/CekPenilaianDosen';
+
