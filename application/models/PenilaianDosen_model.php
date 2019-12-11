@@ -38,30 +38,18 @@ class PenilaianDosen_Model extends CI_Model
             if($resultKrs->num_rows()>0){
                 $JMenilai = (int)$resultMenilai->row('Jumlah');
                 if($Jkrs==$JMenilai){
-                    $message = [
-                        'Status' => true,
-                        'Pesan' => 'Anda Sudah Melakukan Penilaian Dosen'
-                    ];
+                    $message = "Anda Sudah Melakukan Penilaian Dosen";
                     return $message;
                 }else{
-                    $message = [
-                        'Status' => false,
-                        'Pesan' => 'Anda belum menyelesaikan Penilaian Dosen'
-                    ];
+                    $message ='Anda belum menyelesaikan Penilaian Dosen';
                     return $message;
                 }
             }else{
-                $message = [
-                    'Status' => false,
-                    'Pesan' => 'Anda Belum Melakukan Penilaian Dosen'
-                ];
+                $message = 'Anda Belum Melakukan Penilaian Dosen';
                 return $message;
             }
         }else{
-            $message = [
-                'Status' => false,
-                'Pesan' => 'Anda Belum Melakukan Kontrak KRS'
-            ];
+            $message = 'Anda Belum Melakukan Kontrak KRS';
             return $message;
         }
 

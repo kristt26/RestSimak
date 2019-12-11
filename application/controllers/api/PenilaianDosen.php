@@ -20,10 +20,6 @@ class PenilaianDosen extends \Restserver\Libraries\REST_Controller
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         $npm = $_GET;
         $Output = $this->PenilaianDosenModel->Cek($npm);
-        $message = [
-            'status' => true,
-            'data' => $Output
-        ];
-        $this->response($message, REST_Controller::HTTP_OK);
+        $this->response($Output, REST_Controller::HTTP_OK);
     }
 }
