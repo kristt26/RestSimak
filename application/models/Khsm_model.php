@@ -378,7 +378,7 @@ class Khsm_Model extends CI_Model
                 $DataTranskip = $result->result_object();
                 if($value['nxsks'] > $DataTranskip[0]->nxsks){
                     $this->db->set("nxsks", $value['nxsks']);
-                    $this->db->set("nilai", $value['nilai']);
+                    $this->db->set("nilai", $value['nhuruf']);
                     $this->db->set("ket", $value['ket']);
                     $this->db->where("npm", $value['npm']);
                     $this->db->where("kdps", $item['kdps']);
