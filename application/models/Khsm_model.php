@@ -323,11 +323,11 @@ class Khsm_Model extends CI_Model
                     `krsm_detail`.`kelas` = '$value->kelas'
 
             ");
-            $a = $resultMahasiswa->result_object();
-            foreach ($a as $key3 => $value3) {
+            $b = $resultMahasiswa->result_object();
+            foreach ($b as $key3 => $value3) {
                 $value3->nilai = floatval($value3->nilai);
             }
-            $value->Mahasiswa = $a;
+            $value->Mahasiswa = $b;
         }
         return $a;
 
