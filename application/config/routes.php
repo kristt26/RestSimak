@@ -135,4 +135,8 @@ $route['api/Users/GetBiodata']['get'] = 'api/Users/GetBiodata';
 
 // Penilaian Dosen
 $route['api/PenilaianDosen/CekPenilaianDosen']['get'] = 'api/PenilaianDosen/CekPenilaianDosen';
+$route['api/PenilaianDosen/GetPenilaiEvaluasi'] = 'api/PenilaianDosen/GetPenilaiEvaluasi';
+$route['api/PenilaianDosen/InsertPenilaiEvaluasi']['post'] = 'api/PenilaianDosen/InsertPenilaiEvaluasi';
+$route['api/PenilaianDosen/UpdatePenilaiEvaluasi']['put'] = 'api/PenilaianDosen/UpdatePenilaiEvaluasi';
+$route['api/PenilaianDosen/DeletePenilaiEvaluasi']['delete'] = 'api/PenilaianDosen/DeletePenilaiEvaluasi';
 
