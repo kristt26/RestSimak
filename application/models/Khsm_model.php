@@ -240,7 +240,7 @@ class Khsm_Model extends CI_Model
     }
     public function insert($data)
     {
-        $this->db->trans_start();
+        $this->db->trans_begin();
         $resultBA = $this->db->insert('ban_matakuliah', $data->ba);
         $resultkhs = $this->db->insert('khsm', $data->khsm);
         $idkhs = $this->db->insert_id();
@@ -252,7 +252,6 @@ class Khsm_Model extends CI_Model
             ];
             $this->db->insert("khsm_detail", $value);
         }
-        // $this->db->trans_complete();
 
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
