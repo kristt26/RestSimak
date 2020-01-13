@@ -2,7 +2,7 @@
 
 class BeritaAcara_Model extends CI_Model
 {
-    public function Insert($data)
+    public function insert($data)
     {
         $result = $this->db->insert("bamengajardosen", $data);
         if ($result) {
