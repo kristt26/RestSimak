@@ -321,7 +321,8 @@ class Khsm_Model extends CI_Model
                 WHERE
                     `khsm_detail`.`kmk` = '$kmk' AND
                     `tahun_akademik`.`status` = 'AKTIF' AND
-                    `krsm_detail`.`kelas` = '$value->kelas'
+                    `krsm_detail`.`kelas` = '$value->kelas'  AND
+                    matakuliah.status_mk = 'OK'
 
             ");
             $b = $resultMahasiswa->result_object();
