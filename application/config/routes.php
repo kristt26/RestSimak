@@ -63,10 +63,14 @@ $route['api/users/register'] = 'api/Users/register';
 $route['api/users/login'] = 'api/Users/login';
 $route['api/users/UbahPassword'] = 'api/Users/changepassword';
 $route['api/users/UbahUsername'] = 'api/Users/changeuser';
+
+// Jadwal
 $route['api/jadwal/jadwalmahasiswa'] = 'api/Jadwal/jadwalMahasiswa';
 $route['api/jadwal/jadwaldosen'] = 'api/Jadwal/JadwalDosen';
 $route['api/jadwal/jadwalall'] = 'api/Jadwal/jadwalall';
 $route['api/jadwal/jadwalKuliah'] = 'api/Jadwal/JadwalKuliah';
+
+// krsm
 $route['api/krsm/pengajuanKRS'] = 'api/Krsm/pengajuanKRS';
 $route['api/krsm/getkrsmtem'] = 'api/Krsm/ambilTemkrsm';
 $route['api/krsm/putkrsmtem'] = 'api/Krsm/approvedKrsm';
@@ -139,4 +143,7 @@ $route['api/PenilaianDosen/GetPenilaiEvaluasi'] = 'api/PenilaianDosen/GetPenilai
 $route['api/PenilaianDosen/InsertPenilaiEvaluasi']['post'] = 'api/PenilaianDosen/InsertPenilaiEvaluasi';
 $route['api/PenilaianDosen/UpdatePenilaiEvaluasi']['put'] = 'api/PenilaianDosen/UpdatePenilaiEvaluasi';
 $route['api/PenilaianDosen/DeletePenilaiEvaluasi']['delete'] = 'api/PenilaianDosen/DeletePenilaiEvaluasi';
+
+// Mahasiswa Wali
+$route['api/MahasiswaWali']['get'] = 'api/MahasiswaWali/GetMahasiswaWali';
 
