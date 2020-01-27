@@ -33,6 +33,11 @@ class MahasiswaWali_model extends CI_Model
             //end of new code
             $value->IPK = $res[0]->IPK;
             $value->SKSLulus = $res[0]->SKSLulus;
+            $qSemester = $this->db->query("CALL SemesterMahasiswa('$value->npm')");
+            $xSemester = $qSemester->result();
+            $query->next_result();
+            $query->free_result();
+            $value->Semester = $xSemester[0]->Semester;
 
         }
         return $data;
