@@ -145,5 +145,5 @@ $route['api/PenilaianDosen/UpdatePenilaiEvaluasi']['put'] = 'api/PenilaianDosen/
 $route['api/PenilaianDosen/DeletePenilaiEvaluasi']['delete'] = 'api/PenilaianDosen/DeletePenilaiEvaluasi';
 
 // Mahasiswa Wali
-$route['api/MahasiswaWali']['get'] = 'api/MahasiswaWali/GetMahasiswaWali';
+$route['MahasiswaWali']['get'] = 'api/MahasiswaWali/GetMahasiswaWali';
 
