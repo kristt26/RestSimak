@@ -128,7 +128,7 @@ class Jadwal_Model extends CI_Model
                 $resultDU = $this->db->get('daftar_ulang');
                 $TgSistem = date('Y-m-d');
                 if($resultDU->num_rows()){
-                    if($DataTA['tglReg'] <= $TgSistem){
+                    if($DataTA->tglReg <= $TgSistem){
                         $tgl = date('Y-m-d');
                         $tglmhs = $resultDU->row('last_reg');
                         $Tanggal_sistem = strtotime($tgl);

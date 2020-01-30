@@ -7,10 +7,27 @@ class User_Model extends CI_Model
     protected $UserinRoleTable = 'userinrole';
     protected $RoleTable = 'role';
     protected $PegawaiTable = 'pegawai';
-    public function insert_user(array $UserData)
+    public function insert_user($UserData)
     {
-        $this->db->insert($this->UserTable, $UserData);
-        return $this->db->insert_id();
+        $username = $UserData['Username'];
+        $result = $this->db->query(
+            "SELECT * FROM user WHERE Username = '$username'"
+        );
+        if($result->num_rows()>0){
+            $message = [
+                'status' => false,
+                'id' => $result->row('Id')
+            ];
+            return $message;
+        }else{
+            $UserData['Password'] = md5($UserData['Password']);
+            $this->db->insert($this->UserTable, $UserData);
+            $message = [
+                'status' => true,
+                'id' => $result->row('Id')
+            ];
+            return $message;
+        }
     }
 
     public function ChangesPassword($data, $Id)

@@ -56,20 +56,20 @@ class Users extends \Restserver\Libraries\REST_Controller
             if (!empty($Output) && $Output!= false) {
                 $message = [
                     'status' => true,
-                    'message' => "Changes Username Success",
+                    'message' => "Changes Username Success"
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }else{
                 $message = [
                     'status' => false,
-                    'message' => "Gagal, Hubungi Admin",
+                    'message' => "Gagal, Hubungi Admin"
                 ];
                 $this->response($message, REST_Controller::HTTP_NOT_FOUND);
             }
         }else{
             $message = [
                 'status' => false,
-                'message' => "Anda tidak memiliki Akses",
+                'message' => "Anda tidak memiliki Akses"
             ];
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         }
@@ -81,50 +81,31 @@ class Users extends \Restserver\Libraries\REST_Controller
      */
     public function register_post()
     {
-        header("Access-Control-Allow-Origin: *");
-        $_POST = $this->security->xss_clean($_POST);
-        $this->form_validation->set_rules('Username', 'Username', 'trim|required|is_unique[users.Username]|alpha_numeric|max_length[20]',
-            array('is_unique' => 'Username Sudah dipakai')
-        );
-        $this->form_validation->set_rules('Email', 'Email', 'trim|required|valid_email|max_length[80]|is_unique[users.Email]',
-            array('is_unique' => 'Email Sudah dipakai')
-        );
-        $this->form_validation->set_rules('Password', 'trim|required|max_length[100]');
-        $this->form_validation->set_rules('FullName', 'FullName', 'trim|required|max_length[50]');
-        if ($this->form_validation->run() == false) {
-            $message = array(
-                'status' => false,
-                'error' => $this->form_validation->error_array(),
-                'message' => validation_errors(),
-            );
-            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
-        } else {
-            $InsertData = [
-                'Username' => $this->input->post('Username', true),
-                'FullName' => $this->input->post('FullName', true),
-                'Email' => $this->input->post('Email', true),
-                'Password' => md5($this->input->post('Password', true)),
-                'Insert' => time(),
-                'Update' => time(),
-            ];
-            $Output = $this->UserModel->insert_user($InsertData);
-            if ($Output > 0 && !empty($Output)) {
+        $this->load->library('Authorization_Token');    
+        $is_valid_token = $this->authorization_token->validateToken();
+        if($is_valid_token['status']===true){
+            $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
+            $Output = $this->UserModel->insert_user($data);
+            if($Output['status']){
                 $message = [
-                    'status' => true,
-                    'message' => "Registrasi Berhasil",
+                    'message' => "User Berhasil di Simpan",
+                    'data' => $Output['id']
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            } else {
+            }else{
                 $message = [
-                    'status' => false,
-                    'message' => "Registrasi Gagal",
+                    'message' => "User Gagal di Simpan",
+                    'data' => $Output['id']
                 ];
-                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+                $this->response($message, REST_Controller::HTTP_BAD_REQUEST);
             }
-
-            // var_dump($Output);
+        }else{
+            $message = [
+                'message' => "User Berhasil di Simpan",
+                'data' => $Output['id']
+            ];
+            $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
         }
-
     }
 
     
