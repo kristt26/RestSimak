@@ -220,25 +220,66 @@ class Krsm_Model extends CI_Model
                 'jmsks' => $ItemData->jmsks,
                 'tgkrsm' => $ItemData->tgkrsm,
             ];
-            
-            $this->db->insert('krsm', $Data_Krsm);
-            $IdKrsm = $this->db->insert_id();
-            foreach ($ItemData->detailTemKrsm[0] as $key => $value) {
-                $DetaiTemKrsm = array(
+            $numkrs = $this->db->query(
+                "SELECT IdKrsm from krsm WHERE thakademik = '$ItemData->thakademik' AND gg='$ItemData->gg' AND npm = '$ItemData->npm'"
+            );
+            if($numkrs->num_rows()===0){
+                $this->db->insert('krsm', $Data_Krsm);
+                $IdKrsm = $this->db->insert_id();
+                foreach ($ItemData->detailTemKrsm[0] as $key => $value) {
+                    $kmk = $value['kmk'];
+                    $numDetailKrsm = $this->db->query(
+                        "SELECT Id from krsm_detail WHERE thakademik = '$ItemData->thakademik' AND gg='$ItemData->gg' AND npm = '$ItemData->npm' AND kmk = '$kmk'"
+                    );
+                    if($numDetailKrsm->num_rows()===0){
+                        $DetaiTemKrsm = array(
+                            'thakademik' => $ItemData->thakademik,
+                            'gg' => $value['gg'],
+                            'npm' => $value['npm'],
+                            'kmk' => $value['kmk'],
+                            'nidn' => $value['nidn'],
+                            'dsnampu' => $value['dsnampu'],
+                            'nmmk' => $value['nmmk'],
+                            'bup' => $value['bup'],
+                            'sks' => $value['sks'],
+                            'smt' => $value['smt'],
+                            'kelas' => $value['kelas'],
+                            'IdKrsm' => $IdKrsm,
+                        );
+                        $this->db->insert('krsm_detail', $DetaiTemKrsm);
+                    }
+                }
+            }
+
+            $numKhsm = $numkrs = $this->db->query(
+                "SELECT Id from khsm WHERE thakademik = '$ItemData->thakademik' AND gg='$ItemData->gg' AND npm = '$ItemData->npm'"
+            );
+            if($numKhsm->num_rows()===0){
+                $DataKhsm = array(
                     'thakademik' => $ItemData->thakademik,
                     'gg' => $value['gg'],
                     'npm' => $value['npm'],
-                    'kmk' => $value['kmk'],
-                    'nidn' => $value['nidn'],
-                    'dsnampu' => $value['dsnampu'],
-                    'nmmk' => $value['nmmk'],
-                    'bup' => $value['bup'],
-                    'sks' => $value['sks'],
-                    'smt' => $value['smt'],
-                    'kelas' => $value['kelas'],
-                    'IdKrsm' => $IdKrsm,
+                    'dsnwali' => $ItemData->dsn_wali,
+                    'ketjur' => $ItemData->ketjur,
+                    'admakademik' => $ItemData->admakademik,
+                    'jmsks' => $ItemData->jmsks,
                 );
-                $this->db->insert('krsm_detail', $DetaiTemKrsm);
+                $this->db->insert('khsm', $DataKhsm);
+                foreach ($ItemData->detailTemKrsm[0] as $key => $value) {
+                    $kmk = $value['kmk'];
+                    $numDetailKhsm = $this->db->query(
+                        "SELECT Id from khsm_detail WHERE thakademik = '$ItemData->thakademik' AND gg='$ItemData->gg' AND npm = '$ItemData->npm' AND kmk = '$kmk'"
+                    );
+                    if($numDetailKhsm->num_rows()===0){
+                        $DetaiTemKrsm = array(
+                            'thakademik' => $ItemData->thakademik,
+                            'gg' => $value['gg'],
+                            'npm' => $value['npm'],
+                            'kmk' => $value['kmk']
+                        );
+                        $this->db->insert('khsm_detail', $DetaiTemKrsm);
+                    }
+                }
             }
             $this->db->where('IdKrsm', $ItemData->Id);
             $this->db->delete($this->KrsmDetailTabel);
@@ -265,6 +306,7 @@ class Krsm_Model extends CI_Model
                 $this->db->trans_rollback();
                 return false;
             }
+
         }
     }
 
