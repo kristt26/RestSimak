@@ -265,6 +265,7 @@ class Krsm_Model extends CI_Model
                     'jmsks' => $ItemData->jmsks,
                 );
                 $this->db->insert('khsm', $DataKhsm);
+                $IdKhsm = $this->db->insert_id();
                 foreach ($ItemData->detailTemKrsm[0] as $key => $value) {
                     $kmk = $value['kmk'];
                     $numDetailKhsm = $this->db->query(
@@ -275,7 +276,8 @@ class Krsm_Model extends CI_Model
                             'thakademik' => $ItemData->thakademik,
                             'gg' => $value['gg'],
                             'npm' => $value['npm'],
-                            'kmk' => $value['kmk']
+                            'kmk' => $value['kmk'],
+                            'IdKhsm' => $IdKhsm
                         );
                         $this->db->insert('khsm_detail', $DetaiTemKrsm);
                     }
