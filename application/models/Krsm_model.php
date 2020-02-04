@@ -359,8 +359,10 @@ class Krsm_Model extends CI_Model
                 'kelas' => $b->kelas,
                 'IdKrsm' => $CekKrsm->row('Id'),
             );
-            $this->db->insert($this->KrsmDetailTabel, $DetaiTemKrsm);
-            return true;
+            if($b->kmk !== null && $b->kmk !== "" && !isset($b->kmk)){
+                $this->db->insert($this->KrsmDetailTabel, $DetaiTemKrsm);
+                return true;
+            }
         } else {
             $this->db->select('*');
             $this->db->join('dosen', 'dosen.nidn = dosen_wali.nidn', 'left');
@@ -418,7 +420,9 @@ class Krsm_Model extends CI_Model
                                 'kelas' => $value['kelas'],
                                 'IdKrsm' => $IdTemKrsm,
                             );
-                            $this->db->insert($this->KrsmDetailTabel, $DetaiTemKrsm);
+                            if($b->kmk !== null && $b->kmk !== "" && !isset($b->kmk)){
+                                $this->db->insert($this->KrsmDetailTabel, $DetaiTemKrsm);
+                            }
                         }
                         if ($this->db->trans_status() === false) {
                             $this->db->trans_rollback();
@@ -433,8 +437,5 @@ class Krsm_Model extends CI_Model
                 return false;
             }
         }
-
-        // $this->db->insert($this->UserTable, $UserData);
-        // $IdKHS = $this->db->insert_id();
     }
 }

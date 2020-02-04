@@ -61,6 +61,8 @@ $route['api/user/add'] = 'Users/add_user';
 $route['api/users/all'] = 'Users/fetch_all_users';
 $route['api/users/register'] = 'api/Users/register';
 $route['api/users/login'] = 'api/Users/login';
+$route['api/users/get'] = 'api/Users/AmbilUser';
+$route['api/users/reset'] = 'api/Users/ResetPassword';
 $route['api/users/UbahPassword'] = 'api/Users/changepassword';
 $route['api/users/UbahUsername'] = 'api/Users/changeuser';
 

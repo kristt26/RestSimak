@@ -180,6 +180,42 @@ class Users extends \Restserver\Libraries\REST_Controller
             }
         }
     }
+    public function AmbilUser_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->UserModel->Select();
+            if (!empty($Output && $Output != false)) {
+                $message = [
+                    'status' => true,
+                    'data' => $Output
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }
+        }
+    }
+    public function ResetPassword_put()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $_POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
+            $Output = $this->UserModel->Reset($_POST);
+            if ($Output) {
+                $message = [
+                    'status' => true,
+                    'message'=> "anda berhasil melakukan reset password"
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }else{
+                $message = [
+                    'status' => false,
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }
+        }
+    }
 
     // /**
     //  *  Fetch All User Data

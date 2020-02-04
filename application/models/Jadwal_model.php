@@ -26,12 +26,13 @@ class Jadwal_Model extends CI_Model
                 `jadwal_kuliah`.*
             FROM
                 `jadwal_kuliah`
-                RIGHT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`kmk` = `dosen_pengampu`.`kmk`
                 RIGHT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
                 `jadwal_kuliah`.`thakademik` AND `tahun_akademik`.`gg` =
-                `jadwal_kuliah`.`gg` AND `dosen_pengampu`.`thakademik` =
+                `jadwal_kuliah`.`gg`
+                LEFT JOIN `dosen_pengampu` ON `dosen_pengampu`.`thakademik` =
                 `tahun_akademik`.`thakademik` AND `dosen_pengampu`.`gg` =
-                `tahun_akademik`.`gg`
+                `tahun_akademik`.`gg` AND `jadwal_kuliah`.`idpengampu` =
+                `dosen_pengampu`.`idpengampu`
                 RIGHT JOIN `dosen` ON `dosen`.`nidn` = `dosen_pengampu`.`nidn`
                 RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
                 RIGHT JOIN `matakuliah` ON `matakuliah`.`kmk` = `jadwal_kuliah`.`kmk`

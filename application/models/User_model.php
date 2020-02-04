@@ -191,4 +191,44 @@ class User_Model extends CI_Model
             return false;
         }
     }
+    public function Select()
+    {
+        $result = $this->db->query(
+            "SELECT
+            `pegawai`.*,
+            `user`.`Status` AS `userStatus`,
+            `user`.`Username`
+          FROM
+            `pegawai`
+            LEFT JOIN `user` ON `user`.`Id` = `pegawai`.`IdUser`"
+        );
+        $dataPegawai = $result->result_object();
+        foreach ($dataPegawai as $key => $value) {
+            $resultUser = $this->db->query(
+                "SELECT
+                *
+              FROM
+                `user`
+                RIGHT JOIN `userinrole` ON `userinrole`.`IdUser` = `user`.`Id`
+                LEFT JOIN `role` ON `role`.`Id` = `userinrole`.`RoleId`
+              WHERE user.Id='$value->IdUser'"
+            );
+            $value->Role = $resultUser->result_object();
+        }
+        return $dataPegawai;
+    }
+    public function Reset($data)
+    {
+        $IdUser = $data['IdUser'];
+        $Status;
+        if($data['Status']==true){
+            $Status = "true";
+        }else{
+            $Status = "false";
+        }
+        $this->db->set("Status", $Status);
+        $this->db->where("Id", $IdUser);
+        $result = $this->db->update("user");
+        return $result;
+    }
 }
