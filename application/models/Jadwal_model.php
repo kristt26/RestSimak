@@ -42,7 +42,20 @@ class Jadwal_Model extends CI_Model
                 `dosen_pengampu`.`mengajar` = 'Y'  
         ");
         if($result->num_rows()){
-            return $result->result_object();
+            $Data = $result->result_object();
+            foreach ($Data as $key => $value) {
+                $result = $this->db->query(
+                    "SELECT
+                    COUNT(npm) AS jumlahMahasiswa
+                  FROM
+                    `krsm_detail`
+                    LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+                      `krsm_detail`.`thakademik` AND `tahun_akademik`.`gg` = `krsm_detail`.`gg`
+                  WHERE tahun_akademik.status='AKTIF' AND kmk = '111034'"
+                );
+                $value->jumlahMahasiswa = $result->row('jumlahMahasiswa')
+            }
+            return $Data;
         }else{
             return 0;
         }
