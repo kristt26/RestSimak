@@ -81,6 +81,7 @@ class User_Model extends CI_Model
         $this->db->where('Email', $Username);
         $this->db->or_where('Username', $Username);
         $this->db->where('Password', $Pass);
+        $this->db->where('Status', true);
         $q = $this->db->get($this->UserTable);
 
         if ($q->num_rows()) {
@@ -206,7 +207,8 @@ class User_Model extends CI_Model
         foreach ($dataPegawai as $key => $value) {
             $resultUser = $this->db->query(
                 "SELECT
-                *
+                    `userinrole`.*,
+                    `role`.*
               FROM
                 `user`
                 RIGHT JOIN `userinrole` ON `userinrole`.`IdUser` = `user`.`Id`
@@ -220,6 +222,15 @@ class User_Model extends CI_Model
     public function Reset($data)
     {
         $IdUser = $data['IdUser'];
+        $pass = md5("stimik1011");
+        $this->db->set("Password", $pass);
+        $this->db->where("Id", $IdUser);
+        $result = $this->db->update("user");
+        return $result;
+    }
+    public function userUpdate($data)
+    {
+        $IdUser = $data['IdUser'];
         $Status;
         if($data['Status']==true){
             $Status = "true";
@@ -230,5 +241,32 @@ class User_Model extends CI_Model
         $this->db->where("Id", $IdUser);
         $result = $this->db->update("user");
         return $result;
+    }
+    public function getRole()
+    {
+        $result = $this->db->get("role");
+        return $result->result_array();
+    }
+    public function ChangeUserRole($data)
+    {
+        if($data['status']==true){
+            $this->db->where("IdUser", $data['IdUser']);
+            $this->db->where("RoleId", $data['Id']);
+            $num = $this->db->get("userinrole");
+            if($num->num_rows()==0){
+                $item=
+                [
+                    'RoleId' => $data['Id'],
+                    'IdUser' => $data['IdUser']
+                ];
+                $result = $this->db->insert("userinrole", $item);
+                return $result;
+            }
+        }else{
+            $this->db->where("IdUser", $data['IdUser']);
+            $this->db->where("RoleId", $data['Id']);
+            $result = $this->db->delete('userinrole');
+            return $result;
+        }
     }
 }

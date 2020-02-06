@@ -65,6 +65,9 @@ $route['api/users/get'] = 'api/Users/AmbilUser';
 $route['api/users/reset'] = 'api/Users/ResetPassword';
 $route['api/users/UbahPassword'] = 'api/Users/changepassword';
 $route['api/users/UbahUsername'] = 'api/Users/changeuser';
+$route['api/users/getRole'] = 'api/Users/getRole';
+$route['api/users/changeUserInRole'] = 'api/Users/changeUserInRole';
+$route['api/users/userUpdate'] = 'api/Users/userUpdate';
 
 // Jadwal
 $route['api/jadwal/jadwalmahasiswa'] = 'api/Jadwal/jadwalMahasiswa';

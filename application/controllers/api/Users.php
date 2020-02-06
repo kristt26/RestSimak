@@ -158,7 +158,7 @@ class Users extends \Restserver\Libraries\REST_Controller
             } else {
                 $message = [
                     'status' => false,
-                    'message' => "Periksa Username dan Password",
+                    'message' => "Username anda tidak ditemukan Periksa Username dan Password anda",
                 ];
                 $this->response($message, REST_Controller::HTTP_NOT_FOUND);
             }
@@ -213,6 +213,71 @@ class Users extends \Restserver\Libraries\REST_Controller
                     'status' => false,
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
+            }
+        }
+    }
+    public function getRole_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->UserModel->getRole();
+            if ($Output) {
+                $message = [
+                    'status' => true,
+                    'data'=> $Output
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }else{
+                $message = [
+                    'status' => false,
+                    'data'=> []
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }
+        }
+    }
+    public function changeUserInRole_post()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $_POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
+            $Output = $this->UserModel->ChangeUserRole($_POST);
+            if ($Output) {
+                $message = [
+                    'status' => true,
+                    'message'=> "Proses Berhasil"
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }else{
+                $message = [
+                    'status' => false,
+                    'message'=> "Proses Gagal"
+                ];
+                $this->response($message, REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }
+    }
+    public function userUpdate_put()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $_POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
+            $Output = $this->UserModel->userUpdate($_POST);
+            if ($Output) {
+                $message = [
+                    'status' => true,
+                    'message'=> "Proses Berhasil"
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }else{
+                $message = [
+                    'status' => false,
+                    'message'=> "Proses Gagal"
+                ];
+                $this->response($message, REST_Controller::HTTP_BAD_REQUEST);
             }
         }
     }

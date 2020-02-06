@@ -3,7 +3,7 @@ class Mahasiswa_Model extends CI_Model
 {
     public function AmbilMahasiswa($npm)
     {
-        if ($npm != null) {
+        if ($npm != null && $npm!=="undefined") {
             $ResultMahasiswa = $this->db->query("
             SELECT
                 `mahasiswa`.`npm`,
@@ -35,7 +35,7 @@ class Mahasiswa_Model extends CI_Model
                 `mahasiswa`.`tgdaftar`,
                 `mahasiswa`.`kurikulum`
             FROM
-                `mahasiswa` WHERE npm='$npm'");
+                `mahasiswa` WHERE npm='$npm' AND statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER')");
             if ($ResultMahasiswa->num_rows()) {
                 $data = [
                     'status' => true,
@@ -51,7 +51,7 @@ class Mahasiswa_Model extends CI_Model
                 ];
                 return $data;
             }
-        }else{
+        } else {
             $ResultMahasiswa = $this->db->query("
             SELECT
                 `mahasiswa`.`npm`,
@@ -81,24 +81,30 @@ class Mahasiswa_Model extends CI_Model
                 `mahasiswa`.`sumbiaya`,
                 `mahasiswa`.`statuskul`,
                 `mahasiswa`.`tgdaftar`,
-                `mahasiswa`.`kurikulum`
+                `mahasiswa`.`kurikulum`,
+                `user`.`Status` AS `userStatus`,
+                `user`.`Email`,
+                `user`.`Password`,
+                `user`.`Username`
             FROM
-                `mahasiswa`");
-        if ($ResultMahasiswa->num_rows()) {
-            $data = [
-                'status' => true,
-                'data' => $ResultMahasiswa->result(),
-                'message' => "Success",
-            ];
-            return $data;
-        } else {
-            $data = [
-                'status' => true,
-                'data' => $ResultMahasiswa->result(),
-                'message' => "Tidak Data Mahasiswa",
-            ];
-            return $data;
-        }
+            `mahasiswa`
+            LEFT JOIN `user` ON `user`.`Id` = `mahasiswa`.`IdUser`
+            WHERE statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER')");
+            if ($ResultMahasiswa->num_rows()) {
+                $data = [
+                    'status' => true,
+                    'data' => $ResultMahasiswa->result(),
+                    'message' => "Success",
+                ];
+                return $data;
+            } else {
+                $data = [
+                    'status' => true,
+                    'data' => $ResultMahasiswa->result(),
+                    'message' => "Tidak Data Mahasiswa",
+                ];
+                return $data;
+            }
         }
     }
 }

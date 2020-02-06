@@ -64,9 +64,12 @@ class Krsm_Model extends CI_Model
     public function GetTem($data, $status)
     {
         $temKrsm;
+        $histori=[];
+        $this->db->where('status', 'AKTIF');
+        $resultthakademik = $this->db->get('tahun_akademik');
+        $thakademik = $resultthakademik->result_object();
         if ($status == "Keuangan") {
-            $this->db->where("IdUser", $data->id);
-            $ItemPegawai = $temKrsm = $this->db->get('pegawai');
+            // $this->db->where("IdUser", $data->id);
             $this->db->select("
             `tem_krsm`.`Id`,
             `tem_krsm`.`thakademik`,
@@ -83,9 +86,56 @@ class Krsm_Model extends CI_Model
             `mahasiswa`.`kelas`");
             $this->db->join("mahasiswa", "`mahasiswa`.`npm` = `tem_krsm`.`npm`", "LEFT");
             $this->db->where('tem_krsm.status', $status);
-            $this->db->where('tem_krsm.status', $status);
+            $this->db->where('thakademik', $thakademik[0]->thakademik);
+            $this->db->where('gg', $thakademik[0]->gg);
             $temKrsm = $this->db->get('tem_krsm');
 
+            $this->db->select("
+            `krsm`.`IdKrsm` AS Id,
+            `krsm`.`thakademik`,
+            `krsm`.`gg`,
+            `krsm`.`npm`,
+            `krsm`.`sms`,
+            `krsm`.`dsn_wali`,
+            `krsm`.`ketjur`,
+            `krsm`.`admakademik`,
+            `krsm`.`jmsks`,
+            `krsm`.`tgkrsm`,
+            `mahasiswa`.`nmmhs`,
+            `mahasiswa`.`kelas`");
+            $this->db->join("mahasiswa", "`mahasiswa`.`npm` = `krsm`.`npm`", "LEFT");
+            $this->db->where('thakademik', $thakademik[0]->thakademik);
+            $this->db->where('gg', $thakademik[0]->gg);
+            $resultkrsm = $this->db->get('krsm');
+            
+            foreach ($resultkrsm->result_object() as $key => $value) {
+                $value->status = "Finish";
+                array_push($histori, $value);
+            }
+
+            $this->db->select("
+            `tem_krsm`.`Id`,
+            `tem_krsm`.`thakademik`,
+            `tem_krsm`.`gg`,
+            `tem_krsm`.`npm`,
+            `tem_krsm`.`sms`,
+            `tem_krsm`.`dsn_wali`,
+            `tem_krsm`.`ketjur`,
+            `tem_krsm`.`admakademik`,
+            `tem_krsm`.`jmsks`,
+            `tem_krsm`.`tgkrsm`,
+            `tem_krsm`.`status`,
+            `mahasiswa`.`nmmhs`,
+            `mahasiswa`.`kelas`");
+            $this->db->join("mahasiswa", "`mahasiswa`.`npm` = `tem_krsm`.`npm`", "LEFT");
+            $this->db->where_not_in('tem_krsm.status', $status);
+            $this->db->where('thakademik', $thakademik[0]->thakademik);
+            $this->db->where('gg', $thakademik[0]->gg);
+            $resultkrsm = $this->db->get('tem_krsm');
+            
+            foreach ($resultkrsm->result_object() as $key => $value) {
+                array_push($histori, $value);
+            }
         } else if($status=="Dosen Wali"){
             $this->db->select("
             `tem_krsm`.`Id`,
@@ -107,13 +157,71 @@ class Krsm_Model extends CI_Model
             $this->db->join('dosen', 'dosen.nidn=dosen_wali.nidn', 'right');
             $this->db->join('pegawai', 'pegawai.idpegawai=dosen.idpegawai', 'right');
             $this->db->join("mahasiswa", "`mahasiswa`.`npm` = `tem_krsm`.`npm`", "LEFT");
-            $this->db->where('tem_krsm`.`status`', $status);
+            $this->db->where('`tem_krsm`.`status`', $status);
             $this->db->where('pegawai.IdUser', $data->id);
-
             $temKrsm = $this->db->get('tem_krsm');
-        }else{
+
+            // Get Histori
+            $statuss = array('Keuangan', 'Dosen Wali');
             $this->db->select("
             `tem_krsm`.`Id`,
+            `tem_krsm`.`thakademik`,
+            `tem_krsm`.`gg`,
+            `tem_krsm`.`npm`,
+            `tem_krsm`.`sms`,
+            `tem_krsm`.`dsn_wali`,
+            `tem_krsm`.`ketjur`,
+            `tem_krsm`.`admakademik`,
+            `tem_krsm`.`jmsks`,
+            `tem_krsm`.`tgkrsm`,
+            `tem_krsm`.`status`,
+            `dosen`.`nmdsn`,
+            `dosen`.`nidn`,
+            `mahasiswa`.`nmmhs`,
+            `mahasiswa`.`kelas`");
+            $this->db->join('dosen_wali', 'dosen_wali.npm=tem_krsm.npm', 'left');
+            $this->db->join('dosen', 'dosen.nidn=dosen_wali.nidn', 'right');
+            $this->db->join('pegawai', 'pegawai.idpegawai=dosen.idpegawai', 'right');
+            $this->db->join("mahasiswa", "`mahasiswa`.`npm` = `tem_krsm`.`npm`", "LEFT");
+            $this->db->where_not_in('`tem_krsm`.`status`', $statuss);
+            $this->db->where('pegawai.IdUser', $data->id);
+            $resultkrsm = $this->db->get('tem_krsm');
+            foreach ($resultkrsm->result_object() as $key => $value) {
+                array_push($histori, $value);
+            }
+
+            $this->db->select("
+            `krsm`.`IdKrsm` AS Id,
+            `krsm`.`thakademik`,
+            `krsm`.`gg`,
+            `krsm`.`npm`,
+            `krsm`.`sms`,
+            `krsm`.`dsn_wali`,
+            `krsm`.`ketjur`,
+            `krsm`.`admakademik`,
+            `krsm`.`jmsks`,
+            `krsm`.`tgkrsm`,
+            `dosen`.`nmdsn`,
+            `dosen`.`nidn`,
+            `mahasiswa`.`nmmhs`,
+            `mahasiswa`.`kelas`");
+            $this->db->join('dosen_wali', 'dosen_wali.npm=krsm.npm', 'left');
+            $this->db->join('dosen', 'dosen.nidn=dosen_wali.nidn', 'right');
+            $this->db->join('pegawai', 'pegawai.idpegawai=dosen.idpegawai', 'right');
+            $this->db->join("mahasiswa", "`mahasiswa`.`npm` = `krsm`.`npm`", "LEFT");
+            $this->db->where('pegawai.IdUser', $data->id);
+            $this->db->where('krsm.thakademik', $thakademik[0]->thakademik);
+            $this->db->where('krsm.gg', $thakademik[0]->gg);
+            $resultkrsm = $this->db->get('krsm');
+            foreach ($resultkrsm->result_object() as $key => $value) {
+                $value->status = "Finish";
+                array_push($histori, $value);
+            }
+
+
+        }else{
+            $this->db->select("
+            `tem_krsm`.`Id` ,
             `tem_krsm`.`thakademik`,
             `tem_krsm`.`gg`,
             `tem_krsm`.`npm`,
@@ -135,8 +243,10 @@ class Krsm_Model extends CI_Model
             $this->db->where('pegawai.IdUser', $data->id);
             $temKrsm = $this->db->get('tem_krsm');
         }
+
         $DatasTemKrsm = array(
             'TemKrsm' => array(),
+            'Histori' => $histori
         );
         foreach ($temKrsm->result() as $value) {
             $ItemTemKrsm = [
@@ -173,9 +283,9 @@ class Krsm_Model extends CI_Model
         //         $Wali = true;
         //     }
         // }
-        if ($status == 'Keuangan') {
+        // if ($status == 'Keuangan') {
 
-        }
+        // }
         // $this->db->where('npm', $data);
         // $resultKrsm = $this->db->get($this->KrsmTable);
         // $num =$resultKrsm->num_rows();
@@ -359,10 +469,8 @@ class Krsm_Model extends CI_Model
                 'kelas' => $b->kelas,
                 'IdKrsm' => $CekKrsm->row('Id'),
             );
-            if($b->kmk !== null && $b->kmk !== "" && !isset($b->kmk)){
-                $this->db->insert($this->KrsmDetailTabel, $DetaiTemKrsm);
-                return true;
-            }
+            $this->db->insert($this->KrsmDetailTabel, $DetaiTemKrsm);
+            return true;
         } else {
             $this->db->select('*');
             $this->db->join('dosen', 'dosen.nidn = dosen_wali.nidn', 'left');
@@ -420,9 +528,7 @@ class Krsm_Model extends CI_Model
                                 'kelas' => $value['kelas'],
                                 'IdKrsm' => $IdTemKrsm,
                             );
-                            if($b->kmk !== null && $b->kmk !== "" && !isset($b->kmk)){
-                                $this->db->insert($this->KrsmDetailTabel, $DetaiTemKrsm);
-                            }
+                            $this->db->insert($this->KrsmDetailTabel, $DetaiTemKrsm);
                         }
                         if ($this->db->trans_status() === false) {
                             $this->db->trans_rollback();
