@@ -53,7 +53,7 @@ class Jadwal_Model extends CI_Model
                       `krsm_detail`.`thakademik` AND `tahun_akademik`.`gg` = `krsm_detail`.`gg`
                   WHERE tahun_akademik.status='AKTIF' AND kmk = '111034'"
                 );
-                $value->jumlahMahasiswa = $result->row('jumlahMahasiswa')
+                $value->jumlahMahasiswa = $result->row('jumlahMahasiswa');
             }
             return $Data;
         }else{
