@@ -51,7 +51,8 @@ class Jadwal_Model extends CI_Model
                     `krsm_detail`
                     LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
                       `krsm_detail`.`thakademik` AND `tahun_akademik`.`gg` = `krsm_detail`.`gg`
-                  WHERE tahun_akademik.status='AKTIF' AND kmk = '111034'"
+                  WHERE tahun_akademik.status='AKTIF' AND kmk = '$value->kmk' 
+                  AND kelas = '$value->kelas'"
                 );
                 $value->jumlahMahasiswa = $result->row('jumlahMahasiswa');
             }
