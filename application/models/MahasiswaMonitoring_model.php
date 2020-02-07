@@ -11,13 +11,17 @@ class MahasiswaMonitoring_model extends CI_Model
         if(!empty($data) && $this->authorization_token->userInRole("Mahasiswa")){
             $result = $this->db->query(
                 "SELECT
-                    `List_Draft_DO`.*
-                FROM
-                    `List_Draft_DO`
-                    LEFT JOIN `mahasiswa` ON `mahasiswa`.`npm` = `List_Draft_DO`.`npm`
-                WHERE IdUser='$data->id'"
+                *
+              FROM
+                `ViewMhsWarning`
+                LEFT JOIN `mahasiswa` ON `mahasiswa`.`npm` = `ViewMhsWarning`.`npm`
+              WHERE mahasiswa.IdUser = '$data->id'"
             );
-            return $result->result_object();
+            $message = [
+                'status' => 'Mahasiswa',
+                'data'=> $result->result_object()
+            ];
+            return $message;
         }else
         {
             $result = $this->db->query(
@@ -30,7 +34,11 @@ class MahasiswaMonitoring_model extends CI_Model
                     LEFT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
                 WHERE IdUser = '$data->id'"
             );
-            return $result->result_object();
+            $message = [
+                'status' => 'DosenWali',
+                'data'=> $result->result_object()
+            ];
+            return $message;
         }
     }    
 }

@@ -33,7 +33,8 @@ class MahasiswaWali_model extends CI_Model
             WHEN transkip.ket = 'L' THEN 1*transkip.sks
             ELSE
             0*transkip.sks
-            END)FROM transkip WHERE transkip.npm=`mahasiswa`.`npm`) AS SKSLulus
+            END)FROM transkip WHERE transkip.npm=`mahasiswa`.`npm`) AS SKSLulus,
+            (SELECT COUNT(daftar_ulang.thakademik) FROM daftar_ulang where daftar_ulang.npm = `mahasiswa`.`npm`) AS Semester
           FROM
             `dosen_wali`
             LEFT JOIN `mahasiswa` ON `dosen_wali`.`npm` = `mahasiswa`.`npm`
