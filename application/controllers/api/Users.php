@@ -133,6 +133,7 @@ class Users extends \Restserver\Libraries\REST_Controller
                 $token_data['Username'] = $Output->Username;
                 $token_data['Email'] = $Output->Email;
                 $token_data['NamaUser'] = $Output->NamaUser;
+                $token_data['RoleUser'] = $Output->role->Role;
                 $token_data['time'] = time();
 
 
