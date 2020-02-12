@@ -65,9 +65,9 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
             }else{
                 $message = [
                     'status' => false,
-                    'message' => "Tidak Ada Data",
+                    'message' => [],
                 ];
-                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+                $this->response($message, REST_Controller::HTTP_OK);
             }
 
         }

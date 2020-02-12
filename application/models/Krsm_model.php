@@ -439,8 +439,10 @@ class Krsm_Model extends CI_Model
     public function Inser_Pengajuan($data, $b)
     {
         $this->db->where('npm', $data->npm);
+        $this->db->where('thakademik', $data->thakadmik);
+        $this->db->where('gg', $data->gg);
         $CekKrsm = $this->db->get($this->KrsmTable);
-        if ($CekKrsm->num_rows() != 0) {
+        if ($CekKrsm->num_rows() !== 0) {
             $this->db->where('thakademik', $data->thakademik);
             $this->db->where('gg', $data->gg);
             $this->db->where('kmk', $b->kmk);

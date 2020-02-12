@@ -154,3 +154,7 @@ $route['api/MahasiswaWali']['get'] = 'api/MahasiswaWali/GetMahasiswaWali';
 
 // Monitoring
 $route['api/MahasiswaMonitoring/getList']['get'] = 'api/MahasiswaMonitoring/Select';
+
+// Upload File
+$route['api/Upload/UploadFile']['get'] = 'api/Upload/UploadFile';
+$route['api/Upload/ReadFile']['get'] = 'api/Upload/ReadFile';
