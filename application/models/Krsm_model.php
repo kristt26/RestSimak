@@ -449,7 +449,7 @@ class Krsm_Model extends CI_Model
             $this->db->where('kdps', $data->kdps);
             $Dosenampu = $this->db->get($this->PengampuhTabel);
             $this->db->where('npm', $data->npm);
-            $this->db->where('kmk', $data->kmk);
+            $this->db->where('kmk', $b->kmk);
             $CekMatakuliah = $this->db->get('khsm_detail');
             $BUP = "";
             if ($CekMatakuliah->num_rows() == 0) {
