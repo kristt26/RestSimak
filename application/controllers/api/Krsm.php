@@ -99,7 +99,7 @@ class Krsm extends \Restserver\Libraries\REST_Controller
             $_POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
             
             $Output = $this->KrsmModel->Inser_Pengajuan((object) $this->input->post('krsm'), (object) $this->input->post('DetailKrsm'));
-            if (!empty($Output && $Output != false)) {
+            if ($Output) {
                 $message = [
                     'status' => true,
                     'message' => "Pengajuan KRS Anda Berhasil"
