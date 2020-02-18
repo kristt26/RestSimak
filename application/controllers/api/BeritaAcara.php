@@ -29,18 +29,18 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
             $Output = $this->BeritaAcaraModel->insert($data, $akses);
             if ($Output['status']) {
                 $message = [
-                    "data" => $Output['id'],
+                    "data" => $Output['id']
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             } else {
                 $message = [
-                    "data" => "Jam pengisian berita acara telah berakhir silahkan hubungi bagian BAAK",
+                    "data" => "Jam pengisian berita acara telah berakhir silahkan hubungi bagian BAAK"
                 ];
                 $this->response($message, REST_Controller::HTTP_BAD_REQUEST);
             }
         } else {
             $message = [
-                "data" => "Session anda telah habis",
+                "data" => "Session anda telah habis"
             ];
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         }
