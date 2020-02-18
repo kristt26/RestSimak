@@ -2,13 +2,62 @@
 
 class BeritaAcara_Model extends CI_Model
 {
-    public function insert($data)
+    public function insert($data, $akses)
     {
-        $result = $this->db->insert("bamengajardosen", $data);
-        if ($result) {
-            return $this->db->insert_id();
+        if (empty($akses)) {
+            $this->db->where('idjadwal', $data['idjadwal']);
+            $result_jadwal = $this->db->get('jadwal_kuliah');
+            $jamjadwal = strtotime($result_jadwal->row('ws'));
+
+            $jamsistem = strtotime(date('H:i:s'));
+            $selisih = $jamsistem - $jamjadwal;
+            $menit = floor($selisih / 60);
+            if ($menit <= 30 && $menit >= -15) {
+                $this->db->where('nidn', $data['nidn']);
+                $this->db->where('idjadwal', $data['idjadwal']);
+                $this->db->where('kmk', $data['kmk']);
+                $this->db->where('tanggal', $data['tanggal']);
+                $num = $this->db->get('bamengajardosen');
+                if ($num->num_rows() === 0) {
+                    $result = $this->db->insert("bamengajardosen", $data);
+                    $message = [
+                        'status' => true,
+                        'id' => $this->db->insert_id(),
+                    ];
+                    return $message;
+                } else {
+                    $message = [
+                        'status' => true,
+                        'id' => $num->row('idbamengajardosen'),
+                    ];
+                    return $message;
+                }
+            } else {
+                $message = [
+                    'status' => false,
+                ];
+                return $message;
+            }
         } else {
-            return 0;
+            $this->db->where('nidn', $data['nidn']);
+            $this->db->where('idjadwal', $data['idjadwal']);
+            $this->db->where('kmk', $data['kmk']);
+            $this->db->where('tanggal', $data['tanggal']);
+            $num = $this->db->get('bamengajardosen');
+            if ($num->num_rows() === 0) {
+                $result = $this->db->insert("bamengajardosen", $data);
+                $message = [
+                    'status' => true,
+                    'id' => $this->db->insert_id(),
+                ];
+                return $message;
+            } else {
+                $message = [
+                    'status' => true,
+                    'id' => $num->row('idbamengajardosen'),
+                ];
+                return $message;
+            }
         }
 
     }
@@ -70,16 +119,16 @@ class BeritaAcara_Model extends CI_Model
         $DataBa = $result->result_array();
         foreach ($DataMatakuliah as $key1 => $value1) {
             $DatasMatakuliah = [
-                "Matakuliah"=>$value1['nmmk'],
-                "dosen"=>$value1['Nama'],
-                "kmk"=>$value1['kmk'],
-                "kelas"=>$value1['kelas'],
-                "sks"=>$value1['sks'],
-                "jurusan"=>$value1['nmps'],
-                "beritaacara"=> array()
+                "Matakuliah" => $value1['nmmk'],
+                "dosen" => $value1['Nama'],
+                "kmk" => $value1['kmk'],
+                "kelas" => $value1['kelas'],
+                "sks" => $value1['sks'],
+                "jurusan" => $value1['nmps'],
+                "beritaacara" => array(),
             ];
             foreach ($DataBa as $key => $value2) {
-                if($value1['idjadwal']==$value2['idjadwal']){
+                if ($value1['idjadwal'] == $value2['idjadwal']) {
                     array_push($DatasMatakuliah['beritaacara'], $value2);
                 }
             }
@@ -117,7 +166,7 @@ class BeritaAcara_Model extends CI_Model
                 `matakuliah`.`nmmk`,
                 `jadwal_kuliah`.`kelas`,
                 `bamengajardosen`.`tanggal` DESC
-                
+
         ");
         return $result->result_array();
     }
