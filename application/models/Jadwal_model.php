@@ -23,9 +23,11 @@ class Jadwal_Model extends CI_Model
         $result = $this->db->query("
             SELECT
                 `dosen`.`nidn`,
-                `jadwal_kuliah`.*
+                `jadwal_kuliah`.*, COUNT(krsm_detail.npm) AS jumlahMahasiswa
+                                
             FROM
-                `jadwal_kuliah`
+                krsm_detail, `jadwal_kuliah`
+                
                 RIGHT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
                 `jadwal_kuliah`.`thakademik` AND `tahun_akademik`.`gg` =
                 `jadwal_kuliah`.`gg`
@@ -33,33 +35,21 @@ class Jadwal_Model extends CI_Model
                 `tahun_akademik`.`thakademik` AND `dosen_pengampu`.`gg` =
                 `tahun_akademik`.`gg` AND `jadwal_kuliah`.`idpengampu` =
                 `dosen_pengampu`.`idpengampu`
-                RIGHT JOIN `dosen` ON `dosen`.`nidn` = `dosen_pengampu`.`nidn`
+                LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
                 RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
-                RIGHT JOIN `matakuliah` ON `matakuliah`.`kmk` = `jadwal_kuliah`.`kmk`
+                LEFT JOIN `matakuliah` ON `matakuliah`.`idmatakuliah` =
+                `dosen_pengampu`.`idmatakuliah`
             WHERE
+                krsm_detail.thakademik = jadwal_kuliah.thakademik AND
+                krsm_detail.gg = jadwal_kuliah.gg AND
+                krsm_detail.kmk = jadwal_kuliah.kmk AND
+                krsm_detail.kelas = jadwal_kuliah.kelas AND
                 `tahun_akademik`.`status` = 'AKTIF' AND
                 `pegawai`.`IdUser` = '$data->id' AND
-                `dosen_pengampu`.`mengajar` = 'Y'  
+                `dosen_pengampu`.`mengajar` = 'Y'
+            GROUP BY jadwal_kuliah.thakademik, jadwal_kuliah.gg, jadwal_kuliah.kelas, jadwal_kuliah.kmk  
         ");
-        if($result->num_rows()){
-            $Data = $result->result_object();
-            foreach ($Data as $key => $value) {
-                $result = $this->db->query(
-                    "SELECT
-                    COUNT(npm) AS jumlahMahasiswa
-                  FROM
-                    `krsm_detail`
-                    LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
-                      `krsm_detail`.`thakademik` AND `tahun_akademik`.`gg` = `krsm_detail`.`gg`
-                  WHERE tahun_akademik.status='AKTIF' AND kmk = '$value->kmk' 
-                  AND kelas = '$value->kelas'"
-                );
-                $value->jumlahMahasiswa = $result->row('jumlahMahasiswa');
-            }
-            return $Data;
-        }else{
-            return 0;
-        }
+        return $result->result_object();
     }
 
     public function getJadwalKuliah($npm, $kelas)
