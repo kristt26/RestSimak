@@ -4,7 +4,7 @@ class BeritaAcara_Model extends CI_Model
 {
     public function insert($data, $akses)
     {
-        if (empty($akses)) {
+        if ($akses) {
             $this->db->where('idjadwal', $data['idjadwal']);
             $result_jadwal = $this->db->get('jadwal_kuliah');
             $jamjadwal = strtotime($result_jadwal->row('ws'));
