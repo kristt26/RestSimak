@@ -26,8 +26,11 @@ class Jadwal_Model extends CI_Model
                 `jadwal_kuliah`.*, COUNT(krsm_detail.npm) AS jumlahMahasiswa
                                 
             FROM
-                krsm_detail, `jadwal_kuliah`
-                
+                `jadwal_kuliah`
+                LEFT JOIN krsm_detail ON krsm_detail.thakademik = jadwal_kuliah.thakademik AND
+                krsm_detail.gg = jadwal_kuliah.gg AND
+                krsm_detail.kmk = jadwal_kuliah.kmk AND
+                krsm_detail.kelas = jadwal_kuliah.kelas
                 RIGHT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
                 `jadwal_kuliah`.`thakademik` AND `tahun_akademik`.`gg` =
                 `jadwal_kuliah`.`gg`
@@ -38,12 +41,9 @@ class Jadwal_Model extends CI_Model
                 LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
                 RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
                 LEFT JOIN `matakuliah` ON `matakuliah`.`idmatakuliah` =
-                `dosen_pengampu`.`idmatakuliah`
+                `dosen_pengampu`.`idmatakuliah` AND matakuliah.kdps = jadwal_kuliah.kdps
             WHERE
-                krsm_detail.thakademik = jadwal_kuliah.thakademik AND
-                krsm_detail.gg = jadwal_kuliah.gg AND
-                krsm_detail.kmk = jadwal_kuliah.kmk AND
-                krsm_detail.kelas = jadwal_kuliah.kelas AND
+                
                 `tahun_akademik`.`status` = 'AKTIF' AND
                 `pegawai`.`IdUser` = '$data->id' AND
                 `dosen_pengampu`.`mengajar` = 'Y'
