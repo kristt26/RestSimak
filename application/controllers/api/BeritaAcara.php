@@ -29,7 +29,7 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
             $Output = $this->BeritaAcaraModel->insert($data, $akses);
             if ($Output['status']) {
                 $message = [
-                    "data" => $Output,
+                    "data" => $Output['id'],
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             } else {
