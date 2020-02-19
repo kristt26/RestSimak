@@ -47,7 +47,20 @@ class Upload extends \Restserver\Libraries\REST_Controller
 
     public function deleteFile_delete()
     {
-        
+        $berkas = $_GET['berkas'];
+        $folder = $_GET['folder'];
+        $path = './assets/file/'.$folder.'/' . $berkas;
+        if(unlink($path)){
+            $message=[
+                'status'=>true,
+            ];
+            $this->response($message,REST_Controller::HTTP_OK);
+        }else{
+            $message=[
+                'status'=>false,
+            ];
+            $this->response($message,REST_Controller::HTTP_BAD_REQUEST);
+        }
     }
 
     public function ReadFile_get()

@@ -158,7 +158,8 @@ $route['api/MahasiswaMonitoring/getList']['get'] = 'api/MahasiswaMonitoring/Sele
 // Upload File
 $route['api/Upload/UploadFile']['get'] = 'api/Upload/UploadFile';
 $route['api/Upload/ReadFile']['get'] = 'api/Upload/ReadFile';
+$route['api/Upload/deleteFile']['delete'] = 'api/Upload/deleteFile';
 
 // Pengumuman
-$route['api/Upload/Pengumuman/Simpan']['post'] = 'api/Pengumuman/Simpan';
-$route['api/Upload/Pengumuman/Ambil']['get'] = 'api/Pengumuman/Ambil';
+$route['api/Pengumuman/Simpan']['post'] = 'api/Pengumuman/Simpan';
+$route['api/Pengumuman/Ambil']['get'] = 'api/Pengumuman/Ambil';

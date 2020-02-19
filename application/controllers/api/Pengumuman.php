@@ -5,7 +5,7 @@ use Restserver\Libraries\REST_Controller;
 
 require APPPATH . '/libraries/REST_Controller.php';
 
-class Jadwal extends \Restserver\Libraries\REST_Controller
+class Pengumuman extends \Restserver\Libraries\REST_Controller
 {
     public function __construct($config = 'rest')
     {
@@ -18,10 +18,12 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
     }
     public function Simpan_post()
     {
+        $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
-            $_POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
-            $Output = $this->PengumumanModel->insert($_POST);
+            $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
+            $data['IdUser'] = $is_valid_token['data']->id;
+            $Output = $this->PengumumanModel->insert($data);
             if($Output['status']){
                 $message = [
                     'data' => $Output['data']
@@ -38,6 +40,7 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
 
     public function Ambil_get()
     {
+        $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
             $_POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);

@@ -22,9 +22,12 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
+            $akses;
             $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
-            if(empty($_GET)){
+            if(is_null($_GET)){
                 $akses = true;
+            }else{
+                $akses = false;
             }
             $Output = $this->BeritaAcaraModel->insert($data, $akses);
             if ($Output['status']) {

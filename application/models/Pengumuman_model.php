@@ -4,7 +4,7 @@ class Pengumuman_Model extends CI_Model
 {
     public function insert($data)
     {
-        $this->db->where('berkas', $data->berkas);
+        $this->db->where('berkas', $data['berkas']);
         $num = $this->db->get('pengumuman');
         if($num->num_rows()===0){
             $result = $this->db->insert('pengumuman', $data);
