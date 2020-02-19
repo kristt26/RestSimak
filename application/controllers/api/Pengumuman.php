@@ -52,4 +52,29 @@ class Pengumuman extends \Restserver\Libraries\REST_Controller
             $this->response($message, REST_Controller::HTTP_OK);
         }
     }
+
+    public function Hapus_delete()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $id = $_GET['id'];
+            $Output = $this->PengumumanModel->delete($id);
+            if($Output)
+            {
+                $message= 
+                [
+                    'message' => true
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }else{
+                $message= 
+                [
+                    'message' => false
+                ];
+                $this->response($message, REST_Controller::HTTP_BAD_REQUEST);
+            }
+            
+        }
+    }
 }

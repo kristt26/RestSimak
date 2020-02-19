@@ -20,4 +20,10 @@ class Pengumuman_Model extends CI_Model
         $result = $this->db->get('pengumuman');
         return $result->result_object();
     }
+    public function delete($id)
+    {
+        $this->db->where('id', $id);
+        $result = $this->db->delete('pengumuman');
+        return $result;
+    }
 }

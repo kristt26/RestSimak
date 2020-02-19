@@ -163,3 +163,4 @@ $route['api/Upload/deleteFile']['delete'] = 'api/Upload/deleteFile';
 // Pengumuman
 $route['api/Pengumuman/Simpan']['post'] = 'api/Pengumuman/Simpan';
 $route['api/Pengumuman/Ambil']['get'] = 'api/Pengumuman/Ambil';
+$route['api/Pengumuman/Hapus']['delete'] = 'api/Pengumuman/Hapus';
