@@ -14,7 +14,7 @@ class Upload extends \Restserver\Libraries\REST_Controller
         header("Content-Type: application/pdf; charset=UTF-8,application/json ");
         header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT, OPTIONS");
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-        // $this->load->model('Upload_model', 'UploadModel');
+        $this->load->model('Upload_model', 'UploadModel');
     }
     public function UploadFile_post()
     {
@@ -60,6 +60,33 @@ class Upload extends \Restserver\Libraries\REST_Controller
                 'status'=>false,
             ];
             $this->response($message,REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function updateData_update()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $photo = json_decode($this->input->_raw_input_stream);
+            $statusMahasiswa = $this->authorization_token->userInRole("Mahasiswa");
+            $Output = $this->UploadModel->updateData($photo, $is_valid_token['data'], $statusMahasiswa);
+            if($Output){
+                $message=[
+                    'status'=>true,
+                ];
+                $this->response($message,REST_Controller::HTTP_OK);
+            }else{
+                $message=[
+                    'status'=>false,
+                ];
+                $this->response($message,REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }{
+            $message = [
+                "data" => "Session anda telah habis",
+            ];
+            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         }
     }
 

@@ -159,6 +159,7 @@ $route['api/MahasiswaMonitoring/getList']['get'] = 'api/MahasiswaMonitoring/Sele
 $route['api/Upload/UploadFile']['get'] = 'api/Upload/UploadFile';
 $route['api/Upload/ReadFile']['get'] = 'api/Upload/ReadFile';
 $route['api/Upload/deleteFile']['delete'] = 'api/Upload/deleteFile';
+$route['api/Upload/updateData']['update'] = 'api/Upload/updateData';
 
 // Pengumuman
 $route['api/Pengumuman/Simpan']['post'] = 'api/Pengumuman/Simpan';
