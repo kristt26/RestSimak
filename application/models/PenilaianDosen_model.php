@@ -5,10 +5,26 @@ class PenilaianDosen_Model extends CI_Model
     public function Cek($id)
     {
         $npm = $id['npm'];
-        $this->db->where("st_period", "Y");
-        $resultPeriode = $this->db->get("periode_ev");
-        if ($resultPeriode->num_rows() == 0) {
-            $message = 'Periode Evaluasi Telah Berakhir';
+        $resultMenilai = $this->db->query("
+            SELECT
+                COUNT(npm) as Jumlah, (select photo FROM mahasiswa where npm = '$npm') AS photo
+            FROM
+                `penilai_evaluasi`
+            LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+                `penilai_evaluasi`.`thakademik` AND `tahun_akademik`.`gg` =
+                `penilai_evaluasi`.`gg`
+            LEFT JOIN `periode_ev` ON `periode_ev`.`nm_period` =
+                `penilai_evaluasi`.`period`
+            WHERE
+                `tahun_akademik`.status = 'AKTIF' AND
+                `penilai_evaluasi`.npm = '$npm' AND
+                `periode_ev`.`st_period` = 'Y'
+        ");
+        if ((int) $resultMenilai->row('NumPeriode') == 0) {
+            $message=[
+                'message' => "Periode Evaluasi Telah Berakhir",
+                'photo' => $resultMenilai->row('photo')
+            ];
             return $message;
         } else {
             $resultKrs = $this->db->query("
@@ -24,38 +40,36 @@ class PenilaianDosen_Model extends CI_Model
         ");
             $Jkrs = 0;
             $JMenilai = 0;
-            $resultMenilai = $this->db->query("
-            SELECT
-                COUNT(npm) as Jumlah
-            FROM
-                `penilai_evaluasi`
-            LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
-                `penilai_evaluasi`.`thakademik` AND `tahun_akademik`.`gg` =
-                `penilai_evaluasi`.`gg`
-            LEFT JOIN `periode_ev` ON `periode_ev`.`nm_period` =
-                `penilai_evaluasi`.`period`
-            WHERE
-                `tahun_akademik`.status = 'AKTIF' AND
-                `penilai_evaluasi`.npm = '$npm' AND
-                `periode_ev`.`st_period` = 'Y'
-        ");
+            
             if ($resultKrs->num_rows() > 0) {
                 $Jkrs = (int) $resultKrs->row('Jumlah');
                 if ($resultKrs->num_rows() > 0) {
                     $JMenilai = (int) $resultMenilai->row('Jumlah');
                     if ($Jkrs == $JMenilai) {
-                        $message = "Anda Sudah Melakukan Penilaian Dosen";
+                        $message=[
+                            'message' => "Anda Sudah Melakukan Penilaian Dosen",
+                            'photo' => $resultMenilai->row('photo')
+                        ];
                         return $message;
                     } else {
-                        $message = 'Anda belum menyelesaikan Penilaian Dosen';
+                        $message=[
+                            'message' => "Anda belum menyelesaikan Penilaian Dosen",
+                            'photo' => $resultMenilai->row('photo')
+                        ];
                         return $message;
                     }
                 } else {
-                    $message = 'Anda Belum Melakukan Penilaian Dosen';
+                    $message=[
+                        'message' => "Anda Belum Melakukan Penilaian Dosen",
+                        'photo' => $resultMenilai->row('photo')
+                    ];
                     return $message;
                 }
             } else {
-                $message = 'Anda Belum Melakukan Kontrak KRS';
+                $message=[
+                    'message' => "Anda Belum Melakukan Kontrak KRS",
+                    'photo' => $resultMenilai->row('photo')
+                ];
                 return $message;
             }
 
