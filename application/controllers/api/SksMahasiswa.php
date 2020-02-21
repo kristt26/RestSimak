@@ -19,7 +19,9 @@ class SksMahasiswa extends \Restserver\Libraries\REST_Controller
     public function GetSKS_get()
     {
         $npm = $this->get('npm');
-        $Output = $this->SksModel->SksMahasiswa($npm);
+        $thakademik = $this->get('thakademik');
+        $gg = $this->get('gg');
+        $Output = $this->SksModel->SksMahasiswa($npm, $thakademik, $gg);
         if (!empty($Output)) {
             $message = [
                 'status' => true,

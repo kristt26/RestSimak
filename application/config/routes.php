@@ -88,7 +88,9 @@ $route['api/profile/UpdateProfile'] = 'api/Profile/UpdateProfile';
 $route['api/home/getHome'] = 'api/Home/ambilinfo';
 $route['api/tahunakademik/getTaAktif'] = 'api/TahunAkademik/TAAktif';
 $route['api/approvedkrsm/GetHistori'] = 'api/ApprovedKrsm/ambilHistori';
+
 $route['api/sksMahasiswa/AmbilSks'] = 'api/SksMahasiswa/GetSKS';
+
 $route['api/Mahasiswa/GetDataMahasiswa'] = 'api/Mahasiswa/GetMahasiswa';
 $route['api/Perwalian/GetMahasiswa'] = 'api/Perwalian/MahasiswaWali';
 //Penelitian
