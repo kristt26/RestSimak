@@ -125,44 +125,48 @@ class Users extends \Restserver\Libraries\REST_Controller
             );
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         } else {
-            $Output = $this->UserModel->user_login($this->input->post('Username'), $this->input->post('Password'));
-            if (!empty($Output && $Output != false)) {
-                $this->load->library('Authorization_Token');
+            $message = [
+                        'status' => false,
+                        'message' => "Sistem Sedang Maintenance",
+                    ];
+                    $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+            // $Output = $this->UserModel->user_login($this->input->post('Username'), $this->input->post('Password'));
+            // if (!empty($Output && $Output != false)) {
+            //     $this->load->library('Authorization_Token');
 
-                $token_data['id'] = $Output->Id;
-                $token_data['Username'] = $Output->Username;
-                $token_data['Email'] = $Output->Email;
-                $token_data['NamaUser'] = $Output->NamaUser;
-                $token_data['RoleUser'] = $Output->role->Role;
-                $token_data['time'] = time();
+            //     $token_data['id'] = $Output->Id;
+            //     $token_data['Username'] = $Output->Username;
+            //     $token_data['Email'] = $Output->Email;
+            //     $token_data['NamaUser'] = $Output->NamaUser;
+            //     $token_data['RoleUser'] = $Output->role->Role;
+            //     $token_data['time'] = time();
 
 
-                $UserToken = $this->authorization_token->generateToken($token_data);
-                // print_r($this->authorization_token->userData());
-                // exit;
+            //     $UserToken = $this->authorization_token->generateToken($token_data);
+                
 
-                $return_data = [
-                    'IdUser' => $Output->Id,
-                    'Username' => $Output->Username,
-                    'Email' => $Output->Email,
-                    'NamaUser' => $Output->NamaUser,
-                    'RoleUser' => $Output->role,
-                    'Token' => $UserToken
-                ];
+            //     $return_data = [
+            //         'IdUser' => $Output->Id,
+            //         'Username' => $Output->Username,
+            //         'Email' => $Output->Email,
+            //         'NamaUser' => $Output->NamaUser,
+            //         'RoleUser' => $Output->role,
+            //         'Token' => $UserToken
+            //     ];
 
-                $message = [
-                    'status' => true,
-                    'data' => $return_data,
-                    'message' => "Login Berhasil",
-                ];
-                $this->response($message, REST_Controller::HTTP_OK);
-            } else {
-                $message = [
-                    'status' => false,
-                    'message' => "Username anda tidak ditemukan Periksa Username dan Password anda",
-                ];
-                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
-            }
+            //     $message = [
+            //         'status' => true,
+            //         'data' => $return_data,
+            //         'message' => "Login Berhasil",
+            //     ];
+            //     $this->response($message, REST_Controller::HTTP_OK);
+            // } else {
+            //     $message = [
+            //         'status' => false,
+            //         'message' => "Username anda tidak ditemukan Periksa Username dan Password anda",
+            //     ];
+            //     $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+            // }
         }
     }
 
