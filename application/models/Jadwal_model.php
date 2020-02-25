@@ -138,7 +138,7 @@ class Jadwal_Model extends CI_Model
                         $tglmhs = $resultDU->row('last_reg');
                         $Tanggal_sistem = strtotime($tgl);
                         $TglReg = strtotime($tglmhs);
-                        if($Tanggal_sistem<$TglReg){
+                        if($Tanggal_sistem<=$TglReg){
                             $this->db->where('npm', $DataMahasiswa->npm);
                             $this->db->where('thakademik', $DataTA->thakademik);
                             $this->db->where('gg', $DataTA->gg);
