@@ -105,8 +105,7 @@ class BeritaAcara_Model extends CI_Model
                 LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `matakuliah`.`kdps`
             WHERE
                 `tahun_akademik`.`status` = 'AKTIF' AND
-                `dosen_pengampu`.`mengajar` = 'Y' AND
-                `matakuliah`.`kurikulum` NOT IN (2011)
+                `dosen_pengampu`.`mengajar` = 'Y'
 
         ");
         $DataMatakuliah = $result->result_array();

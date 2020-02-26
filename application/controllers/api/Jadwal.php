@@ -132,7 +132,9 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
                         $message = [
                             'status' => true,
                             'data' => $Datakirim,
-                            'set' => $Output['message']
+                            'set' => $Output['message'],
+                            'mahasiswa' => $Output['mahasiswa'],
+                            'semester' => $Output['semester']
                         ];
                         $this->response($message, REST_Controller::HTTP_OK);
                     } else {

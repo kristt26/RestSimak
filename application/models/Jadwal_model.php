@@ -172,7 +172,9 @@ class Jadwal_Model extends CI_Model
                                             'Kelas' => $DataMahasiswa->kelas,
                                             'message' => 'Jadwal',
                                             'status' => true,
-                                            'streg' =>true
+                                            'streg' =>true,
+                                            'mahasiswa' => $DataMahasiswa,
+                                            'semester' => $resultDU->num_rows(),
                                         );
                                         return $DataJadwal;
                                     }else{
