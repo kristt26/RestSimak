@@ -94,18 +94,28 @@ class BeritaAcara_Model extends CI_Model
                 `program_studi`.`nmps`
             FROM
                 `jadwal_kuliah`
-                LEFT JOIN `tahun_akademik` ON `jadwal_kuliah`.`thakademik` =
-                `tahun_akademik`.`thakademik` AND `jadwal_kuliah`.`gg` =
-                `tahun_akademik`.`gg`
-                LEFT JOIN `matakuliah` ON `matakuliah`.`kmk` = `jadwal_kuliah`.`kmk`
-                AND `matakuliah`.`kdps` = `jadwal_kuliah`.`kdps`
-                LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`kmk` = `dosen_pengampu`.`kmk`
-                RIGHT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
+                RIGHT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+                `jadwal_kuliah`.`thakademik` AND `tahun_akademik`.`gg` =
+                `jadwal_kuliah`.`gg`
+                LEFT JOIN `dosen_pengampu` ON `dosen_pengampu`.`thakademik` =
+                `tahun_akademik`.`thakademik` AND `dosen_pengampu`.`gg` =
+                `tahun_akademik`.`gg` AND `jadwal_kuliah`.`idpengampu` =
+                `dosen_pengampu`.`idpengampu`
+                LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
                 RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
-                LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `matakuliah`.`kdps`
+                LEFT JOIN `matakuliah` ON `matakuliah`.`idmatakuliah` =
+                `dosen_pengampu`.`idmatakuliah` AND `matakuliah`.`kdps` =
+                `jadwal_kuliah`.`kdps`
+                LEFT JOIN `program_studi` ON `jadwal_kuliah`.`kdps` = `program_studi`.`kdps`
             WHERE
                 `tahun_akademik`.`status` = 'AKTIF' AND
                 `dosen_pengampu`.`mengajar` = 'Y'
+            GROUP BY
+                `jadwal_kuliah`.`thakademik`,
+                `jadwal_kuliah`.`gg`,
+                `jadwal_kuliah`.`kelas`,
+                `jadwal_kuliah`.`kmk`,
+                `program_studi`.`nmps`
 
         ");
         $DataMatakuliah = $result->result_array();
