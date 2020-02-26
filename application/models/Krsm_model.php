@@ -242,6 +242,37 @@ class Krsm_Model extends CI_Model
             $this->db->where('tem_krsm`.`status`', $status);
             $this->db->where('pegawai.IdUser', $data->id);
             $temKrsm = $this->db->get('tem_krsm');
+
+
+            $this->db->select("
+            `krsm`.`IdKrsm` AS Id,
+            `krsm`.`thakademik`,
+            `krsm`.`gg`,
+            `krsm`.`npm`,
+            `krsm`.`sms`,
+            `krsm`.`dsn_wali`,
+            `krsm`.`ketjur`,
+            `krsm`.`admakademik`,
+            `krsm`.`jmsks`,
+            `krsm`.`tgkrsm`,
+            `program_studi`.`kaprodi`,
+            `dosen`.`nidn`,
+            `mahasiswa`.`nmmhs`,
+            `mahasiswa`.`kelas`");
+            $this->db->join("mahasiswa", "`mahasiswa`.`npm` = `krsm`.`npm`", "LEFT");
+            $this->db->join('program_studi', 'program_studi.kdps=mahasiswa.kdps', 'left');
+            $this->db->join('kaprodi', 'kaprodi.idprodi=program_studi.idprodi', 'left');
+            $this->db->join('pegawai', 'pegawai.idpegawai=kaprodi.idpegawai', 'left');
+            $this->db->join('dosen', 'dosen.idpegawai=pegawai.idpegawai', 'left');
+            $this->db->join('daftar_ulang', 'daftar_ulang.npm=krsm.npm AND daftar_ulang.thakademik=krsm.thakademik AND daftar_ulang.gg=krsm.gg', 'right');
+            $this->db->where('pegawai.IdUser', $data->id);
+            $this->db->where('krsm.thakademik', $thakademik[0]->thakademik);
+            $this->db->where('krsm.gg', $thakademik[0]->gg);
+            $resultkrsm = $this->db->get('krsm');
+            foreach ($resultkrsm->result_object() as $key => $value) {
+                $value->status = "Finish";
+                array_push($histori, $value);
+            }
         }
 
         $DatasTemKrsm = array(

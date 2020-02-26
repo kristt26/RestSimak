@@ -55,7 +55,7 @@ class Khsm_Model extends CI_Model
                 if ($valueMatakuliah->kmk == $valueKhsm->kmk) {
                     if ((int) $valueKhsm->nxsks > $nilai) {
                         $warna = "";
-                        if ($valueKhsm->nilai == "A" || $valueKhsm->nilai == "B") {
+                        if ($valueKhsm->nilai == "A" || $valueKhsm->nilai == "B+" || $valueKhsm->nilai == "B" || $valueKhsm->nilai == "C+") {
                             $warna = "info";
                         } else if ($valueKhsm->nilai == "c") {
                             $warna = "danger";
@@ -69,10 +69,18 @@ class Khsm_Model extends CI_Model
                         $item['nxsks'] = $valueKhsm->nxsks;
                         $item['ngBinding'] = $warna;
                         $item['ket'] = $valueKhsm->ket;
-                        if ($valueKhsm->ket == "L") {
+                        if ($valueKhsm->ket !== "TL") {
                             $nilai = (int) $valueKhsm->nxsks;
                             $TotalSks += (int) $valueMatakuliah->sks;
                         }
+                    }else{
+                        $warna = "warning";
+                        $item['npm'] = $valueKhsm->npm;
+                        $item['kmk'] = $valueKhsm->kmk;
+                        $item['nhuruf'] = $valueKhsm->nilai;
+                        $item['nxsks'] = $valueKhsm->nxsks;
+                        $item['ngBinding'] = $warna;
+                        $item['ket'] = $valueKhsm->ket;
                     }
                 } else {
                     foreach ($matakuliahNo as $valueNo) {
@@ -81,7 +89,7 @@ class Khsm_Model extends CI_Model
                             if ($valueKhsm->kmk == $valueNo->kmk) {
                                 if ((int) $valueKhsm->nxsks > $nilai) {
                                     $warna = "";
-                                    if ($valueKhsm->nilai == "A" || $valueKhsm->nilai == "B") {
+                                    if ($valueKhsm->nilai == "A" || $valueKhsm->nilai == "B+" || $valueKhsm->nilai == "B" || $valueKhsm->nilai == "C+") {
                                         $warna = "info";
                                     } else if ($valueKhsm->nilai == "c") {
                                         $warna = "danger";
@@ -95,7 +103,7 @@ class Khsm_Model extends CI_Model
                                     $item['nxsks'] = $valueKhsm->nxsks;
                                     $item['ngBinding'] = $warna;
                                     $item['ket'] = $valueKhsm->ket;
-                                    if ($valueKhsm->ket == "L") {
+                                    if ($valueKhsm->ket !== "TL") {
                                         $nilai = (int) $valueKhsm->nxsks;
                                         $TotalSks += (int) $valueMatakuliah->sks;
                                     }
