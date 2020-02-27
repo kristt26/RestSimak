@@ -137,7 +137,7 @@ class BeritaAcara_Model extends CI_Model
                 "beritaacara" => array(),
             ];
             foreach ($DataBa as $key => $value2) {
-                if ($value1['idjadwal'] == $value2['idjadwal']) {
+                if ($value1['idjadwal'] == $value2['idjadwal'] && $value2['status']=='rekap') {
                     array_push($DatasMatakuliah['beritaacara'], $value2);
                 }
             }
