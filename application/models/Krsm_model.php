@@ -15,6 +15,14 @@ class Krsm_Model extends CI_Model
         return $this->db->insert_id();
     }
 
+    public function get($data)
+    {
+        $thakademik = $data['thakademik'];
+        $gg = $data['gg'];
+        $result = $this->db->query("CALL GetKrsmMhs('$thakademik','$gg')");
+        return $result->result_array();
+    }
+
     
 
     public function fetch_all_jadwal($IdUser)

@@ -81,6 +81,10 @@ $route['api/krsm/getkrsmtem'] = 'api/Krsm/ambilTemkrsm';
 $route['api/krsm/putkrsmtem'] = 'api/Krsm/approvedKrsm';
 $route['api/krsm/deleteitem'] = 'api/Krsm/HapusItem';
 $route['api/krsm/insertitem'] = 'api/Krsm/InsertItem';
+$route['api/krsm/AmbilKrsm'] = 'api/Krsm/AmbilKrsm';
+
+
+
 $route['api/krhm/GetKemajuanStudi'] = 'api/Khsm/GetKhsm';
 $route['api/krhm/GetIPK'] = 'api/Khsm/AmbilIPK';
 $route['api/profile/GetProfile'] = 'api/Profile/GetProfile';

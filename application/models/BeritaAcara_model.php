@@ -182,8 +182,11 @@ class BeritaAcara_Model extends CI_Model
     public function rekap()
     {
         $this->db->set("status", "rekap");
+        $this->db->set('tanggalrekap');
         $this->db->where("status", "non");
-        $result = $this->db->update("bamengajardosen");
+        $date = date('Y-m-d');
+
+        $result = $this->db->query("UPDATE bamengajardosen SET status='rekap' AND tanggalrekap='$date' WHERE persetujuan1<>null AND tanggalrekap<>null");
         return $result;
     }
     public function hapus($id)

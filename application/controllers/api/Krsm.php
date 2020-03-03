@@ -113,7 +113,17 @@ class Krsm extends \Restserver\Libraries\REST_Controller
                 $this->response($message, REST_Controller::HTTP_NOT_FOUND);
             }
         }
+    }
 
+    public function AmbilKrsm_get()
+    {
+        $data = $_GET;
+        $Output = $this->KrsmModel->get($data);
+        $message = [
+            'status' => true,
+            'data' => $Output
+        ];
+        $this->response($message, REST_Controller::HTTP_OK);
     }
 
     // /**
