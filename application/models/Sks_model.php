@@ -17,7 +17,9 @@ class Sks_Model extends CI_Model
             );
             $SKS = 0;
             $Praktikum = 0;
-            if ($resultkhs->num_rows()) {
+            $riset = false;
+            $kp= false;
+            if ($resultkhs->num_rows()) { 
                 foreach ($resultkhs->result() as $key => $value) {
                     $SKS += $value->sks;
                     $matakuliah = $value->nmmk;
@@ -30,11 +32,20 @@ class Sks_Model extends CI_Model
                             $Praktikum += 1;
                         }
                     }
+                    if($value->kmk == "000008"){
+                        $kp=true;
+                    }
+                    if($value->kmk == "000010"){
+                        $riset=true;
+                    }
                 }
             }
             $Data = [
                 'SKS' => $SKS,
                 'Praktikum' => $Praktikum,
+                'Riset' => $riset,
+                "KP" => $kp
+
             ];
             return $Data;
         }else{
@@ -52,6 +63,8 @@ class Sks_Model extends CI_Model
             );
             $SKS = 0;
             $Praktikum = 0;
+            $riset = false;
+            $kp= false;
             if ($resultkhs->num_rows()) {
                 foreach ($resultkhs->result() as $key => $value) {
                     $SKS += $value->sks;
@@ -65,11 +78,19 @@ class Sks_Model extends CI_Model
                             $Praktikum += 1;
                         }
                     }
+                    if($value->kmk == "000008"){
+                        $kp=true;
+                    }
+                    if($value->kmk == "000010"){
+                        $riset=true;
+                    }
                 }
             }
             $Data = [
                 'SKS' => $SKS,
                 'Praktikum' => $Praktikum,
+                'Riset' => $riset,
+                "KP" => $kp
             ];
             return $Data;
         }
