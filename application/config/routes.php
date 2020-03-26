@@ -110,6 +110,7 @@ $route['api/beritaacara/AddBaMengajar']['options'] = 'api/BeritaAcara/AddBaMenga
 $route['api/beritaacara/GetBaMengajar']['get'] = 'api/BeritaAcara/GetBaMengajar';
 $route['api/beritaacara/updateBaMengajar']['put'] = 'api/BeritaAcara/updateBaMengajar';
 
+
 //Mahasiswa Wali
 
 $route['api/Perwalian/MahasiswaWali']['get'] = 'api/Perwalian/MahasiswaWali';
@@ -121,6 +122,7 @@ $route['api/BeritaAcara/Persetujuan']['get'] = 'api/BeritaAcara/Persetujuan';
 $route['api/BeritaAcara/updateBaMengajar']['put'] = 'api/BeritaAcara/updateBaMengajar';
 $route['api/BeritaAcara/Rekap']['put'] = 'api/BeritaAcara/Rekap';
 $route['api/BeritaAcara/HapusBa']['delete'] = 'api/BeritaAcara/HapusBa';
+$route['api/BeritaAcara/laporan']['get'] = 'api/BeritaAcara/laporan';
 // Dosen
 $route['api/Dosen/GetDosen']['get'] = 'api/Dosen/GetDosen';
 $route['api/Dosen/GetPublikasi']['get'] = 'api/Dosen/GetPublikasi';

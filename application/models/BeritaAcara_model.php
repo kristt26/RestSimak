@@ -123,7 +123,7 @@ class BeritaAcara_Model extends CI_Model
             SELECT
                 *
             FROM
-                `bamengajardosen`
+                `bamengajardosen` WHERE status='rekap'
         ");
         $DataBa = $result->result_array();
         foreach ($DataMatakuliah as $key1 => $value1) {
@@ -137,7 +137,7 @@ class BeritaAcara_Model extends CI_Model
                 "beritaacara" => array(),
             ];
             foreach ($DataBa as $key => $value2) {
-                if ($value1['idjadwal'] == $value2['idjadwal'] && $value2['status']=='rekap') {
+                if ($value1['idjadwal'] == $value2['idjadwal'] && $value2['status'] == 'rekap') {
                     array_push($DatasMatakuliah['beritaacara'], $value2);
                 }
             }
@@ -181,18 +181,39 @@ class BeritaAcara_Model extends CI_Model
     }
     public function rekap()
     {
+        $this->db->trans_begin();
+
         $this->db->set("status", "rekap");
         $this->db->set('tanggalrekap');
         $this->db->where("status", "non");
         $date = date('Y-m-d');
 
-        $result = $this->db->query("UPDATE bamengajardosen SET status='rekap' AND tanggalrekap='$date' WHERE persetujuan1<>null AND tanggalrekap<>null");
-        return $result;
+        $this->db->query("UPDATE bamengajardosen SET status='finish' WHERE status='rekap'");
+        $result = $this->db->query("UPDATE bamengajardosen SET status='rekap', tanggalrekap='$date' WHERE persetujuan1 IS NOT NULL AND tanggalrekap IS NULL");
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+            return $result;
+        } else {
+            $this->db->trans_commit();
+            return $result;
+        }
     }
     public function hapus($id)
     {
         $this->db->where("idbamengajardosen", $id);
         $result = $this->db->delete("bamengajardosen");
         return $result;
+    }
+    public function laporan()
+    {
+        $resultTa = $this->db->query("call taAktif()");
+        $taAktif = $resultTa->result_object();
+        $ta = $taAktif[0]->thakademik;
+        $gg = $taAktif[0]->gg;
+        $resultTa->next_result(); 
+        // $resultTa->free_result(); 
+        $result = $this->db->query("call rekap_ba('$ta', '$gg')");
+        $a = $result->result_array();
+        return $a;
     }
 }
