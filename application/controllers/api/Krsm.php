@@ -125,15 +125,4 @@ class Krsm extends \Restserver\Libraries\REST_Controller
         ];
         $this->response($message, REST_Controller::HTTP_OK);
     }
-
-    // /**
-    //  *  Fetch All User Data
-    //  * @method : GET
-    //  */
-    // public function fetch_all_users_get()
-    // {
-    //     header("Access-Control-Allow-Origin: *");
-    //     $data = $this->User_model->fetch_all_users();
-    //     $this->response($data);
-    // }
 }

@@ -75,7 +75,6 @@ class User_Model extends CI_Model
     {
         $Pass = md5($Password);
         $this->db->select("user.Id, user.Username, user.Password, user.Email, role.Nama as RoleName");
-        // $this->db->from('user');
         $this->db->join('userinrole', 'userinrole.IdUser = user.Id', 'left');
         $this->db->join('role', 'role.Id = userinrole.RoleId', 'left');
         $this->db->where('Email', $Username);

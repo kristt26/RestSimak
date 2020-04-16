@@ -23,8 +23,6 @@ class Krsm_Model extends CI_Model
         return $result->result_array();
     }
 
-    
-
     public function fetch_all_jadwal($IdUser)
     {
         $this->db->select('*');
@@ -77,7 +75,6 @@ class Krsm_Model extends CI_Model
         $resultthakademik = $this->db->get('tahun_akademik');
         $thakademik = $resultthakademik->result_object();
         if ($status == "Keuangan") {
-            // $this->db->where("IdUser", $data->id);
             $this->db->select("
             `tem_krsm`.`Id`,
             `tem_krsm`.`thakademik`,
@@ -310,33 +307,6 @@ class Krsm_Model extends CI_Model
             array_push($DatasTemKrsm['TemKrsm'], $ItemTemKrsm);
         }
         return $DatasTemKrsm;
-        // $Keuangan = false;
-        // $Wali = false;
-        // $Prodi = false;
-        // foreach ($userinrole->result() as $value) {
-        //     if ($value->RoleId == "9" || $value->RoleId == 9) {
-        //         $Keuangan = true;
-        //     } else if ($value->RoleId == "1" || $value->RoleId == 1) {
-        //         $Prodi = true;
-        //     } else if($value->RoleId == "7" || $value->RoleId == 7) {
-        //         $Wali = true;
-        //     }
-        // }
-        // if ($status == 'Keuangan') {
-
-        // }
-        // $this->db->where('npm', $data);
-        // $resultKrsm = $this->db->get($this->KrsmTable);
-        // $num =$resultKrsm->num_rows();
-        // if($num>0){
-        //     $this->db->where('IdKrsm', $result->row('Id'));
-        //     $resultDetailKrsm = $this->db->get($this->KrsmDetailTabel);
-        //     $Datas = array(
-        //         'Krsm' => $resultKrsm->result(),
-        //         'DetailKrsm' => $resultDetailKrsm->result()
-        //     );
-        //     return $Datas;
-        // }
     }
 
     public function UpdateTemKrsm($item)
@@ -460,13 +430,6 @@ class Krsm_Model extends CI_Model
 
         }
     }
-
-    // public function InsertItemKrsm($item)
-    // {
-    //     $this->db->where('npm', $item->npm);
-    //     $CekTemKrsm = $this->db->get($this->KrsmTable);
-    //
-    // }
 
     public function DeleteItemKRSM($item)
     {

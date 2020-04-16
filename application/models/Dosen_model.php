@@ -4,7 +4,6 @@ class Dosen_Model extends CI_Model
 {
     public function get()
     {
-
         $result = $this->db->query("
             SELECT
                 *
@@ -25,7 +24,6 @@ class Dosen_Model extends CI_Model
             if(strpos($response, '"total_citations": ,')){
                 $response = str_replace('"total_citations":', '"total_citations": 0',$response);
             }
-            // $c = str_replace('"{',$replace,$arr)
             $data = array(
                 "nidn"=>$value["nidn"],
                 "nmsdn"=>$value["nmdsn"],

@@ -9,9 +9,6 @@ class Jadwal_Model extends CI_Model
     protected $TemDetailKrsmTable = 'tem_detail_krsm';
     protected $KrsmTable = 'krsm';
     protected $DetailKrsmTable = 'krsm_detail';
-    // protected $UserinRoleTable = 'userinrole';
-    // protected $RoleTable = 'role';
-    // protected $PegawaiTable = 'pegawai';
     public function insert_user(array $UserData)
     {
         $this->db->insert($this->UserTable, $UserData);

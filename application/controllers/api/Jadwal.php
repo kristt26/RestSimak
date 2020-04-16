@@ -191,9 +191,6 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
         }
 
     }
-
-    
-
     public function pengajuanKRS_post()
     {
         header("Access-Control-Allow-Origin: *");
@@ -217,15 +214,4 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         }
     }
-
-    // /**
-    //  *  Fetch All User Data
-    //  * @method : GET
-    //  */
-    // public function fetch_all_users_get()
-    // {
-    //     header("Access-Control-Allow-Origin: *");
-    //     $data = $this->User_model->fetch_all_users();
-    //     $this->response($data);
-    // }
 }

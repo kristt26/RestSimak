@@ -112,8 +112,6 @@ class Users extends \Restserver\Libraries\REST_Controller
 
     public function login_post()
     {
-        
-        // $_POST = $this->security->xss_clean($_POST);
         $_POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
         $this->form_validation->set_rules('Username', 'Username', 'trim|required');
         $this->form_validation->set_rules('Password', 'trim|required|max_length[100]');
@@ -125,26 +123,16 @@ class Users extends \Restserver\Libraries\REST_Controller
             );
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         } else {
-            // $message = [
-            //             'status' => false,
-            //             'message' => "Sistem Sedang Maintenance",
-            //         ];
-            //         $this->response($message, REST_Controller::HTTP_NOT_FOUND);
             $Output = $this->UserModel->user_login($this->input->post('Username'), $this->input->post('Password'));
             if (!empty($Output && $Output != false)) {
                 $this->load->library('Authorization_Token');
-
                 $token_data['id'] = $Output->Id;
                 $token_data['Username'] = $Output->Username;
                 $token_data['Email'] = $Output->Email;
                 $token_data['NamaUser'] = $Output->NamaUser;
                 $token_data['RoleUser'] = $Output->role->Role;
                 $token_data['time'] = time();
-
-
                 $UserToken = $this->authorization_token->generateToken($token_data);
-                
-
                 $return_data = [
                     'IdUser' => $Output->Id,
                     'Username' => $Output->Username,
@@ -153,7 +141,6 @@ class Users extends \Restserver\Libraries\REST_Controller
                     'RoleUser' => $Output->role,
                     'Token' => $UserToken
                 ];
-
                 $message = [
                     'status' => true,
                     'data' => $return_data,
@@ -286,15 +273,4 @@ class Users extends \Restserver\Libraries\REST_Controller
             }
         }
     }
-
-    // /**
-    //  *  Fetch All User Data
-    //  * @method : GET
-    //  */
-    // public function fetch_all_users_get()
-    // {
-    //     header("Access-Control-Allow-Origin: *");
-    //     $data = $this->User_model->fetch_all_users();
-    //     $this->response($data);
-    // }
 }
