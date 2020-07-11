@@ -18,8 +18,39 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
     }
     public function GetMahasiswa_get()
     {
-        $npm = $this->get('npm');   
-        $Output = $this->MahasiswaModel->AmbilMahasiswa($npm);
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $npm = $this->get('npm');   
+            $Output = $this->MahasiswaModel->AmbilMahasiswa($npm);
+            if (!empty($Output)) {
+                $message = [
+                    'status' => true,
+                    'data' => $Output['data'],
+                    'message' => "Success!",
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            } else {
+                $message = [
+                    'status' => false,
+                    'data' => [],
+                    'message' => "Kosong",
+                ];
+                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+            }
+        }else{
+            $message = [
+                'status' => false,
+                'data' => [],
+                'message' => "Kosong",
+            ];
+            $this->response("", REST_Controller::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    public function DataMahasiswa_get($npm=null)
+    {
+        $Output = $this->MahasiswaModel->GetMahasiswa($npm);
         if (!empty($Output)) {
             $message = [
                 'status' => true,
