@@ -18,22 +18,45 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
     }
     public function GetMahasiswa_get()
     {
-        $npm = $this->get('npm');   
-        $Output = $this->MahasiswaModel->AmbilMahasiswa($npm);
-        if (!empty($Output)) {
-            $message = [
-                'status' => true,
-                'data' => $Output['data'],
-                'message' => "Success!",
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        } else {
-            $message = [
-                'status' => false,
-                'data' => [],
-                'message' => "Kosong",
-            ];
-            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        $Status =json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
+        if ($is_valid_token['status'] === true) {
+            $npm = $this->get('npm');   
+            $Output = $this->MahasiswaModel->AmbilMahasiswa($npm);
+            if (!empty($Output)) {
+                $message = [
+                    'status' => true,
+                    'data' => $Output['data'],
+                    'message' => "Success!",
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            } else {
+                $message = [
+                    'status' => false,
+                    'data' => [],
+                    'message' => "Kosong",
+                ];
+                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+            }
+        }else{
+            $npm = $this->get('npm');   
+            $Output = $this->MahasiswaModel->mahasiswaPublick($npm);
+            if (!empty($Output)) {
+                $message = [
+                    'status' => true,
+                    'data' => $Output['data'],
+                    'message' => "Success!",
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            } else {
+                $message = [
+                    'status' => false,
+                    'data' => [],
+                    'message' => "Kosong",
+                ];
+                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+            }
         }
     }
 }
