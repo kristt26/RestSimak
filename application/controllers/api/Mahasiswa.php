@@ -41,10 +41,9 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
         }else{
             $message = [
                 'status' => false,
-                'data' => [],
-                'message' => "Kosong",
+                'message' => "anda tidak memiliki akses",
             ];
-            $this->response("", REST_Controller::HTTP_UNAUTHORIZED);
+            $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
 
