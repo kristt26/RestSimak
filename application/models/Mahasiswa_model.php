@@ -187,11 +187,7 @@ class Mahasiswa_Model extends CI_Model
                 `mahasiswa`.`sumbiaya`,
                 `mahasiswa`.`statuskul`,
                 `mahasiswa`.`tgdaftar`,
-                `mahasiswa`.`kurikulum`,
-                `user`.`Status` AS `userStatus`,
-                `user`.`Email`,
-                `user`.`Password`,
-                `user`.`Username`
+                `mahasiswa`.`kurikulum`
             FROM
             `mahasiswa` WHERE statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER')");
             if ($ResultMahasiswa->num_rows()) {
