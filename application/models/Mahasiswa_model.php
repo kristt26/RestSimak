@@ -1,7 +1,7 @@
 <?php
 class Mahasiswa_Model extends CI_Model
 {
-    public function GetMahasiswa($npm)
+    public function GetMahasiswaa($npm)
     {
         if ($npm != null && $npm!=="undefined") {
             $ResultMahasiswa = $this->db->query("
