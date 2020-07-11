@@ -107,7 +107,7 @@ class Mahasiswa_Model extends CI_Model
             }
         }
     }
-    public function mahasiswaPublick($npm)
+    public function MahasiswaPublick($npm)
     {
         if ($npm != null && $npm!=="undefined") {
             $ResultMahasiswa = $this->db->query("
