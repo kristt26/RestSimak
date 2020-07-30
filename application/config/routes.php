@@ -175,3 +175,8 @@ $route['api/Upload/updateData']['put'] = 'api/Upload/updateData';
 $route['api/Pengumuman/Simpan']['post'] = 'api/Pengumuman/Simpan';
 $route['api/Pengumuman/Ambil']['get'] = 'api/Pengumuman/Ambil';
 $route['api/Pengumuman/Hapus']['delete'] = 'api/Pengumuman/Hapus';
+
+// api/v2
+
+$route['v2/getmahasiswa']['get'] = 'api/v2/Mahasiswa/GetMahasiswa';
+$route['v2/getmahasiswa/:num']['get'] = 'api/v2/Mahasiswa/GetMahasiswa';
