@@ -180,3 +180,4 @@ $route['api/Pengumuman/Hapus']['delete'] = 'api/Pengumuman/Hapus';
 
 $route['v2/getmahasiswa']['get'] = 'api/v2/Mahasiswa/GetMahasiswa';
 $route['v2/getmahasiswa/:num']['get'] = 'api/v2/Mahasiswa/GetMahasiswa';
+$route['v2/authorization']['post'] = 'api/v2/Users/Login';

@@ -13,18 +13,18 @@ class User_Model extends CI_Model
         $result = $this->db->query(
             "SELECT * FROM user WHERE Username = '$username'"
         );
-        if($result->num_rows()>0){
+        if ($result->num_rows() > 0) {
             $message = [
                 'status' => false,
-                'id' => $result->row('Id')
+                'id' => $result->row('Id'),
             ];
             return $message;
-        }else{
+        } else {
             $UserData['Password'] = md5($UserData['Password']);
             $this->db->insert($this->UserTable, $UserData);
             $message = [
                 'status' => true,
-                'id' => $result->row('Id')
+                'id' => $result->row('Id'),
             ];
             return $message;
         }
@@ -50,9 +50,9 @@ class User_Model extends CI_Model
         $this->db->set('Username', $data['Username']);
         $this->db->where('Id', $Id);
         $result = $this->db->update('user');
-        if($result){
+        if ($result) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -107,7 +107,7 @@ class User_Model extends CI_Model
                         $a->$Nama = $Biodata->row('nmmhs');
                         $a->$Role = (object) $roleitem;
                     }
-                } else if($datarole == 'AdminPenggunaLain'){
+                } else if ($datarole == 'AdminPenggunaLain') {
                     $this->db->where('IdUser', $q->row('Id'));
                     $Biodata = $this->db->get("PenggunaLain");
                     if ($Biodata->num_rows()) {
@@ -121,8 +121,7 @@ class User_Model extends CI_Model
                         $a->$Nama = $Biodata->row('Nama');
                         $a->$Role = (object) $roleitem;
                     }
-                }
-                else {
+                } else {
                     $this->db->where('IdUser', $q->row('Id'));
                     $Biodata = $this->db->get($this->PegawaiTable);
                     if ($Biodata->num_rows()) {
@@ -144,6 +143,46 @@ class User_Model extends CI_Model
             return false;
         }
     }
+
+    public function loginpenggunalain($Username, $Password)
+    {
+        $Pass = md5($Password);
+        $this->db->select("user.Id, user.Username, user.Password, user.Email, role.Nama as RoleName");
+        $this->db->join('userinrole', 'userinrole.IdUser = user.Id', 'left');
+        $this->db->join('role', 'role.Id = userinrole.RoleId', 'left');
+        $this->db->where('Email', $Username);
+        $this->db->or_where('Username', $Username);
+        $this->db->where('Password', $Pass);
+        $this->db->where('Status', true);
+        $q = $this->db->get($this->UserTable);
+        $a = $q->row();
+        $Id = $q->row('Id');
+        $this->db->select('*');
+        $this->db->join('role', 'role.Id=userinrole.RoleId', 'left');
+        $this->db->where('IdUser', $q->row('Id'));
+        $roleinuser = $this->db->get($this->UserinRoleTable);
+        $Tampung = $roleinuser->result_array();
+        if ($roleinuser->num_rows()) {
+            $this->db->where('Id', $roleinuser->row('RoleId'));
+            $role = $this->db->get($this->RoleTable);
+            $datarole = $role->row('Nama');
+            } if ($datarole == 'AdminPenggunaLain') {
+                $this->db->where('IdUser', $q->row('Id'));
+                $Biodata = $this->db->get("PenggunaLain");
+                if ($Biodata->num_rows()) {
+                    $roleitem = array('Role' => array());
+                    foreach ($Tampung as &$value) {
+                        $item = array('Nama' => $value['Nama']);
+                        array_push($roleitem['Role'], $item);
+                    }
+                    $Nama = "NamaUser";
+                    $Role = "role";
+                    $a->$Nama = $Biodata->row('Nama');
+                    $a->$Role = (object) $roleitem;
+                }
+            } 
+        return $a;
+    }
     public function GetBiodata($data)
     {
         $result = $this->db->query("
@@ -156,10 +195,10 @@ class User_Model extends CI_Model
             WHERE
                 `user`.`Id` = '$data->id'
         ");
-        if($result->num_rows()>0){
+        if ($result->num_rows() > 0) {
             $dataresult = $result->result_object();
             $a = $dataresult[0];
-            if($a->Nama =="Mahasiswa"){
+            if ($a->Nama == "Mahasiswa") {
                 $resultMahasiswa = $this->db->query("
                     SELECT
                         *
@@ -168,7 +207,7 @@ class User_Model extends CI_Model
                     WHERE IdUser = '$data->id'
                 ");
                 return $resultMahasiswa->result_array();
-            }else if($a->Nama =="AdminPenggunaLain"){
+            } else if ($a->Nama == "AdminPenggunaLain") {
                 $resultMahasiswa = $this->db->query("
                     SELECT
                         *
@@ -177,7 +216,7 @@ class User_Model extends CI_Model
                     WHERE IdUser = '$data->id'
                 ");
                 return $resultMahasiswa->result_array();
-            }else{
+            } else {
                 $resultMahasiswa = $this->db->query("
                     SELECT
                         *
@@ -187,7 +226,7 @@ class User_Model extends CI_Model
                 ");
                 return $resultMahasiswa->result_array();
             }
-        }else{
+        } else {
             return false;
         }
     }
@@ -231,9 +270,9 @@ class User_Model extends CI_Model
     {
         $IdUser = $data['IdUser'];
         $Status;
-        if($data['Status']==true){
+        if ($data['Status'] == true) {
             $Status = "true";
-        }else{
+        } else {
             $Status = "false";
         }
         $this->db->set("Status", $Status);
@@ -248,20 +287,20 @@ class User_Model extends CI_Model
     }
     public function ChangeUserRole($data)
     {
-        if($data['status']==true){
+        if ($data['status'] == true) {
             $this->db->where("IdUser", $data['IdUser']);
             $this->db->where("RoleId", $data['Id']);
             $num = $this->db->get("userinrole");
-            if($num->num_rows()==0){
-                $item=
-                [
+            if ($num->num_rows() == 0) {
+                $item =
+                    [
                     'RoleId' => $data['Id'],
-                    'IdUser' => $data['IdUser']
+                    'IdUser' => $data['IdUser'],
                 ];
                 $result = $this->db->insert("userinrole", $item);
                 return $result;
             }
-        }else{
+        } else {
             $this->db->where("IdUser", $data['IdUser']);
             $this->db->where("RoleId", $data['Id']);
             $result = $this->db->delete('userinrole');
