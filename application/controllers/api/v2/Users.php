@@ -49,9 +49,7 @@ class Users extends \Restserver\Libraries\REST_Controller
                     'Token' => $UserToken
                 ];
                 $message = [
-                    'status' => true,
-                    'data' => $return_data,
-                    'message' => "Login Berhasil",
+                    'data' => $return_data
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             } else {
