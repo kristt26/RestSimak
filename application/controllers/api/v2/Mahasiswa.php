@@ -24,25 +24,64 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
         
         if ($is_valid_token['status'] === true && !$this->authorization_token->userInRole('Mahasiswa')) {
             $Output = $this->MahasiswaModel->AmbilMahasiswa($npm);
-            if (!empty($Output)) {
-                $message = [
-                    'status' => true,
-                    'data' => $Output['data'],
-                    'message' => "Success!",
-                ];
-                $this->response($message, REST_Controller::HTTP_OK);
+            if ($Output) {
+                $this->response($Output, REST_Controller::HTTP_OK);
             } else {
                 $message = [
                     'status' => false,
-                    'data' => [],
-                    'message' => "Kosong",
+                    'message' => "Data tidak ditemukan",
+                ];
+                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+            }
+        } else {
+            $message = [
+                'message' => "Anda Tidak Memiliki Akses",
+            ];
+            $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
+        }
+    }
+    public function GetIPKMahasiswa_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        $npm = $this->uri->segment(3);
+        $a = $npmm;
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->MahasiswaModel->selectIPK($npm);
+            if ($Output) {
+                $this->response($Output, REST_Controller::HTTP_OK);
+            } else {
+                $message = [
+                    'message' => "data tidak ditemukan",
+                ];
+                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+            }
+        } else {
+            $message = [
+                'message' => "Anda Tidak Memiliki Akses",
+            ];
+            $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
+        }
+    }
+    public function GetIPSMahasiswa_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        $npm = $this->uri->segment(3);
+        $a = $npmm;
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->MahasiswaModel->selectIPS($npm);
+            if ($Output) {
+                $this->response($Output, REST_Controller::HTTP_OK);
+            } else {
+                $message = [
+                    'message' => "data tidak ditemukan",
                 ];
                 $this->response($message, REST_Controller::HTTP_NOT_FOUND);
             }
         } else {
             $message = [
                 'status' => false,
-                'data' => [],
                 'message' => "Anda Tidak Memiliki Akses",
             ];
             $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);

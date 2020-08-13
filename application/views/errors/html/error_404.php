@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
+echo json_encode(['message'=>'URL request tidak ditemukan']);
+?>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -61,4 +63,4 @@ p {
 		<?php echo $message; ?>
 	</div>
 </body>
-</html>
+</html> -->

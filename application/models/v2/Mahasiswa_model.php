@@ -1,12 +1,66 @@
 <?php
 class Mahasiswa_Model extends CI_Model
 {
+    public function selectIPK($npm = null)
+    {
+        $result = $this->db->query("SELECT
+            SUM(CASE 
+                WHEN ket= 'L' THEN 1*nxsks
+                ELSE
+                0*nxsks
+                END)/SUM(CASE 
+                WHEN ket = 'L' THEN 1*sks
+                ELSE
+                0*sks
+                END) AS IPK
+            FROM
+                `transkip`
+            WHERE
+                npm='$npm'
+            GROUP BY npm");
+        if ($result->result()) {
+            return $result->result()[0];
+        } else {
+            $data = [
+                'message' => "Data tidak ditemukan",
+            ];
+            return $data;
+        }
+    }
+    public function selectIPS($npm = null)
+    {
+        $result = $this->db->query("SELECT
+            `daftar_ulang`.`thakademik`,
+            `daftar_ulang`.`gg`,
+            `mahasiswa`.`nmmhs`,
+            (SUM(`khsm_detail`.`nxsks`) / `krsm`.`jmsks`) AS 'IPS'
+        FROM
+            `mahasiswa`
+            LEFT JOIN `daftar_ulang` ON `daftar_ulang`.`idmahasiswa` = `mahasiswa`.`Id`
+            LEFT JOIN `krsm` ON `krsm`.`iddu` = `daftar_ulang`.`iddu`
+            LEFT JOIN `khsm` ON `khsm`.`IdKrsm` = `krsm`.`IdKrsm`
+            LEFT JOIN `khsm_detail` ON `khsm_detail`.`IdKhsm` = `khsm`.`Id`
+        WHERE `mahasiswa`.`npm` = '$npm'
+        GROUP BY `daftar_ulang`.`tgdu`");
+        
+        if ($result->num_rows()>0) {
+            foreach ($result->result() as $key => $value) {
+                $value->smt = $key +1;
+                $value->IPS = $value->IPS==null ? 0: $value->IPS;
+            }
+            return $result->result();
+        } else {
+            $data = [
+                'message' => "Data tidak ditemukan",
+            ];
+            return $data;
+        }
+    }
     public function AmbilMahasiswa($npm)
     {
         if ($npm != null && $npm!=="undefined") {
             $ResultMahasiswa = $this->db->query("SELECT
                 `mahasiswa`.`npm`,
-                `mahasiswa`.`kdps`,
                 `mahasiswa`.`jenjang`,
                 `mahasiswa`.`kelas`,
                 `mahasiswa`.`nmmhs`,
@@ -28,107 +82,55 @@ class Mahasiswa_Model extends CI_Model
                 `mahasiswa`.`jmsaudara`,
                 `mahasiswa`.`nmayah`,
                 `mahasiswa`.`almtayah`,
-                `mahasiswa`.`nmibu`,
-                (SELECT SUM(CASE 
-                    WHEN ket= 'L' THEN 1*nxsks
-                    ELSE
-                    0*nxsks
-                    END)/SUM(CASE 
-                    WHEN ket = 'L' THEN 1*sks
-                    ELSE
-                    0*sks
-                    END)
-                    AS IPK 
-                    FROM transkip WHERE npm=`mahasiswa`.`npm`) AS IPK
+                `mahasiswa`.`nmibu`
             FROM
                 `mahasiswa`
-            LEFT JOIN `user` ON `user`.`Id` = `mahasiswa`.`IdUser`
-            LEFT JOIN `daftar_ulang` ON `mahasiswa`.`npm` = `daftar_ulang`.`npm`
-            LEFT JOIN `tahun_akademik` ON `daftar_ulang`.`thakademik` =
-                `tahun_akademik`.`thakademik` AND `daftar_ulang`.`gg` =
-                `tahun_akademik`.`gg`
-            LEFT JOIN `transkip` ON `mahasiswa`.`npm` = `transkip`.`npm`
             WHERE
-                `mahasiswa`.`npm`='$npm' AND `mahasiswa`.`statuskul` IN ('AKTIF') AND
-                `tahun_akademik`.`status` = 'Aktif'
-            GROUP BY `mahasiswa`.`npm`");
+                `mahasiswa`.`npm`='$npm' AND `mahasiswa`.`statuskul` IN ('AKTIF')");
             if ($ResultMahasiswa->num_rows()) {
-                $data = [
-                    'status' => true,
-                    'data' => $ResultMahasiswa->result(),
-                    'message' => "Success",
-                ];
-                return $data;
+                return $ResultMahasiswa->result()[0];
             } else {
                 $data = [
-                    'status' => true,
-                    'data' => $ResultMahasiswa->result(),
+                    'status' => false,
                     'message' => "Tidak Data Mahasiswa",
                 ];
                 return $data;
             }
         } else {
-            $ResultMahasiswa = $this->db->query("
-            SELECT
-            `mahasiswa`.`npm`,
-            `mahasiswa`.`kdps`,
-            `mahasiswa`.`jenjang`,
-            `mahasiswa`.`kelas`,
-            `mahasiswa`.`nmmhs`,
-            `mahasiswa`.`tmlhr`,
-            `mahasiswa`.`tglhr`,
-            `mahasiswa`.`jk`,
-            `mahasiswa`.`agama`,
-            `mahasiswa`.`kewarga`,
-            `mahasiswa`.`pendidikan`,
-            `mahasiswa`.`nmsmu`,
-            `mahasiswa`.`jursmu`,
-            `mahasiswa`.`kotasmu`,
-            `mahasiswa`.`kabsmu`,
-            `mahasiswa`.`provsmu`,
-            `mahasiswa`.`pekerjaan`,
-            `mahasiswa`.`almt`,
-            `mahasiswa`.`notlp`,
-            `mahasiswa`.`status`,
-            `mahasiswa`.`jmsaudara`,
-            `mahasiswa`.`nmayah`,
-            `mahasiswa`.`almtayah`,
-            `mahasiswa`.`nmibu`,
-            (SELECT SUM(CASE 
-                WHEN ket= 'L' THEN 1*nxsks
-                ELSE
-                0*nxsks
-                END)/SUM(CASE 
-                WHEN ket = 'L' THEN 1*sks
-                ELSE
-                0*sks
-                END)
-                AS IPK 
-                FROM transkip WHERE npm=`mahasiswa`.`npm`) AS IPK
-            FROM
-            `mahasiswa`
-            LEFT JOIN `user` ON `user`.`Id` = `mahasiswa`.`IdUser`
-            LEFT JOIN `daftar_ulang` ON `mahasiswa`.`npm` = `daftar_ulang`.`npm`
-            LEFT JOIN `tahun_akademik` ON `daftar_ulang`.`thakademik` =
-                `tahun_akademik`.`thakademik` AND `daftar_ulang`.`gg` =
-                `tahun_akademik`.`gg`
-            LEFT JOIN `transkip` ON `mahasiswa`.`npm` = `transkip`.`npm`
-            WHERE
-            `mahasiswa`.`statuskul` IN ('AKTIF') AND
-            `tahun_akademik`.`status` = 'Aktif'
-            GROUP BY `mahasiswa`.`npm`");
-            if ($ResultMahasiswa->num_rows()) {
-                $data = [
-                    'status' => true,
-                    'data' => $ResultMahasiswa->result(),
-                    'message' => "Success",
-                ];
-                return $data;
+            $ResultMahasiswa = $this->db->query("SELECT
+                `mahasiswa`.`npm`,
+                `mahasiswa`.`jenjang`,
+                `mahasiswa`.`kelas`,
+                `mahasiswa`.`nmmhs`,
+                `mahasiswa`.`tmlhr`,
+                `mahasiswa`.`tglhr`,
+                `mahasiswa`.`jk`,
+                `mahasiswa`.`agama`,
+                `mahasiswa`.`kewarga`,
+                `mahasiswa`.`pendidikan`,
+                `mahasiswa`.`nmsmu`,
+                `mahasiswa`.`jursmu`,
+                `mahasiswa`.`kotasmu`,
+                `mahasiswa`.`kabsmu`,
+                `mahasiswa`.`provsmu`,
+                `mahasiswa`.`pekerjaan`,
+                `mahasiswa`.`almt`,
+                `mahasiswa`.`notlp`,
+                `mahasiswa`.`status`,
+                `mahasiswa`.`jmsaudara`,
+                `mahasiswa`.`nmayah`,
+                `mahasiswa`.`almtayah`,
+                `mahasiswa`.`nmibu`
+                FROM
+                `mahasiswa`
+                WHERE
+                `mahasiswa`.`statuskul` IN ('AKTIF')");
+            if ($ResultMahasiswa->num_rows()>0) {
+                return $ResultMahasiswa->result();
             } else {
                 $data = [
-                    'status' => true,
-                    'data' => $ResultMahasiswa->result(),
-                    'message' => "Tidak Data Mahasiswa",
+                    'status' => false,
+                    'message' => "Data tidak ditemukan",
                 ];
                 return $data;
             }
