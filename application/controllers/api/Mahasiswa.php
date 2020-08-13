@@ -47,23 +47,23 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
             $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
-    public function DataMahasiswa_get($npm=null)
-    {
-        $Output = $this->MahasiswaModel->MahasiswaPublick($npm);
-        if (!empty($Output)) {
-            $message = [
-                'status' => true,
-                'data' => $Output['data'],
-                'message' => "Success!",
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
-        } else {
-            $message = [
-                'status' => false,
-                'data' => [],
-                'message' => "Kosong",
-            ];
-            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
-        }
-    }
+    // public function DataMahasiswa_get($npm=null)
+    // {
+    //     $Output = $this->MahasiswaModel->MahasiswaPublick($npm);
+    //     if (!empty($Output)) {
+    //         $message = [
+    //             'status' => true,
+    //             'data' => $Output['data'],
+    //             'message' => "Success!",
+    //         ];
+    //         $this->response($message, REST_Controller::HTTP_OK);
+    //     } else {
+    //         $message = [
+    //             'status' => false,
+    //             'data' => [],
+    //             'message' => "Kosong",
+    //         ];
+    //         $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+    //     }
+    // }
 }
