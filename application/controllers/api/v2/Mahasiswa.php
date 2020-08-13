@@ -90,13 +90,8 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
     public function DataMahasiswa_get($npm=null)
     {
         $Output = $this->MahasiswaModel->MahasiswaPublick($npm);
-        if (!empty($Output)) {
-            $message = [
-                'status' => true,
-                'data' => $Output['data'],
-                'message' => "Success!",
-            ];
-            $this->response($message, REST_Controller::HTTP_OK);
+        if ($Output) {
+            $this->response($Output, REST_Controller::HTTP_OK);
         } else {
             $message = [
                 'status' => false,

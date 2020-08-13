@@ -36,17 +36,10 @@ class Mahasiswa_Model extends CI_Model
                 `mahasiswa`.`kurikulum`
             FROM
                 `mahasiswa` WHERE npm='$npm' AND statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER')");
-            if ($ResultMahasiswa->num_rows()) {
-                $data = [
-                    'status' => true,
-                    'data' => $ResultMahasiswa->result(),
-                    'message' => "Success",
-                ];
-                return $data;
+            if ($ResultMahasiswa->num_rows()>0) {
+                return $ResultMahasiswa->result()[0];
             } else {
                 $data = [
-                    'status' => true,
-                    'data' => $ResultMahasiswa->result(),
                     'message' => "Tidak Data Mahasiswa",
                 ];
                 return $data;
@@ -90,17 +83,10 @@ class Mahasiswa_Model extends CI_Model
             `mahasiswa`
             LEFT JOIN `user` ON `user`.`Id` = `mahasiswa`.`IdUser`
             WHERE statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER')");
-            if ($ResultMahasiswa->num_rows()) {
-                $data = [
-                    'status' => true,
-                    'data' => $ResultMahasiswa->result(),
-                    'message' => "Success",
-                ];
-                return $data;
+            if ($ResultMahasiswa->num_rows()>0) {
+                return $ResultMahasiswa->result();
             } else {
                 $data = [
-                    'status' => true,
-                    'data' => $ResultMahasiswa->result(),
                     'message' => "Tidak Data Mahasiswa",
                 ];
                 return $data;
