@@ -87,8 +87,9 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
             $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
-    public function DataMahasiswa_get($npm=null)
+    public function DataMahasiswa_get()
     {
+        $npm = $this->uri->segment(3);
         $Output = $this->MahasiswaModel->MahasiswaPublick($npm);
         if ($Output) {
             $this->response($Output, REST_Controller::HTTP_OK);

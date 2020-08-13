@@ -136,9 +136,9 @@ class Mahasiswa_Model extends CI_Model
             }
         }
     }
-    public function MahasiswaPublick($npm)
+    public function MahasiswaPublick($npm=null)
     {
-        if ($npm != null && $npm!=="undefined") {
+        if ($npm != null) {
             $ResultMahasiswa = $this->db->query("
             SELECT
                 `mahasiswa`.`npm`,
@@ -212,7 +212,7 @@ class Mahasiswa_Model extends CI_Model
                 `mahasiswa`.`kurikulum`
             FROM
             `mahasiswa` WHERE statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER')");
-            if ($ResultMahasiswa->num_rows()>0) {
+            if (count($ResultMahasiswa->result())>0) {
                 return $ResultMahasiswa->result();
             } else {
                 $data = [
