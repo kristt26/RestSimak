@@ -74,6 +74,14 @@ $route['api/jadwal/jadwalmahasiswa'] = 'api/Jadwal/jadwalMahasiswa';
 $route['api/jadwal/jadwaldosen'] = 'api/Jadwal/JadwalDosen';
 $route['api/jadwal/jadwalall'] = 'api/Jadwal/jadwalall';
 $route['api/jadwal/jadwalKuliah'] = 'api/Jadwal/JadwalKuliah';
+$route['api/jadwal/jadwalprodi'] = 'api/Jadwal/JadwalProdi';
+$route['api/jadwal/tambahjadwal'] = 'api/Jadwal/TambahJadwal';
+$route['api/jadwal/getalljadwal'] = 'api/Jadwal/GetAllJadwal';
+
+
+$route['api/dosenampu/getdata'] = 'api/DosenPengampu/GetData';
+$route['api/dosenampu/simpan'] = 'api/DosenPengampu/Tambah';
+$route['api/dosenampu/ubah'] = 'api/DosenPengampu/Ubah';
 
 // krsm
 $route['api/krsm/pengajuanKRS'] = 'api/Krsm/pengajuanKRS';

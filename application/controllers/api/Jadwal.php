@@ -15,6 +15,7 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
         header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT, OPTIONS");
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         $this->load->model('Jadwal_model', 'JadwalModel');
+        date_default_timezone_set('Asia/Jayapura');
     }
     /**
      *  Jadwal Kuliah
@@ -42,6 +43,37 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
                 $this->response($message, REST_Controller::HTTP_NOT_FOUND);
             }
 
+        }
+    }
+
+    public function JadwalProdi_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->JadwalModel->getJadwalProdi();
+            $this->response($Output, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function TambahJadwal_post()
+    {
+        $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->JadwalModel->TambahJadwal($data);
+            $this->response($Output, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function GetAllJadwal_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->JadwalModel->selectAllJadwal();
+            $this->response($Output, REST_Controller::HTTP_OK);
         }
     }
 

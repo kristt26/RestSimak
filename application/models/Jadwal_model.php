@@ -15,6 +15,49 @@ class Jadwal_Model extends CI_Model
         return $this->db->insert_id();
     }
 
+    public function TambahJadwal($data=null)
+    {
+        $item =[
+            'thakademik'=>$data['thakademik'],
+            'gg'=>$data['gg'],
+            'hari'=>$data['hari'],
+            'ws'=>$data['jammulai'],
+            'wm'=>$data['jamselesai'],
+            'kdps'=>$data['kdps'],
+            'kmk'=>$data['kmk'],
+            'kelas'=>$data['kelas'],
+            'nmmk'=>$data['nmmk'],
+            'sks'=>$data['sks'],
+            'ruangan'=>$data['ruangan'],
+            'dsn_saji'=>$data['dsn_saji'],
+            'idpengampu'=>$data['idpengampu']
+        ];
+        $this->db->trans_begin();
+        $this->db->insert("jadwal_kuliah", $item);
+        if($this->db->trans_status()==true){
+            $this->db->trans_commit();
+            $data['idjadwal'] = $this->db->insert_id();
+            return $data;
+        }else{
+            $this->db->trans_rollback();
+            return false;
+        }
+    }
+
+    public function selectAllJadwal()
+    {
+        $result = $this->db->query("SELECT
+            `jadwal_kuliah`.*
+        FROM
+            `jadwal_kuliah`
+            LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`idpengampu` =
+            `dosen_pengampu`.`idpengampu`
+            LEFT JOIN `tahun_akademik` ON `dosen_pengampu`.`idtahunakademik` =
+            `tahun_akademik`.`idtahunakademik`
+        WHERE tahun_akademik.status='AKTIF'")->result();
+        return $result;
+    }
+
     public function getJadwalDosen($data)
     {
         $result = $this->db->query("
@@ -242,6 +285,49 @@ class Jadwal_Model extends CI_Model
                 
             }
         } 
+    }
+
+    public function getJadwalProdi()
+    {
+        $prodi = $this->db->get_where('program_studi', ['status'=>'true'])->result();
+        foreach ($prodi as $key => $itemprodi) {
+            $itemprodi->kurikulum = $this->db->query("SELECT kdps, kurikulum FROM `matakuliah` WHERE kurikulum is not null AND kdps = '$itemprodi->kdps' GROUP BY kurikulum")->result();
+            foreach ($itemprodi->kurikulum as $key => $itemkurikulum) {
+                $itemkurikulum->matakuliah = $this->db->query("SELECT
+                    `matakuliah`.*,
+                    `dosen_pengampu`.`idpengampu`,
+                    `dosen_pengampu`.`thakademik`,
+                    `dosen_pengampu`.`gg`
+                FROM
+                    `dosen_pengampu`
+                    LEFT JOIN `tahun_akademik` ON `dosen_pengampu`.`idtahunakademik` =
+                    `tahun_akademik`.`idtahunakademik`
+                    LEFT JOIN `matakuliah` ON `matakuliah`.`idmatakuliah` =
+                    `dosen_pengampu`.`idmatakuliah`
+                WHERE tahun_akademik.status='AKTIF' AND matakuliah.kurikulum = '$itemkurikulum->kurikulum' AND `dosen_pengampu`.kdps='$itemprodi->kdps'")->result();
+                foreach ($itemkurikulum->matakuliah as $key => $itemmatakuliah) {
+                    $itemmatakuliah->dosen = $this->db->query("SELECT
+                        `dosen`.*,
+                        dosen_pengampu.idpengampu
+                    FROM
+                        `dosen_pengampu`
+                        LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
+                    WHERE dosen_pengampu.idpengampu = '$itemmatakuliah->idpengampu'")->result();
+                }
+
+            }
+        }
+        $kelas = $this->db->get("kelas")->result();
+        $all = $this->db->query("SELECT
+            `jadwal_kuliah`.*
+        FROM
+            `jadwal_kuliah`
+            LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`idpengampu` =
+            `dosen_pengampu`.`idpengampu`
+            LEFT JOIN `tahun_akademik` ON `dosen_pengampu`.`idtahunakademik` =
+            `tahun_akademik`.`idtahunakademik`
+        WHERE tahun_akademik.status='AKTIF'")->result();
+        return ['prodi'=>$prodi, 'kelas'=>$kelas, 'jadwal'=>$all];
     }
 
 }
