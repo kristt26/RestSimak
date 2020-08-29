@@ -70,7 +70,7 @@ class Krsm_Model extends CI_Model
     public function GetTem($data, $status)
     {
         $temKrsm;
-        $histori=[];
+        $histori = [];
         $this->db->where('status', 'AKTIF');
         $resultthakademik = $this->db->get('tahun_akademik');
         $thakademik = $resultthakademik->result_object();
@@ -112,7 +112,7 @@ class Krsm_Model extends CI_Model
             $this->db->where('thakademik', $thakademik[0]->thakademik);
             $this->db->where('gg', $thakademik[0]->gg);
             $resultkrsm = $this->db->get('krsm');
-            
+
             foreach ($resultkrsm->result_object() as $key => $value) {
                 $value->status = "Finish";
                 array_push($histori, $value);
@@ -137,11 +137,11 @@ class Krsm_Model extends CI_Model
             $this->db->where('thakademik', $thakademik[0]->thakademik);
             $this->db->where('gg', $thakademik[0]->gg);
             $resultkrsm = $this->db->get('tem_krsm');
-            
+
             foreach ($resultkrsm->result_object() as $key => $value) {
                 array_push($histori, $value);
             }
-        } else if($status=="Dosen Wali"){
+        } else if ($status == "Dosen Wali") {
             $this->db->select("
             `tem_krsm`.`Id`,
             `tem_krsm`.`thakademik`,
@@ -223,8 +223,7 @@ class Krsm_Model extends CI_Model
                 array_push($histori, $value);
             }
 
-
-        }else{
+        } else {
             $this->db->select("
             `tem_krsm`.`Id` ,
             `tem_krsm`.`thakademik`,
@@ -247,7 +246,6 @@ class Krsm_Model extends CI_Model
             $this->db->where('tem_krsm`.`status`', $status);
             $this->db->where('pegawai.IdUser', $data->id);
             $temKrsm = $this->db->get('tem_krsm');
-
 
             $this->db->select("
             `krsm`.`IdKrsm` AS Id,
@@ -282,7 +280,7 @@ class Krsm_Model extends CI_Model
 
         $DatasTemKrsm = array(
             'TemKrsm' => array(),
-            'Histori' => $histori
+            'Histori' => $histori,
         );
         foreach ($temKrsm->result() as $value) {
             $ItemTemKrsm = [
@@ -342,7 +340,7 @@ class Krsm_Model extends CI_Model
             $numkrs = $this->db->query(
                 "SELECT IdKrsm from krsm WHERE thakademik = '$ItemData->thakademik' AND gg='$ItemData->gg' AND npm = '$ItemData->npm'"
             );
-            if($numkrs->num_rows()===0){
+            if ($numkrs->num_rows() === 0) {
                 $this->db->insert('krsm', $Data_Krsm);
                 $IdKrsm = $this->db->insert_id();
                 foreach ($ItemData->detailTemKrsm[0] as $key => $value) {
@@ -350,7 +348,7 @@ class Krsm_Model extends CI_Model
                     $numDetailKrsm = $this->db->query(
                         "SELECT Id from krsm_detail WHERE thakademik = '$ItemData->thakademik' AND gg='$ItemData->gg' AND npm = '$ItemData->npm' AND kmk = '$kmk'"
                     );
-                    if($numDetailKrsm->num_rows()===0){
+                    if ($numDetailKrsm->num_rows() === 0) {
                         $DetaiTemKrsm = array(
                             'thakademik' => $ItemData->thakademik,
                             'gg' => $value['gg'],
@@ -373,7 +371,7 @@ class Krsm_Model extends CI_Model
             $numKhsm = $numkrs = $this->db->query(
                 "SELECT Id from khsm WHERE thakademik = '$ItemData->thakademik' AND gg='$ItemData->gg' AND npm = '$ItemData->npm'"
             );
-            if($numKhsm->num_rows()===0){
+            if ($numKhsm->num_rows() === 0) {
                 $DataKhsm = array(
                     'thakademik' => $ItemData->thakademik,
                     'gg' => $value['gg'],
@@ -390,13 +388,13 @@ class Krsm_Model extends CI_Model
                     $numDetailKhsm = $this->db->query(
                         "SELECT Id from khsm_detail WHERE thakademik = '$ItemData->thakademik' AND gg='$ItemData->gg' AND npm = '$ItemData->npm' AND kmk = '$kmk'"
                     );
-                    if($numDetailKhsm->num_rows()===0){
+                    if ($numDetailKhsm->num_rows() === 0) {
                         $DetaiTemKrsm = array(
                             'thakademik' => $ItemData->thakademik,
                             'gg' => $value['gg'],
                             'npm' => $value['npm'],
                             'kmk' => $value['kmk'],
-                            'IdKhsm' => $IdKhsm
+                            'IdKhsm' => $IdKhsm,
                         );
                         $this->db->insert('khsm_detail', $DetaiTemKrsm);
                     }
@@ -412,7 +410,7 @@ class Krsm_Model extends CI_Model
             $this->db->where('npm', $ItemData->npm);
             $this->db->where('stdu !=', 'PINDAH/TRANS');
             $resultDU = $this->db->update('daftar_ulang');
-            if($resultDU){
+            if ($resultDU) {
                 $this->db->set('statuskul', 'AKTIF');
                 $this->db->where('npm', $ItemData->npm);
                 $this->db->update('mahasiswa');
@@ -423,7 +421,7 @@ class Krsm_Model extends CI_Model
                     $this->db->trans_commit();
                     return true;
                 }
-            }else{
+            } else {
                 $this->db->trans_rollback();
                 return false;
             }
@@ -438,13 +436,13 @@ class Krsm_Model extends CI_Model
         return $result;
     }
 
-    public function Inser_Pengajuan($data, $b)
+    public function Inser_Pengajuan($data = null, $b = null)
     {
         $this->db->where('npm', $data->npm);
         $this->db->where('thakademik', $data->thakademik);
         $this->db->where('gg', $data->gg);
         $CekKrsm = $this->db->get($this->KrsmTable);
-        if ($CekKrsm->num_rows() !== 0) {
+        if ($CekKrsm->num_rows() > 0) {
             $this->db->where('thakademik', $data->thakademik);
             $this->db->where('gg', $data->gg);
             $this->db->where('kmk', $b->kmk);
@@ -518,21 +516,23 @@ class Krsm_Model extends CI_Model
                             } else {
                                 $BUP = "UP";
                             }
+                            if ($value['kmk'] !== null) {
+                                $DetaiTemKrsm = array(
+                                    'gg' => $value['gg'],
+                                    'npm' => $data->npm,
+                                    'kmk' => $value['kmk'],
+                                    'nidn' => $Dosenampu->row('nidn'),
+                                    'dsnampu' => $value['dsn_saji'],
+                                    'nmmk' => $value['nmmk'],
+                                    'bup' => $BUP,
+                                    'sks' => $value['sks'],
+                                    'smt' => $value['smt'],
+                                    'kelas' => $value['kelas'],
+                                    'IdKrsm' => $IdTemKrsm,
+                                );
+                                $this->db->insert($this->KrsmDetailTabel, $DetaiTemKrsm);
+                            }
 
-                            $DetaiTemKrsm = array(
-                                'gg' => $value['gg'],
-                                'npm' => $data->npm,
-                                'kmk' => $value['kmk'],
-                                'nidn' => $Dosenampu->row('nidn'),
-                                'dsnampu' => $value['dsn_saji'],
-                                'nmmk' => $value['nmmk'],
-                                'bup' => $BUP,
-                                'sks' => $value['sks'],
-                                'smt' => $value['smt'],
-                                'kelas' => $value['kelas'],
-                                'IdKrsm' => $IdTemKrsm,
-                            );
-                            $this->db->insert($this->KrsmDetailTabel, $DetaiTemKrsm);
                         }
                         if ($this->db->trans_status() === false) {
                             $this->db->trans_rollback();
