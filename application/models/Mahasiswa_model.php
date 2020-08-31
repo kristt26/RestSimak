@@ -61,7 +61,7 @@ class Mahasiswa_Model extends CI_Model
     }
     public function AmbilMahasiswa($npm)
     {
-        if ($npm != null && $npm!=="undefined") {
+        if ($npm != null && $npm !== "undefined") {
             $ResultMahasiswa = $this->db->query("
             SELECT
                 `mahasiswa`.`npm`,
@@ -167,7 +167,7 @@ class Mahasiswa_Model extends CI_Model
     }
     public function MahasiswaPublick($npm)
     {
-        if ($npm != null && $npm!=="undefined") {
+        if ($npm != null && $npm !== "undefined") {
             $ResultMahasiswa = $this->db->query("
             SELECT
                 `mahasiswa`.`npm`,
