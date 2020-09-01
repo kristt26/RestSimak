@@ -179,6 +179,10 @@ $route['api/Pengumuman/Simpan']['post'] = 'api/Pengumuman/Simpan';
 $route['api/Pengumuman/Ambil']['get'] = 'api/Pengumuman/Ambil';
 $route['api/Pengumuman/Hapus']['delete'] = 'api/Pengumuman/Hapus';
 
+// Pegawai
+$route['api/pegawai']['get'] = 'api/Pegawai/getpegawai';
+$route['api/pegawai/:num']['get'] = 'api/Pegawai/getpegawai';
+
 // api/v2
 
 $route['v2/getmahasiswa']['get'] = 'api/v2/Mahasiswa/GetMahasiswa';
