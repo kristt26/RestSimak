@@ -167,11 +167,16 @@ class Mahasiswa_Model extends CI_Model
     }
     public function mahasiswaonly($npm=null)
     {
-        $string = "AND npm='$npm'";
+        if($npm!=null)
+            $string = "npm='$npm' AND";
+        else
+            $string ="";
         $result = $this->db->query("
             SELECT *
             FROM
-                `mahasiswa` WHERE statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER') $string");
+                `mahasiswa` WHERE $string statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER')")->result();
+        return $result;
+            
     }
 
     public function MahasiswaPublick($npm)
