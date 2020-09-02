@@ -100,8 +100,8 @@ $route['api/approvedkrsm/GetHistori'] = 'api/ApprovedKrsm/ambilHistori';
 $route['api/sksMahasiswa/AmbilSks'] = 'api/SksMahasiswa/GetSKS';
 
 $route['api/Mahasiswa/GetDataMahasiswa'] = 'api/Mahasiswa/GetMahasiswa';
-$route['api/mahasiswa/get']['get'] = 'api/Mahasiswa/onlymahasiswa';
-$route['api/mahasiswa/:num']['get'] = 'api/Mahasiswa/Onlymahasiswa';
+$route['api/getmahasiswa']['get'] = 'api/Mahasiswa/onlymahasiswa';
+$route['api/getmahasiswa/:num']['get'] = 'api/Mahasiswa/Onlymahasiswa';
 $route['api/detailmahasiswa/:num'] = 'api/Mahasiswa/GetDetailMahasiswa';
 // $route['api/Mahasiswa/datamahasiswa']['get'] = 'api/Mahasiswa/DataMahasiswa';
 // $route['api/Mahasiswa/datamahasiswa/:num']['get'] = 'api/Mahasiswa/DataMahasiswa';
