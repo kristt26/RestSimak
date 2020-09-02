@@ -46,7 +46,7 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
             $this->response($Output, REST_Controller::HTTP_NOT_FOUND);
         }
     }
-    public function Onlymahasiswa_get()
+    public function onlymahasiswa_get()
     {
         $npm = $this->uri->segment(3);
         $Output = $this->MahasiswaModel->mahasiswaonly($npm);
