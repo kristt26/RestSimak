@@ -183,6 +183,8 @@ $route['api/Pengumuman/Hapus']['delete'] = 'api/Pengumuman/Hapus';
 $route['api/pegawai']['get'] = 'api/Pegawai/getpegawai';
 $route['api/pegawai/:num']['get'] = 'api/Pegawai/getpegawai';
 
+// backup
+$route['api/backup']['get'] = 'api/Backup/datatable';
 // api/v2
 
 $route['v2/getmahasiswa']['get'] = 'api/v2/Mahasiswa/GetMahasiswa';
