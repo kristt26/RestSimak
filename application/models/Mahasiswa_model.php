@@ -165,6 +165,20 @@ class Mahasiswa_Model extends CI_Model
             }
         }
     }
+    public function mahasiswaonly($npm=null)
+    {
+        if($npm!=null)
+            $string = "npm='$npm' AND";
+        else
+            $string ="";
+        $result = $this->db->query("
+            SELECT *
+            FROM
+                `mahasiswa` WHERE $string statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER')")->result();
+        return $result;
+            
+    }
+
     public function MahasiswaPublick($npm)
     {
         if ($npm != null && $npm !== "undefined") {

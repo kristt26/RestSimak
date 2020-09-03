@@ -36,6 +36,16 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         }
     }
+    public function HasilMahasiswa_get()
+    {
+        $npm = $this->uri->segment(3);
+        $Output = $this->MahasiswaModel->mahasiswaonly($npm);
+        if (!empty($Output)) {
+            $this->response($Output, REST_Controller::HTTP_OK);
+        } else {
+            $this->response($Output, REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
     public function GetDetailMahasiswa_get()
     {
         $npm = $this->uri->segment(3);
