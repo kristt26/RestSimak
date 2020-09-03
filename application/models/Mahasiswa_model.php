@@ -172,9 +172,13 @@ class Mahasiswa_Model extends CI_Model
         else
             $string ="";
         $result = $this->db->query("
-            SELECT *
+            SELECT 
+            `mahasiswa`.*,
+            `user`.`Email`
             FROM
-                `mahasiswa` WHERE $string statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER')")->result();
+                `mahasiswa`
+                INNER JOIN `user` ON `mahasiswa`.`IdUser` = `user`.`Id`
+            WHERE $string statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER')")->result();
         return $result;
             
     }

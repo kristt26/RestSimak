@@ -6,9 +6,20 @@ class Pegawai_model extends CI_Model {
     public function select($idpegawai=null)
     {
         if($idpegawai==null){
-            return $this->db->get('pegawai')->result();
+new            return $this->db->query("SELECT
+                `pegawai`.*,
+                `user`.`Email`
+            FROM
+                `pegawai`
+                LEFT JOIN `user` ON `pegawai`.`IdUser` = `user`.`Id`")->result();
         }else
-            return $this->db->get_where('pegawai', ['IdUser'=>$idpegawai])->row_array();
+            return $this->db->query("SELECT
+                `pegawai`.*,
+                `user`.`Email`
+            FROM
+                `pegawai`
+                LEFT JOIN `user` ON `pegawai`.`IdUser` = `user`.`Id`
+            WHERE pegawai.idpegawai='$idpegawai'")->result();
     }
 }
 
