@@ -6,7 +6,7 @@ class Pegawai_model extends CI_Model {
     public function select($idpegawai=null)
     {
         if($idpegawai==null){
-new            return $this->db->query("SELECT
+            return $this->db->query("SELECT
                 `pegawai`.*,
                 `user`.`Email`
             FROM
