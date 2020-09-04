@@ -23,7 +23,8 @@ class Pegawai extends \Restserver\Libraries\REST_Controller
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
-            $Output = $this->PegawaiModel->select(null);
+            $idpegawai = $this->uri->segment(3);
+            $Output = $this->PegawaiModel->select($idpegawai);
             $this->response($Output, REST_Controller::HTTP_OK);
         } else {
             $message = [
