@@ -1,18 +1,19 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pegawai_model extends CI_Model {
-    public function select($idpegawai=null)
+class Pegawai_model extends CI_Model
+{
+    public function select($idpegawai = null)
     {
-        if($idpegawai==null){
+        if ($idpegawai == null) {
             return $this->db->query("SELECT
                 `pegawai`.*,
                 `user`.`Email`
             FROM
                 `pegawai`
                 LEFT JOIN `user` ON `pegawai`.`IdUser` = `user`.`Id`")->result();
-        }else
+        } else {
             return $this->db->query("SELECT
                 `pegawai`.*,
                 `user`.`Email`
@@ -20,6 +21,8 @@ class Pegawai_model extends CI_Model {
                 `pegawai`
                 LEFT JOIN `user` ON `pegawai`.`IdUser` = `user`.`Id`
             WHERE pegawai.idpegawai='$idpegawai'")->result();
+        }
+
     }
 }
 

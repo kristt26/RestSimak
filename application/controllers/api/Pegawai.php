@@ -1,12 +1,13 @@
 <?php
 
-
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 date_default_timezone_set('Asia/Tokyo');
 
 use Restserver\Libraries\REST_Controller;
+
 require APPPATH . '/libraries/REST_Controller.php';
-class Pegawai extends \Restserver\Libraries\REST_Controller {
+class Pegawai extends \Restserver\Libraries\REST_Controller
+{
     public function __construct($config = 'rest')
     {
         parent::__construct($config);
@@ -22,11 +23,11 @@ class Pegawai extends \Restserver\Libraries\REST_Controller {
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
-            $Output = $this->PegawaiModel->select($is_valid_token['data']->id);
+            $Output = $this->PegawaiModel->select(null);
             $this->response($Output, REST_Controller::HTTP_OK);
-        }else{
+        } else {
             $message = [
-                'message' => "Session Anda telah kadaluarsa"
+                'message' => "Session Anda telah kadaluarsa",
             ];
             $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
         }
