@@ -24,20 +24,20 @@ class Users extends \Restserver\Libraries\REST_Controller
         if ($is_valid_token['status'] === true) {
             $_POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
             $Output = $this->UserModel->ChangesPassword($_POST, $is_valid_token['data']->id);
-            if (!empty($Output) && $Output!= false) {
+            if (!empty($Output) && $Output != false) {
                 $message = [
                     'status' => true,
                     'message' => "Changes Password Success",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'status' => false,
                     'message' => "Password Lama Anda Tidak Sesuai",
                 ];
                 $this->response($message, REST_Controller::HTTP_NOT_FOUND);
             }
-        }else{
+        } else {
             $message = [
                 'status' => false,
                 'message' => "Anda tidak memiliki Akses",
@@ -53,23 +53,23 @@ class Users extends \Restserver\Libraries\REST_Controller
         if ($is_valid_token['status'] === true) {
             $_POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
             $Output = $this->UserModel->ChangesUsername($_POST, $is_valid_token['data']->id);
-            if (!empty($Output) && $Output!= false) {
+            if (!empty($Output) && $Output != false) {
                 $message = [
                     'status' => true,
-                    'message' => "Changes Username Success"
+                    'message' => "Changes Username Success",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'status' => false,
-                    'message' => "Gagal, Hubungi Admin"
+                    'message' => "Gagal, Hubungi Admin",
                 ];
                 $this->response($message, REST_Controller::HTTP_NOT_FOUND);
             }
-        }else{
+        } else {
             $message = [
                 'status' => false,
-                'message' => "Anda tidak memiliki Akses"
+                'message' => "Anda tidak memiliki Akses",
             ];
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         }
@@ -81,34 +81,32 @@ class Users extends \Restserver\Libraries\REST_Controller
      */
     public function register_post()
     {
-        $this->load->library('Authorization_Token');    
+        $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
-        if($is_valid_token['status']===true){
+        if ($is_valid_token['status'] === true) {
             $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
             $Output = $this->UserModel->insert_user($data);
-            if($Output['status']){
+            if ($Output['status']) {
                 $message = [
                     'message' => "User Berhasil di Simpan",
-                    'data' => $Output['id']
+                    'data' => $Output['id'],
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'message' => "User Gagal di Simpan",
-                    'data' => $Output['id']
+                    'data' => $Output['id'],
                 ];
                 $this->response($message, REST_Controller::HTTP_BAD_REQUEST);
             }
-        }else{
+        } else {
             $message = [
                 'message' => "User Berhasil di Simpan",
-                'data' => $Output['id']
+                'data' => $Output['id'],
             ];
             $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
-
-    
 
     public function login_post()
     {
@@ -139,7 +137,7 @@ class Users extends \Restserver\Libraries\REST_Controller
                     'Email' => $Output->Email,
                     'NamaUser' => $Output->NamaUser,
                     'RoleUser' => $Output->role,
-                    'Token' => $UserToken
+                    'Token' => $UserToken,
                 ];
                 $message = [
                     'status' => true,
@@ -166,7 +164,7 @@ class Users extends \Restserver\Libraries\REST_Controller
             if (!empty($Output && $Output != false)) {
                 $message = [
                     'status' => true,
-                    'data' => $Output
+                    'data' => $Output,
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }
@@ -181,7 +179,7 @@ class Users extends \Restserver\Libraries\REST_Controller
             if (!empty($Output && $Output != false)) {
                 $message = [
                     'status' => true,
-                    'data' => $Output
+                    'data' => $Output,
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }
@@ -197,10 +195,10 @@ class Users extends \Restserver\Libraries\REST_Controller
             if ($Output) {
                 $message = [
                     'status' => true,
-                    'message'=> "anda berhasil melakukan reset password"
+                    'message' => "anda berhasil melakukan reset password",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'status' => false,
                 ];
@@ -217,13 +215,13 @@ class Users extends \Restserver\Libraries\REST_Controller
             if ($Output) {
                 $message = [
                     'status' => true,
-                    'data'=> $Output
+                    'data' => $Output,
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'status' => false,
-                    'data'=> []
+                    'data' => [],
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }
@@ -239,13 +237,13 @@ class Users extends \Restserver\Libraries\REST_Controller
             if ($Output) {
                 $message = [
                     'status' => true,
-                    'message'=> "Proses Berhasil"
+                    'message' => "Proses Berhasil",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'status' => false,
-                    'message'=> "Proses Gagal"
+                    'message' => "Proses Gagal",
                 ];
                 $this->response($message, REST_Controller::HTTP_BAD_REQUEST);
             }
@@ -261,13 +259,13 @@ class Users extends \Restserver\Libraries\REST_Controller
             if ($Output) {
                 $message = [
                     'status' => true,
-                    'message'=> "Proses Berhasil"
+                    'message' => "Proses Berhasil",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'status' => false,
-                    'message'=> "Proses Gagal"
+                    'message' => "Proses Gagal",
                 ];
                 $this->response($message, REST_Controller::HTTP_BAD_REQUEST);
             }
