@@ -195,4 +195,5 @@ $route['v2/getipk/:num']['get'] = 'api/v2/Mahasiswa/GetIPKMahasiswa';
 $route['v2/getips/:num']['get'] = 'api/v2/Mahasiswa/GetIPSMahasiswa';
 $route['v2/datamahasiswa/:num']['get'] = 'api/v2/Mahasiswa/DataMahasiswa';
 $route['v2/datamahasiswa']['get'] = 'api/v2/Mahasiswa/DataMahasiswa';
+$route['v2/nilaimahasiswa']['get'] = 'api/v2/Mahasiswa/DataMhs';
 $route['v2/authorization']['post'] = 'api/v2/Users/Login';

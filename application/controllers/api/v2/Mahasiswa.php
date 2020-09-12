@@ -102,4 +102,19 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
         }
     }
+    public function DataMhs_get()
+    {
+        $npm = $this->uri->segment(3);
+        $Output = $this->MahasiswaModel->Matakuliah($npm);
+        if ($Output) {
+            $this->response($Output, REST_Controller::HTTP_OK);
+        } else {
+            $message = [
+                'status' => false,
+                'data' => [],
+                'message' => "Kosong",
+            ];
+            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
 }
