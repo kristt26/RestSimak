@@ -47,10 +47,18 @@ class User_Model extends CI_Model
 
     public function ChangesUsername($data, $Id)
     {
+        $this->load->library('mylib');
+
         $this->db->set('Username', $data['Username']);
+        $this->db->set('Email', $data['Email']);
         $this->db->where('Id', $Id);
         $result = $this->db->update('user');
         if ($result) {
+            $item = [
+                'Email' => $data['Username'],
+                'chatid' => $data['chatid'],
+            ];
+            $this->mylib->updatedatasurat($item, $data['jenis'] == 'Pegawai' ? "pegawai/edit/" . $Id : "mahasiswa/edit/" . $Id);
             return true;
         } else {
             return false;
@@ -166,21 +174,21 @@ class User_Model extends CI_Model
             $this->db->where('Id', $roleinuser->row('RoleId'));
             $role = $this->db->get($this->RoleTable);
             $datarole = $role->row('Nama');
-            } if ($datarole == 'AdminPenggunaLain') {
-                $this->db->where('IdUser', $q->row('Id'));
-                $Biodata = $this->db->get("PenggunaLain");
-                if ($Biodata->num_rows()) {
-                    $roleitem = array('Role' => array());
-                    foreach ($Tampung as &$value) {
-                        $item = array('Nama' => $value['Nama']);
-                        array_push($roleitem['Role'], $item);
-                    }
-                    $Nama = "NamaUser";
-                    $Role = "role";
-                    $a->$Nama = $Biodata->row('Nama');
-                    $a->$Role = (object) $roleitem;
+        }if ($datarole == 'AdminPenggunaLain') {
+            $this->db->where('IdUser', $q->row('Id'));
+            $Biodata = $this->db->get("PenggunaLain");
+            if ($Biodata->num_rows()) {
+                $roleitem = array('Role' => array());
+                foreach ($Tampung as &$value) {
+                    $item = array('Nama' => $value['Nama']);
+                    array_push($roleitem['Role'], $item);
                 }
-            } 
+                $Nama = "NamaUser";
+                $Role = "role";
+                $a->$Nama = $Biodata->row('Nama');
+                $a->$Role = (object) $roleitem;
+            }
+        }
         return $a;
     }
     public function GetBiodata($data)

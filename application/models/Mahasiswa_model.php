@@ -34,11 +34,11 @@ class Mahasiswa_Model extends CI_Model
             `mahasiswa`.`kurikulum`,
             `program_studi`.`nmps`,
             (SELECT
-                    SUM(CASE 
+                    SUM(CASE
                         WHEN ket= 'L' THEN 1*nxsks
                         ELSE
                         0*nxsks
-                        END)/SUM(CASE 
+                        END)/SUM(CASE
                         WHEN ket = 'L' THEN 1*sks
                         ELSE
                         0*sks
@@ -165,14 +165,16 @@ class Mahasiswa_Model extends CI_Model
             }
         }
     }
-    public function mahasiswaonly($npm=null)
+    public function mahasiswaonly($npm = null)
     {
-        if($npm!=null)
+        if ($npm != null) {
             $string = "npm='$npm' AND";
-        else
-            $string ="";
+        } else {
+            $string = "";
+        }
+
         $result = $this->db->query("
-            SELECT 
+            SELECT
             `mahasiswa`.*,
             `user`.`Email`
             FROM
@@ -180,7 +182,7 @@ class Mahasiswa_Model extends CI_Model
                 INNER JOIN `user` ON `mahasiswa`.`IdUser` = `user`.`Id`
             WHERE $string statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER')")->result();
         return $result;
-            
+
     }
 
     public function MahasiswaPublick($npm)
@@ -282,5 +284,33 @@ class Mahasiswa_Model extends CI_Model
                 return $data;
             }
         }
+    }
+
+    public function addmahasiswa($data = null)
+    {
+        $this->db->trans_begin();
+        $itemuser = [
+            'Username' => $data['npm'],
+            'Password' => md5($data['Password']),
+            'Email' => md5($data['Email']),
+            'Status' => 'true',
+        ];
+        $this->db->insert('user', $itemuser);
+        $IdUser = $this->db->insert_id();
+        $userinrole = [
+            'RoleId' => 4,
+            'IdUser' => $IdUser,
+        ];
+        $data['IdUser'] = $IdUser;
+        $this->db->insert('mahasiswa', $data);
+        $data['Id'] = $this->db->insert_id();
+        if ($this->db->trans_status()) {
+            $this->db->trans_commit();
+            return $data;
+        } else {
+            $this->db->trans_rollback();
+            return false;
+        }
+
     }
 }
