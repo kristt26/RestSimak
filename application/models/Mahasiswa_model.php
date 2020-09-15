@@ -313,4 +313,17 @@ class Mahasiswa_Model extends CI_Model
         }
 
     }
+
+    public function MahasiswabyProdi($user)
+    {
+        $result = $this->db->query("SELECT
+            `mahasiswa`.*
+        FROM
+            `mahasiswa`
+            LEFT JOIN `program_studi` ON `mahasiswa`.`kdps` = `program_studi`.`kdps`
+            LEFT JOIN `kaprodi` ON `kaprodi`.`idprodi` = `program_studi`.`idprodi`
+            LEFT JOIN `pegawai` ON `pegawai`.`idpegawai` = `kaprodi`.`idpegawai`
+        WHERE pegawai.IdUser='$user->id'")->result();
+        return $result;
+    }
 }

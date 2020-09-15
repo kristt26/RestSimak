@@ -102,6 +102,7 @@ $route['api/sksMahasiswa/AmbilSks'] = 'api/SksMahasiswa/GetSKS';
 
 $route['api/Mahasiswa/GetDataMahasiswa'] = 'api/Mahasiswa/GetMahasiswa';
 $route['api/mahasiswa'] = 'api/Mahasiswa/HasilMahasiswa';
+$route['api/mahasiswajurusan'] = 'api/Mahasiswa/MahasiswaProdi';
 $route['api/mahasiswa/:num'] = 'api/Mahasiswa/HasilMahasiswa';
 $route['api/mahasiswa/add']['post'] = 'api/Mahasiswa/AddMahasiswa';
 $route['api/detailmahasiswa/:num'] = 'api/Mahasiswa/GetDetailMahasiswa';
