@@ -105,6 +105,20 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
         }
     }
 
+    public function MahasiswaKelas_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $kmk = $this->uri->segment(4);
+            $kelas = $this->uri->segment(5);
+            $Output = $this->JadwalModel->getMahasiswa($kmk, $kelas);
+            $this->response($Output, REST_Controller::HTTP_OK);
+        }
+        else
+            $this->response('Anda tidak memiliki akses, check session anda', REST_Controller::HTTP_UNAUTHORIZED);
+    }
+
     /**
      *  Semua Jadwal
      * @method : POST

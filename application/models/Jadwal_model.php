@@ -330,4 +330,18 @@ class Jadwal_Model extends CI_Model
         return ['prodi'=>$prodi, 'kelas'=>$kelas, 'jadwal'=>$all];
     }
 
+    public function getMahasiswa($kmk, $kelas)
+    {
+        $result = $this->db->query("SELECT
+            `mahasiswa`.`npm`,
+            `mahasiswa`.`nmmhs`,
+            `mahasiswa`.`kelas`
+        FROM
+            `krsm_detail`
+            INNER JOIN `mahasiswa` ON `krsm_detail`.`npm` = `mahasiswa`.`npm`
+            LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+        `krsm_detail`.`thakademik` AND `tahun_akademik`.`gg` = `krsm_detail`.`gg`
+        WHERE krsm_detail.kmk='$kmk' AND tahun_akademik.status='AKTIF' AND krsm_detail.kelas='$kelas'")->result();
+        return $result;
+    }
 }
