@@ -14,11 +14,7 @@ class TahunAkademik_Model extends CI_Model
 
     public function select()
     {
-        $result = $this->db->query("SELECT * FROM tahun_akademik");
-        if ($result->num_rows()) {
-            return $result->result_array();
-        } else {
-            return 0;
-        }
+        $result = $this->db->query("SELECT * FROM tahun_akademik")->result();
+        return $result;
     }
 }
