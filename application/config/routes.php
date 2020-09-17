@@ -76,6 +76,7 @@ $route['api/jadwal/jadwalKuliah'] = 'api/Jadwal/JadwalKuliah';
 $route['api/jadwal/jadwalprodi'] = 'api/Jadwal/JadwalProdi';
 $route['api/jadwal/tambahjadwal'] = 'api/Jadwal/TambahJadwal';
 $route['api/jadwal/getalljadwal'] = 'api/Jadwal/GetAllJadwal';
+$route['api/jadwal/mahasiswakelas'] = 'api/Jadwal/MahasiswaKelas';
 
 $route['api/dosenampu/getdata'] = 'api/DosenPengampu/GetData';
 $route['api/dosenampu/simpan'] = 'api/DosenPengampu/Tambah';
@@ -102,6 +103,7 @@ $route['api/sksMahasiswa/AmbilSks'] = 'api/SksMahasiswa/GetSKS';
 
 $route['api/Mahasiswa/GetDataMahasiswa'] = 'api/Mahasiswa/GetMahasiswa';
 $route['api/mahasiswa'] = 'api/Mahasiswa/HasilMahasiswa';
+$route['api/mahasiswajurusan'] = 'api/Mahasiswa/MahasiswaProdi';
 $route['api/mahasiswa/:num'] = 'api/Mahasiswa/HasilMahasiswa';
 $route['api/mahasiswa/add']['post'] = 'api/Mahasiswa/AddMahasiswa';
 $route['api/detailmahasiswa/:num'] = 'api/Mahasiswa/GetDetailMahasiswa';
@@ -197,4 +199,5 @@ $route['v2/getipk/:num']['get'] = 'api/v2/Mahasiswa/GetIPKMahasiswa';
 $route['v2/getips/:num']['get'] = 'api/v2/Mahasiswa/GetIPSMahasiswa';
 $route['v2/datamahasiswa/:num']['get'] = 'api/v2/Mahasiswa/DataMahasiswa';
 $route['v2/datamahasiswa']['get'] = 'api/v2/Mahasiswa/DataMahasiswa';
+$route['v2/nilaimahasiswa']['get'] = 'api/v2/Mahasiswa/DataMhs';
 $route['v2/authorization']['post'] = 'api/v2/Users/Login';

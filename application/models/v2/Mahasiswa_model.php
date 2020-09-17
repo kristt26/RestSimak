@@ -222,4 +222,54 @@ class Mahasiswa_Model extends CI_Model
             }
         }
     }
+    public function Matakuliah($npm=null)
+    {
+        
+        $this->load->library('my_lib');
+        $mahasiswa = $this->db->query("SELECT
+            `mahasiswa`.`npm`,
+            `mahasiswa`.`nmmhs`,
+            `mahasiswa`.`jursmu`
+        FROM
+            `mahasiswa`
+        WHERE statuskul='LULUS' AND jursmu <> '-'")->result();
+
+        // $result = $this->db->query("SELECT
+        //     `transkip`.`nmmk`,
+        //     `transkip`.`nilai`,
+            // `transkip`.`smt`,
+            // CASE
+            //     WHEN nilai = 'A' THEN 4
+            //     WHEN nilai = 'B' THEN 3
+            //     WHEN nilai = 'C' THEN 2
+            //     WHEN nilai = 'D' THEN 1
+            // END AS bobotnilai
+        // FROM
+        //     `transkip`
+        // where SUBSTRING(npm, 1, 4) > '2010' AND smt <=4")->result();
+        foreach ($mahasiswa as $key => $value) {
+            $value->matakuliah = $this->db->query("SELECT
+                `matakuliah`.`kmk`,
+                `matakuliah`.`nmmk`,
+                `krsm`.`sms`,
+                `khsm_detail`.`nhuruf`,
+                CASE
+                    WHEN nhuruf = 'A' THEN 4
+                    WHEN nhuruf = 'B' THEN 3
+                    WHEN nhuruf = 'C' THEN 2
+                    WHEN nhuruf = 'D' THEN 1
+                    WHEN nhuruf = 'E' THEN 0
+                    WHEN nhuruf = '' THEN 0
+                END AS nilai
+            FROM
+                `krsm`
+                LEFT JOIN `khsm` ON `krsm`.`IdKrsm` = `khsm`.`IdKrsm`
+                LEFT JOIN `khsm_detail` ON `khsm`.`Id` = `khsm_detail`.`IdKhsm`
+                LEFT JOIN `matakuliah` ON `khsm_detail`.`kmk` = `matakuliah`.`kmk`
+            WHERE krsm.npm='$value->npm' AND krsm.sms IN('1','2','3','4')
+            ORDER BY krsm.sms ASC")->result();
+        }
+        // $temp = $this->my_lib->groupArray($result, "npm");
+        return $mahasiswa;
+    }
 }
