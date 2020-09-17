@@ -29,14 +29,26 @@ class TahunAkademik extends \Restserver\Libraries\REST_Controller
                     'message' => "Success!",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
-                $message=[
-                    'status'=> false,
-                    'message'=> 'empty!!!',
-                    'data'=> json_encode(array())
+            } else {
+                $message = [
+                    'status' => false,
+                    'message' => 'empty!!!',
+                    'data' => json_encode(array()),
                 ];
                 $this->response($message, REST_Controller::HTTP_NOT_FOUND);
             }
+        }
+    }
+
+    public function ambilTA_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->TahunAkademik->select();
+            $this->response($Output, REST_Controller::HTTP_OK);
+        } else {
+            $this->response('Anda Tidak Memiliki Akses, Periksa Session Anda', REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
 }

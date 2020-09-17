@@ -442,7 +442,7 @@ class Krsm_Model extends CI_Model
         $this->db->where('thakademik', $data->thakademik);
         $this->db->where('gg', $data->gg);
         $CekKrsm = $this->db->get($this->KrsmTable);
-        if ($CekKrsm->num_rows() > 0) {
+        if (count($CekKrsm->result()) > 0) {
             $this->db->where('thakademik', $data->thakademik);
             $this->db->where('gg', $data->gg);
             $this->db->where('kmk', $b->kmk);

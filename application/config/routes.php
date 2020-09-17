@@ -95,6 +95,7 @@ $route['api/profile/GetProfile'] = 'api/Profile/GetProfile';
 $route['api/profile/UpdateProfile'] = 'api/Profile/UpdateProfile';
 $route['api/home/getHome'] = 'api/Home/ambilinfo';
 $route['api/tahunakademik/getTaAktif'] = 'api/TahunAkademik/TAAktif';
+$route['api/tahunakademik'] = 'api/TahunAkademik/ambilTA';
 $route['api/approvedkrsm/GetHistori'] = 'api/ApprovedKrsm/ambilHistori';
 
 $route['api/sksMahasiswa/AmbilSks'] = 'api/SksMahasiswa/GetSKS';
