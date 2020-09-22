@@ -229,10 +229,18 @@ class Mahasiswa_Model extends CI_Model
         $mahasiswa = $this->db->query("SELECT
             `mahasiswa`.`npm`,
             `mahasiswa`.`nmmhs`,
-            `mahasiswa`.`jursmu`
+            `mahasiswa`.`jursmu`,
+            `mahasiswa`.`nmsmu`,
+            `mahasiswa`.`jk`,
+            `mahasiswa`.`provsmu`,
+            (SELECT COUNT(*) FROM daftar_ulang WHERE daftar_ulang.idmahasiswa=mahasiswa.id) AS lamaKuliah
         FROM
             `mahasiswa`
-        WHERE statuskul='LULUS' AND jursmu <> '-'")->result();
+            LEFT JOIN `daftar_ulang` ON `daftar_ulang`.`idmahasiswa` = `mahasiswa`.`Id`
+        WHERE
+            `mahasiswa`.`statuskul` = 'LULUS' AND 
+            `mahasiswa`.`jursmu` <> '-' AND (SELECT COUNT(*) FROM daftar_ulang WHERE daftar_ulang.idmahasiswa=mahasiswa.id)>=8
+        GROUP BY mahasiswa.id")->result();
 
         // $result = $this->db->query("SELECT
         //     `transkip`.`nmmk`,
