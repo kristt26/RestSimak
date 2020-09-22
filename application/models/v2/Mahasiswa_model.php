@@ -253,7 +253,7 @@ class Mahasiswa_Model extends CI_Model
                 `matakuliah`.`nmmk`,
                 `krsm`.`sms`,
                 `khsm_detail`.`nhuruf`,
-                `khsm_detail`.`sks`,
+                `matakuliah`.`sks`,
                 CASE
                     WHEN nhuruf = 'A' THEN 4
                     WHEN nhuruf = 'B' THEN 3
