@@ -73,7 +73,7 @@ class Khsm_Model extends CI_Model
                             $nilai = (int) $valueKhsm->nxsks;
                             $TotalSks += (int) $valueMatakuliah->sks;
                         }
-                    }else{
+                    } else {
                         $warna = "warning";
                         $item['npm'] = $valueKhsm->npm;
                         $item['kmk'] = $valueKhsm->kmk;
@@ -255,7 +255,7 @@ class Khsm_Model extends CI_Model
         foreach ($data['detailkhsm'] as $key => $value) {
             $detail = [
                 'idPengampu' => $value['idPengampu'],
-                'idKrs' => $idkhs
+                'idKrs' => $idkhs,
 
             ];
             $this->db->insert("khsm_detail", $value);
@@ -264,7 +264,7 @@ class Khsm_Model extends CI_Model
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
             return false;
-        }else{
+        } else {
             $this->db->trans_commit();
             return true;
         }
@@ -272,31 +272,46 @@ class Khsm_Model extends CI_Model
     public function getNilai($item)
     {
         $id = $item->id;
-        $resultMatakuliah = $this->db->query("
-            SELECT
-                `jadwal_kuliah`.*,
-                `matakuliah`.`smt`,
-                `matakuliah`.`kurikulum`,
-                `program_studi`.`nmps`,
-                `dosen`.`nmdsn`,
-                `dosen_pengampu`.`nidn`
-            FROM
-                `jadwal_kuliah`
-                LEFT JOIN `tahun_akademik` ON `jadwal_kuliah`.`thakademik` =
-                `tahun_akademik`.`thakademik` AND `jadwal_kuliah`.`gg` =
-                `tahun_akademik`.`gg`
-                LEFT JOIN `matakuliah` ON `matakuliah`.`kmk` = `jadwal_kuliah`.`kmk`
-                AND `matakuliah`.`kdps` = `jadwal_kuliah`.`kdps`
-                LEFT JOIN `program_studi` ON `jadwal_kuliah`.`kdps` = `program_studi`.`kdps`
-                LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`kmk` = `dosen_pengampu`.`kmk`
-                RIGHT JOIN `dosen` ON `dosen`.`nidn` = `dosen_pengampu`.`nidn`
-                RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
-            WHERE
-                `tahun_akademik`.`status` = 'AKTIF' AND
-                `dosen_pengampu`.`mengajar` = 'Y' AND
-                `pegawai`.`IdUser` = '$id'
-            ORDER BY
-                `matakuliah`.`nmmk`
+        $resultMatakuliah = $this->db->query("SELECT
+            `jadwal_kuliah`.*,
+            Count(`krsm_detail`.`npm`) AS `jumlahMahasiswa`,
+            `dosen`.`nidn`,
+            `matakuliah`.`smt`,
+            `matakuliah`.`kurikulum`,
+            `program_studi`.`nmps`,
+            `dosen`.`nmdsn`
+        FROM
+            `jadwal_kuliah`
+            LEFT JOIN `krsm_detail` ON `krsm_detail`.`thakademik` =
+        `jadwal_kuliah`.`thakademik` AND `krsm_detail`.`gg` = `jadwal_kuliah`.`gg`
+        AND `krsm_detail`.`kmk` = `jadwal_kuliah`.`kmk` AND `krsm_detail`.`kelas` =
+        `jadwal_kuliah`.`kelas`
+            RIGHT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+        `jadwal_kuliah`.`thakademik` AND `tahun_akademik`.`gg` =
+        `jadwal_kuliah`.`gg`
+            LEFT JOIN `dosen_pengampu` ON `dosen_pengampu`.`thakademik` =
+        `tahun_akademik`.`thakademik` AND `dosen_pengampu`.`gg` =
+        `tahun_akademik`.`gg` AND `jadwal_kuliah`.`idpengampu` =
+        `dosen_pengampu`.`idpengampu`
+            LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
+            RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
+            LEFT JOIN `matakuliah` ON `matakuliah`.`idmatakuliah` =
+        `dosen_pengampu`.`idmatakuliah` AND `matakuliah`.`kdps` =
+        `jadwal_kuliah`.`kdps`
+            LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `matakuliah`.`kdps`
+        WHERE
+            `tahun_akademik`.`status` = 'AKTIF' AND
+            `pegawai`.`IdUser` = '$id' AND
+            `dosen_pengampu`.`mengajar` = 'Y'
+        GROUP BY
+            `jadwal_kuliah`.`thakademik`,
+            `jadwal_kuliah`.`gg`,
+            `jadwal_kuliah`.`kelas`,
+            `jadwal_kuliah`.`kmk`,
+            `dosen`.`nidn`
+        ORDER BY
+            `matakuliah`.`nmmk`,
+            `krsm_detail`.`kelas`
         ");
         $a = $resultMatakuliah->result_object();
         foreach ($a as $key => $value) {
@@ -354,7 +369,7 @@ class Khsm_Model extends CI_Model
         $num = $result->num_rows();
 
         $this->db->trans_start();
-        if($num == 0){
+        if ($num == 0) {
             $tg = date("Y-m-d");
             $data = [
                 "thakademik" => $item['thakademik'],
@@ -366,7 +381,7 @@ class Khsm_Model extends CI_Model
                 "nmps" => $item['nmps'],
                 "nmmk" => $item['nmmk'],
                 "kelas" => $item['kelas'],
-                "tgban" =>$tg
+                "tgban" => $tg,
             ];
             $this->db->insert("ban_matakuliah", $data);
         }
@@ -383,10 +398,10 @@ class Khsm_Model extends CI_Model
             $this->db->where("npm", $value['npm']);
             $this->db->where("kdps", $item['kdps']);
             $this->db->where("kmk", $value['kmk']);
-            $result =  $this->db->get('transkip');
-            if($result->num_rows()>0){
+            $result = $this->db->get('transkip');
+            if ($result->num_rows() > 0) {
                 $DataTranskip = $result->result_object();
-                if($value['nxsks'] > $DataTranskip[0]->nxsks){
+                if ($value['nxsks'] > $DataTranskip[0]->nxsks) {
                     $this->db->set("nxsks", $value['nxsks']);
                     $this->db->set("nilai", $value['nhuruf']);
                     $this->db->set("ket", $value['ket']);
@@ -400,12 +415,10 @@ class Khsm_Model extends CI_Model
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
             return false;
-        }else{
+        } else {
             $this->db->trans_complete();
             return true;
         }
-        
 
-        
     }
 }
