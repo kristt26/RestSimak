@@ -326,6 +326,7 @@ class Krsm_Model extends CI_Model
         } else {
             $ItemData = (object) $item;
             $this->db->trans_begin();
+            $daftarulang = $this->db->get_where('daftar_ulang', ['thakademik' => $ItemData->thakademik, 'gg' => $ItemData->gg, 'npm' => $ItemData->npm])->row_object();
             $Data_Krsm = [
                 'thakademik' => $ItemData->thakademik,
                 'gg' => $ItemData->gg,
@@ -336,6 +337,7 @@ class Krsm_Model extends CI_Model
                 'admakademik' => $ItemData->admakademik,
                 'jmsks' => $ItemData->jmsks,
                 'tgkrsm' => $ItemData->tgkrsm,
+                'iddu' => $daftarulang->iddu,
             ];
             $numkrs = $this->db->query(
                 "SELECT IdKrsm from krsm WHERE thakademik = '$ItemData->thakademik' AND gg='$ItemData->gg' AND npm = '$ItemData->npm'"
@@ -371,6 +373,7 @@ class Krsm_Model extends CI_Model
             $numKhsm = $numkrs = $this->db->query(
                 "SELECT Id from khsm WHERE thakademik = '$ItemData->thakademik' AND gg='$ItemData->gg' AND npm = '$ItemData->npm'"
             )->result();
+            $ceknum = count($numKhsm);
             if (count($numKhsm) == 0) {
                 $DataKhsm = array(
                     'thakademik' => $ItemData->thakademik,
@@ -380,6 +383,7 @@ class Krsm_Model extends CI_Model
                     'ketjur' => $ItemData->ketjur,
                     'admakademik' => $ItemData->admakademik,
                     'jmsks' => $ItemData->jmsks,
+                    'IdKrsm' => $IdKrsm,
                 );
                 $this->db->insert('khsm', $DataKhsm);
                 $IdKhsm = $this->db->insert_id();
