@@ -370,8 +370,8 @@ class Krsm_Model extends CI_Model
 
             $numKhsm = $numkrs = $this->db->query(
                 "SELECT Id from khsm WHERE thakademik = '$ItemData->thakademik' AND gg='$ItemData->gg' AND npm = '$ItemData->npm'"
-            );
-            if ($numKhsm->num_rows() === 0) {
+            )->result();
+            if (count($numKhsm) == 0) {
                 $DataKhsm = array(
                     'thakademik' => $ItemData->thakademik,
                     'gg' => $value['gg'],
@@ -410,7 +410,7 @@ class Krsm_Model extends CI_Model
             $this->db->where('npm', $ItemData->npm);
             $this->db->where('stdu !=', 'PINDAH/TRANS');
             $resultDU = $this->db->update('daftar_ulang');
-            if ($resultDU) {
+            if ($this->db->trans_status()) {
                 $this->db->set('statuskul', 'AKTIF');
                 $this->db->where('npm', $ItemData->npm);
                 $this->db->update('mahasiswa');

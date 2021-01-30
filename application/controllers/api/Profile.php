@@ -30,10 +30,10 @@ class Profile extends \Restserver\Libraries\REST_Controller
                     'message' => "Success!",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'status' => false,
-                    'data'=> [],
+                    'data' => [],
                     'message' => "Data Kosong",
                 ];
                 $this->response($message, REST_Controller::HTTP_NOT_FOUND);
@@ -45,16 +45,16 @@ class Profile extends \Restserver\Libraries\REST_Controller
     {
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
-        $_PUT =json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
+        $_PUT = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
         if ($is_valid_token['status'] === true) {
             $Output = $this->ProfileModel->UpdateProfile($_PUT);
             if (!empty($Output && $Output != false)) {
                 $message = [
                     'status' => true,
-                    'message' => "Berhasil melakukan Approved"
+                    'message' => "Berhasil melakukan Approved",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'status' => false,
                     'message' => "Proses Gagal",
