@@ -326,4 +326,13 @@ class Mahasiswa_Model extends CI_Model
         WHERE pegawai.IdUser='$user->id'")->result();
         return $result;
     }
+
+    public function MahasiswaAll()
+    {
+        $result = $this->db->query("SELECT
+            *
+        FROM
+            `mahasiswa` ORDER BY npm, nmmhs")->result();
+        return $result;
+    }
 }

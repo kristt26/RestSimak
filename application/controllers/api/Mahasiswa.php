@@ -81,7 +81,19 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
         if ($is_valid_token['status'] === true) {
             $Output = $this->MahasiswaModel->MahasiswabyProdi($is_valid_token['data']);
             $this->response($Output, REST_Controller::HTTP_OK);
-        }else{
+        } else {
+            $this->response('anda tidak memiliki akses, silahkan login terlebih dahulu', REST_Controller::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    public function MahasiswaAll_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->MahasiswaModel->MahasiswaAll();
+            $this->response($Output, REST_Controller::HTTP_OK);
+        } else {
             $this->response('anda tidak memiliki akses, silahkan login terlebih dahulu', REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
