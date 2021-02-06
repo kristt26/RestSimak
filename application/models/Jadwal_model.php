@@ -15,30 +15,30 @@ class Jadwal_Model extends CI_Model
         return $this->db->insert_id();
     }
 
-    public function TambahJadwal($data=null)
+    public function TambahJadwal($data = null)
     {
-        $item =[
-            'thakademik'=>$data['thakademik'],
-            'gg'=>$data['gg'],
-            'hari'=>$data['hari'],
-            'ws'=>$data['jammulai'],
-            'wm'=>$data['jamselesai'],
-            'kdps'=>$data['kdps'],
-            'kmk'=>$data['kmk'],
-            'kelas'=>$data['kelas'],
-            'nmmk'=>$data['nmmk'],
-            'sks'=>$data['sks'],
-            'ruangan'=>$data['ruangan'],
-            'dsn_saji'=>$data['dsn_saji'],
-            'idpengampu'=>$data['idpengampu']
+        $item = [
+            'thakademik' => $data['thakademik'],
+            'gg' => $data['gg'],
+            'hari' => $data['hari'],
+            'ws' => $data['jammulai'],
+            'wm' => $data['jamselesai'],
+            'kdps' => $data['kdps'],
+            'kmk' => $data['kmk'],
+            'kelas' => $data['kelas'],
+            'nmmk' => $data['nmmk'],
+            'sks' => $data['sks'],
+            'ruangan' => $data['ruangan'],
+            'dsn_saji' => $data['dsn_saji'],
+            'idpengampu' => $data['idpengampu'],
         ];
         $this->db->trans_begin();
         $this->db->insert("jadwal_kuliah", $item);
-        if($this->db->trans_status()==true){
+        if ($this->db->trans_status() == true) {
             $this->db->trans_commit();
             $data['idjadwal'] = $this->db->insert_id();
             return $data;
-        }else{
+        } else {
             $this->db->trans_rollback();
             return false;
         }
@@ -60,34 +60,34 @@ class Jadwal_Model extends CI_Model
 
     public function getJadwalDosen($data)
     {
-        $result = $this->db->query("
-            SELECT
+        $result = $this->db->query("SELECT
+                `jadwal_kuliah`.*,
                 `dosen`.`nidn`,
-                `jadwal_kuliah`.*, COUNT(krsm_detail.npm) AS jumlahMahasiswa
-                                
+                `matakuliah`.`smt`,
+                `matakuliah`.`kurikulum`,
+                `program_studi`.`nmps`,
+                `dosen`.`nmdsn`
             FROM
                 `jadwal_kuliah`
-                LEFT JOIN krsm_detail ON krsm_detail.thakademik = jadwal_kuliah.thakademik AND
-                krsm_detail.gg = jadwal_kuliah.gg AND
-                krsm_detail.kmk = jadwal_kuliah.kmk AND
-                krsm_detail.kelas = jadwal_kuliah.kelas
                 RIGHT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
-                `jadwal_kuliah`.`thakademik` AND `tahun_akademik`.`gg` =
-                `jadwal_kuliah`.`gg`
+            `jadwal_kuliah`.`thakademik` AND `tahun_akademik`.`gg` =
+            `jadwal_kuliah`.`gg`
                 LEFT JOIN `dosen_pengampu` ON `dosen_pengampu`.`thakademik` =
-                `tahun_akademik`.`thakademik` AND `dosen_pengampu`.`gg` =
-                `tahun_akademik`.`gg` AND `jadwal_kuliah`.`idpengampu` =
-                `dosen_pengampu`.`idpengampu`
+            `tahun_akademik`.`thakademik` AND `dosen_pengampu`.`gg` =
+            `tahun_akademik`.`gg` AND `jadwal_kuliah`.`idpengampu` =
+            `dosen_pengampu`.`idpengampu`
                 LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
                 RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
                 LEFT JOIN `matakuliah` ON `matakuliah`.`idmatakuliah` =
-                `dosen_pengampu`.`idmatakuliah` AND matakuliah.kdps = jadwal_kuliah.kdps
+            `dosen_pengampu`.`idmatakuliah` AND `matakuliah`.`kdps` =
+            `jadwal_kuliah`.`kdps`
+                LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `matakuliah`.`kdps`
             WHERE
-                
+
                 `tahun_akademik`.`status` = 'AKTIF' AND
                 `pegawai`.`IdUser` = '$data->id' AND
                 `dosen_pengampu`.`mengajar` = 'Y'
-            GROUP BY jadwal_kuliah.thakademik, jadwal_kuliah.gg, jadwal_kuliah.kelas, jadwal_kuliah.kmk  
+            GROUP BY jadwal_kuliah.thakademik, jadwal_kuliah.gg, jadwal_kuliah.kelas, jadwal_kuliah.kmk
         ");
         return $result->result_object();
     }
@@ -106,11 +106,11 @@ class Jadwal_Model extends CI_Model
           `jadwal_kuliah`.`kmk` = `krsm_detail`.`kmk` AND `jadwal_kuliah`.`kelas` =
           `krsm_detail`.`kelas`
         LEFT JOIN `mahasiswa` ON `mahasiswa`.`npm` = `krsm_detail`.`npm`
-            
+
             WHERE mahasiswa.npm = '$npm' AND tahun_akademik.status='AKTIF'");
-        if($result->num_rows()){
+        if ($result->num_rows()) {
             return $result->result_object();
-        }else{
+        } else {
             return 0;
         }
     }
@@ -141,8 +141,7 @@ class Jadwal_Model extends CI_Model
             ORDER BY
                 `matakuliah`.`smt`
         ");
-        if($hasil->num_rows())
-        {
+        if ($hasil->num_rows()) {
             return $hasil->result_object();
         }
     }
@@ -172,13 +171,13 @@ class Jadwal_Model extends CI_Model
                 $this->db->where('gg', $DataTA->gg);
                 $resultDU = $this->db->get('daftar_ulang');
                 $TgSistem = date('Y-m-d');
-                if($resultDU->num_rows()){
-                    if($DataTA->tglReg <= $TgSistem){
+                if ($resultDU->num_rows()) {
+                    if ($DataTA->tglReg <= $TgSistem) {
                         $tgl = date('Y-m-d');
                         $tglmhs = $resultDU->row('last_reg');
                         $Tanggal_sistem = strtotime($tgl);
                         $TglReg = strtotime($tglmhs);
-                        if($Tanggal_sistem<=$TglReg){
+                        if ($Tanggal_sistem <= $TglReg) {
                             $this->db->where('npm', $DataMahasiswa->npm);
                             $this->db->where('thakademik', $DataTA->thakademik);
                             $this->db->where('gg', $DataTA->gg);
@@ -212,40 +211,40 @@ class Jadwal_Model extends CI_Model
                                             'Kelas' => $DataMahasiswa->kelas,
                                             'message' => 'Jadwal',
                                             'status' => true,
-                                            'streg' =>true,
+                                            'streg' => true,
                                             'mahasiswa' => $DataMahasiswa,
                                             'semester' => $resultDU->num_rows(),
                                         );
                                         return $DataJadwal;
-                                    }else{
+                                    } else {
                                         $DataJadwal = array(
                                             'message' => 'Jadwal',
                                             'status' => false,
-                                            'streg' =>true
+                                            'streg' => true,
                                         );
                                         return $DataJadwal;
                                     }
                                 }
                             }
-                        }else{
+                        } else {
                             $DataJadwal = array(
                                 'message' => 'BatasReg',
-                                'status' => true
+                                'status' => true,
                             );
                             return $DataJadwal;
                         }
-                    }else{
+                    } else {
                         $DataJadwal = array(
                             'message' => 'MulaiReg',
-                            'status' => true
+                            'status' => true,
                         );
                         return $DataJadwal;
                     }
-                    
-                }else{
+
+                } else {
                     $DataJadwal = array(
                         'message' => 'Daftar Ulang',
-                        'status' => false
+                        'status' => false,
                     );
                     return $DataJadwal;
                 }
@@ -254,7 +253,7 @@ class Jadwal_Model extends CI_Model
                 $this->db->where('thakademik', $DataTA->thakademik);
                 $this->db->where('gg', $DataTA->gg);
                 $resultKrsm = $this->db->get($this->KrsmTable);
-    
+
                 if ($resultKrsm->num_rows()) {
                     $resultDetailKrsm = $this->db->query("
                     SELECT
@@ -275,21 +274,21 @@ class Jadwal_Model extends CI_Model
                         'message' => 'Krsm',
                     );
                     return $DataKrsm;
-                }else{
+                } else {
                     $DataJadwal = array(
                         'message' => 'Daftar Ulang',
-                        'status' => false
+                        'status' => false,
                     );
                     return $DataJadwal;
                 }
-                
+
             }
-        } 
+        }
     }
 
     public function getJadwalProdi()
     {
-        $prodi = $this->db->get_where('program_studi', ['status'=>'true'])->result();
+        $prodi = $this->db->get_where('program_studi', ['status' => 'true'])->result();
         foreach ($prodi as $key => $itemprodi) {
             $itemprodi->kurikulum = $this->db->query("SELECT kdps, kurikulum FROM `matakuliah` WHERE kurikulum is not null AND kdps = '$itemprodi->kdps' GROUP BY kurikulum")->result();
             foreach ($itemprodi->kurikulum as $key => $itemkurikulum) {
@@ -319,15 +318,17 @@ class Jadwal_Model extends CI_Model
         }
         $kelas = $this->db->get("kelas")->result();
         $all = $this->db->query("SELECT
-            `jadwal_kuliah`.*
+            `jadwal_kuliah`.*,
+            `program_studi`.`nmps`
         FROM
             `jadwal_kuliah`
             LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`idpengampu` =
-            `dosen_pengampu`.`idpengampu`
+        `dosen_pengampu`.`idpengampu`
             LEFT JOIN `tahun_akademik` ON `dosen_pengampu`.`idtahunakademik` =
-            `tahun_akademik`.`idtahunakademik`
+        `tahun_akademik`.`idtahunakademik`
+            LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `jadwal_kuliah`.`kdps`
         WHERE tahun_akademik.status='AKTIF'")->result();
-        return ['prodi'=>$prodi, 'kelas'=>$kelas, 'jadwal'=>$all];
+        return ['prodi' => $prodi, 'kelas' => $kelas, 'jadwal' => $all];
     }
 
     public function getMahasiswa($kmk, $kelas)
