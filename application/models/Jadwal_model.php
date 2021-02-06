@@ -327,7 +327,7 @@ class Jadwal_Model extends CI_Model
             LEFT JOIN `tahun_akademik` ON `dosen_pengampu`.`idtahunakademik` =
         `tahun_akademik`.`idtahunakademik`
             LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `jadwal_kuliah`.`kdps`
-        WHERE tahun_akademik.status='AKTIF'")->result();
+        WHERE tahun_akademik.status='AKTIF' ORDER BY jadwal_kuliah.nmmk, jadwal_kuliah.kelas, program_studi.nmps")->result();
         return ['prodi' => $prodi, 'kelas' => $kelas, 'jadwal' => $all];
     }
 
