@@ -163,7 +163,7 @@ class Jadwal_Model extends CI_Model
         }
         if ($Mahasiswa->num_rows()) {
             if ($DataMahasiswa->statuskul == "TIDAK AKTIF" ||
-                // $DataMahasiswa->statuskul == "TRANSFER" ||
+                $DataMahasiswa->statuskul == "TRANSFER" ||
                 $DataMahasiswa->statuskul == "CUTI") {
 
                 $this->db->where('npm', $DataMahasiswa->npm);
