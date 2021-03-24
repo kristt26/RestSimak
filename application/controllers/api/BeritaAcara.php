@@ -95,7 +95,7 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
             $message = [
                 "data" => "Session anda telah habis",
             ];
-            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+            $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
 

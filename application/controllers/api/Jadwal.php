@@ -99,7 +99,7 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
                     'status' => false,
                     'message' => [],
                 ];
-                $this->response($message, REST_Controller::HTTP_OK);
+                $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
             }
 
         }
