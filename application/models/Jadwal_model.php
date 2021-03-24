@@ -66,7 +66,14 @@ class Jadwal_Model extends CI_Model
                 `matakuliah`.`smt`,
                 `matakuliah`.`kurikulum`,
                 `program_studi`.`nmps`,
-                `dosen`.`nmdsn`
+                `dosen`.`nmdsn`,
+								(SELECT
+            COUNT(*)
+        FROM
+            `krsm_detail`
+            LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+        `krsm_detail`.`thakademik` AND `tahun_akademik`.`gg` = `krsm_detail`.`gg`
+        WHERE krsm_detail.kmk=jadwal_kuliah.kmk AND tahun_akademik.status='AKTIF' AND krsm_detail.kelas=jadwal_kuliah.kelas)AS jumlahmahasiswa
             FROM
                 `jadwal_kuliah`
                 RIGHT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
