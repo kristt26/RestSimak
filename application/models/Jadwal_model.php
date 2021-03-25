@@ -101,8 +101,7 @@ class Jadwal_Model extends CI_Model
 
     public function getJadwalKuliah($npm, $kelas)
     {
-        $result = $this->db->query("
-        SELECT
+        $result = $this->db->query("SELECT
         *
       FROM
         `krsm_detail`
@@ -124,29 +123,39 @@ class Jadwal_Model extends CI_Model
 
     public function getAllJadwal(Type $var = null)
     {
-        $hasil = $this->db->query("
-            SELECT
+        $hasil = $this->db->query("SELECT
                 `jadwal_kuliah`.*,
+                `dosen`.`nidn`,
                 `matakuliah`.`smt`,
                 `matakuliah`.`kurikulum`,
                 `program_studi`.`nmps`,
                 `dosen`.`nmdsn`,
-                `dosen_pengampu`.`nidn`
+                                (SELECT
+            COUNT(*)
+        FROM
+            `krsm_detail`
+            LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+        `krsm_detail`.`thakademik` AND `tahun_akademik`.`gg` = `krsm_detail`.`gg`
+        WHERE krsm_detail.kmk=jadwal_kuliah.kmk AND tahun_akademik.status='AKTIF' AND krsm_detail.kelas=jadwal_kuliah.kelas)AS jumlahmahasiswa
             FROM
                 `jadwal_kuliah`
-                LEFT JOIN `tahun_akademik` ON `jadwal_kuliah`.`thakademik` =
-                `tahun_akademik`.`thakademik` AND `jadwal_kuliah`.`gg` =
-                `tahun_akademik`.`gg`
-                LEFT JOIN `matakuliah` ON `matakuliah`.`kmk` = `jadwal_kuliah`.`kmk`
-                AND `matakuliah`.`kdps` = `jadwal_kuliah`.`kdps`
-                LEFT JOIN `program_studi` ON `jadwal_kuliah`.`kdps` = `program_studi`.`kdps`
-                LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`kmk` = `dosen_pengampu`.`kmk`
-                RIGHT JOIN `dosen` ON `dosen`.`nidn` = `dosen_pengampu`.`nidn`
+                RIGHT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+            `jadwal_kuliah`.`thakademik` AND `tahun_akademik`.`gg` =
+            `jadwal_kuliah`.`gg`
+                LEFT JOIN `dosen_pengampu` ON `dosen_pengampu`.`thakademik` =
+            `tahun_akademik`.`thakademik` AND `dosen_pengampu`.`gg` =
+            `tahun_akademik`.`gg` AND `jadwal_kuliah`.`idpengampu` =
+            `dosen_pengampu`.`idpengampu`
+                LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
+                RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
+                LEFT JOIN `matakuliah` ON `matakuliah`.`idmatakuliah` =
+            `dosen_pengampu`.`idmatakuliah` AND `matakuliah`.`kdps` =
+            `jadwal_kuliah`.`kdps`
+                LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `matakuliah`.`kdps`
             WHERE
-                `tahun_akademik`.`status` = 'AKTIF' AND
-                `dosen_pengampu`.`mengajar` = 'Y'
-            ORDER BY
-                `matakuliah`.`smt`
+
+                `tahun_akademik`.`status` = 'AKTIF
+            GROUP BY jadwal_kuliah.thakademik, jadwal_kuliah.gg, jadwal_kuliah.kelas, jadwal_kuliah.kmk
         ");
         if ($hasil->num_rows()) {
             return $hasil->result_object();
