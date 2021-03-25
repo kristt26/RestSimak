@@ -120,7 +120,7 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
     public function Transkip_get()
     {
         $npm = $this->uri->segment(3);
-        $Output = $this->MahasiswaModel->Matakuliah($npm);
+        $Output = $this->MahasiswaModel->transkip($npm);
         if ($Output) {
             $this->response($Output, REST_Controller::HTTP_OK);
         } else {
