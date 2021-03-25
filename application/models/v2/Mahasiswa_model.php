@@ -301,26 +301,11 @@ class Mahasiswa_Model extends CI_Model
         GROUP BY mahasiswa.id")->row_object();
 
         $mahasiswa->matakuliah = $this->db->query("SELECT
-                `matakuliah`.`kmk`,
-                `matakuliah`.`nmmk`,
-                `krsm`.`sms`,
-                `khsm_detail`.`nhuruf`,
-                `matakuliah`.`sks`,
-                CASE
-                    WHEN nhuruf = 'A' THEN 4
-                    WHEN nhuruf = 'B' THEN 3
-                    WHEN nhuruf = 'C' THEN 2
-                    WHEN nhuruf = 'D' THEN 1
-                    WHEN nhuruf = 'E' THEN 0
-                    WHEN nhuruf = '' THEN 0
-                END AS nilai
+                *
             FROM
-                `krsm`
-                LEFT JOIN `khsm` ON `krsm`.`IdKrsm` = `khsm`.`IdKrsm`
-                LEFT JOIN `khsm_detail` ON `khsm`.`Id` = `khsm_detail`.`IdKhsm`
-                LEFT JOIN `matakuliah` ON `khsm_detail`.`kmk` = `matakuliah`.`kmk`
-            WHERE krsm.npm='$npm' AND krsm.sms IN('1','2','3','4')
-            ORDER BY krsm.sms ASC")->result();
+                `transkip`
+            WHERE npm='$npm'
+            ORDER BY sms ASC")->result();
         return $mahasiswa;
     }
 }
