@@ -120,17 +120,16 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
     public function Transkip_get()
     {
         $npm = $this->uri->segment(3);
-        $this->response($npm, REST_Controller::HTTP_OK);
-        // $Output = $this->MahasiswaModel->Matakuliah($npm);
-        // if ($Output) {
-        //     $this->response($Output, REST_Controller::HTTP_OK);
-        // } else {
-        //     $message = [
-        //         'status' => false,
-        //         'data' => [],
-        //         'message' => "Kosong",
-        //     ];
-        //     $this->response($message, REST_Controller::HTTP_NOT_FOUND);
-        // }
+        $Output = $this->MahasiswaModel->Matakuliah($npm);
+        if ($Output) {
+            $this->response($Output, REST_Controller::HTTP_OK);
+        } else {
+            $message = [
+                'status' => false,
+                'data' => [],
+                'message' => "Kosong",
+            ];
+            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+        }
     }
 }
