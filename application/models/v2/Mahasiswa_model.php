@@ -305,7 +305,7 @@ class Mahasiswa_Model extends CI_Model
             FROM
                 `transkip`
             WHERE npm='$npm'
-            ORDER BY sms ASC")->result();
+            ORDER BY smt ASC")->result();
         return $mahasiswa;
     }
 }
