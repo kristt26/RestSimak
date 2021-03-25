@@ -304,7 +304,9 @@ class Mahasiswa_Model extends CI_Model
                 *,
                 CASE
                     WHEN nilai = 'A' THEN 4
+                    WHEN nilai = 'B+' THEN 3.75
                     WHEN nilai = 'B' THEN 3
+                    WHEN nilai = 'C+' THEN 2.5
                     WHEN nilai = 'C' THEN 2
                     WHEN nilai = 'D' THEN 1
                     WHEN nilai = 'E' THEN 0
