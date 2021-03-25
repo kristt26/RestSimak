@@ -154,7 +154,7 @@ class Jadwal_Model extends CI_Model
                 LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `matakuliah`.`kdps`
             WHERE
 
-                `tahun_akademik`.`status` = 'AKTIF
+                `tahun_akademik`.`status` = 'AKTIF'
             GROUP BY jadwal_kuliah.thakademik, jadwal_kuliah.gg, jadwal_kuliah.kelas, jadwal_kuliah.kmk
         ");
         if ($hasil->num_rows()) {
