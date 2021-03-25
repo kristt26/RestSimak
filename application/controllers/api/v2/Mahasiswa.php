@@ -63,19 +63,19 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
             $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
-    public function ipkmhs_get()
+    public function GetIPKMhs_get()
     {
         $npm = $this->uri->segment(3);
         $Output = $this->MahasiswaModel->selectIPK($npm);
-            if ($Output) {
-                $this->response($Output, REST_Controller::HTTP_OK);
-            } else {
-                $message = [
-                    'message' => "data tidak ditemukan",
-                ];
-                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
-            }
-        
+        if ($Output) {
+            $this->response($Output, REST_Controller::HTTP_OK);
+        } else {
+            $message = [
+                'message' => "data tidak ditemukan",
+            ];
+            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+        }
+
     }
     public function GetIPSMahasiswa_get()
     {
