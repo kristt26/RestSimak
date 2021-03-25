@@ -284,47 +284,43 @@ class Mahasiswa_Model extends CI_Model
     public function transkip($npm)
     {
 
-        // $this->load->library('my_lib');
-        // $mahasiswa = $this->db->query("SELECT
-        //     `mahasiswa`.`npm`,
-        //     `mahasiswa`.`nmmhs`,
-        //     `mahasiswa`.`jursmu`,
-        //     `mahasiswa`.`nmsmu`,
-        //     `mahasiswa`.`jk`,
-        //     `mahasiswa`.`provsmu`,
-        //     (SELECT COUNT(*) FROM daftar_ulang WHERE daftar_ulang.idmahasiswa=mahasiswa.id) AS lamaKuliah
-        // FROM
-        //     `mahasiswa`
-        //     LEFT JOIN `daftar_ulang` ON `daftar_ulang`.`idmahasiswa` = `mahasiswa`.`Id`
-        // WHERE
-        //     `mahasiswa`.`statuskul` = 'LULUS' AND
-        //     `mahasiswa`.`jursmu` <> '-' AND (SELECT COUNT(*) FROM daftar_ulang WHERE daftar_ulang.idmahasiswa=mahasiswa.id)>=8
-        // GROUP BY mahasiswa.id")->result();
+        $this->load->library('my_lib');
+        $mahasiswa = $this->db->query("SELECT
+            `mahasiswa`.`npm`,
+            `mahasiswa`.`nmmhs`,
+            `mahasiswa`.`jursmu`,
+            `mahasiswa`.`nmsmu`,
+            `mahasiswa`.`jk`,
+            `mahasiswa`.`provsmu`,
+            (SELECT COUNT(*) FROM daftar_ulang WHERE daftar_ulang.idmahasiswa=mahasiswa.id) AS lamaKuliah
+        FROM
+            `mahasiswa`
+            LEFT JOIN `daftar_ulang` ON `daftar_ulang`.`idmahasiswa` = `mahasiswa`.`Id`
+        WHERE
+            `mahasiswa`.`npm` = '$npm'
+        GROUP BY mahasiswa.id")->row_object();
 
-        // foreach ($mahasiswa as $key => $value) {
-        //     $value->matakuliah = $this->db->query("SELECT
-        //         `matakuliah`.`kmk`,
-        //         `matakuliah`.`nmmk`,
-        //         `krsm`.`sms`,
-        //         `khsm_detail`.`nhuruf`,
-        //         `matakuliah`.`sks`,
-        //         CASE
-        //             WHEN nhuruf = 'A' THEN 4
-        //             WHEN nhuruf = 'B' THEN 3
-        //             WHEN nhuruf = 'C' THEN 2
-        //             WHEN nhuruf = 'D' THEN 1
-        //             WHEN nhuruf = 'E' THEN 0
-        //             WHEN nhuruf = '' THEN 0
-        //         END AS nilai
-        //     FROM
-        //         `krsm`
-        //         LEFT JOIN `khsm` ON `krsm`.`IdKrsm` = `khsm`.`IdKrsm`
-        //         LEFT JOIN `khsm_detail` ON `khsm`.`Id` = `khsm_detail`.`IdKhsm`
-        //         LEFT JOIN `matakuliah` ON `khsm_detail`.`kmk` = `matakuliah`.`kmk`
-        //     WHERE krsm.npm='$value->npm' AND krsm.sms IN('1','2','3','4')
-        //     ORDER BY krsm.sms ASC")->result();
-        // }
-        // return $mahasiswa;
-        return $npm;
+        $mahasiswa->matakuliah = $this->db->query("SELECT
+                `matakuliah`.`kmk`,
+                `matakuliah`.`nmmk`,
+                `krsm`.`sms`,
+                `khsm_detail`.`nhuruf`,
+                `matakuliah`.`sks`,
+                CASE
+                    WHEN nhuruf = 'A' THEN 4
+                    WHEN nhuruf = 'B' THEN 3
+                    WHEN nhuruf = 'C' THEN 2
+                    WHEN nhuruf = 'D' THEN 1
+                    WHEN nhuruf = 'E' THEN 0
+                    WHEN nhuruf = '' THEN 0
+                END AS nilai
+            FROM
+                `krsm`
+                LEFT JOIN `khsm` ON `krsm`.`IdKrsm` = `khsm`.`IdKrsm`
+                LEFT JOIN `khsm_detail` ON `khsm`.`Id` = `khsm_detail`.`IdKhsm`
+                LEFT JOIN `matakuliah` ON `khsm_detail`.`kmk` = `matakuliah`.`kmk`
+            WHERE krsm.npm='$npm' AND krsm.sms IN('1','2','3','4')
+            ORDER BY krsm.sms ASC")->result();
+        return $mahasiswa;
     }
 }
