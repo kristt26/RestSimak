@@ -102,6 +102,11 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
                 $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
             }
 
+        }else{
+            $message = [
+                "data" => "Session anda telah habis",
+            ];
+            $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
 
