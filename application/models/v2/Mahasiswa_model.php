@@ -4,11 +4,11 @@ class Mahasiswa_Model extends CI_Model
     public function selectIPK($npm = null)
     {
         $result = $this->db->query("SELECT
-            SUM(CASE 
+            SUM(CASE
                 WHEN ket= 'L' THEN 1*nxsks
                 ELSE
                 0*nxsks
-                END)/SUM(CASE 
+                END)/SUM(CASE
                 WHEN ket = 'L' THEN 1*sks
                 ELSE
                 0*sks
@@ -42,11 +42,11 @@ class Mahasiswa_Model extends CI_Model
             LEFT JOIN `khsm_detail` ON `khsm_detail`.`IdKhsm` = `khsm`.`Id`
         WHERE `mahasiswa`.`npm` = '$npm'
         GROUP BY `daftar_ulang`.`tgdu`");
-        
-        if ($result->num_rows()>0) {
+
+        if ($result->num_rows() > 0) {
             foreach ($result->result() as $key => $value) {
-                $value->smt = $key +1;
-                $value->IPS = $value->IPS==null ? 0: $value->IPS;
+                $value->smt = $key + 1;
+                $value->IPS = $value->IPS == null ? 0 : $value->IPS;
             }
             return $result->result();
         } else {
@@ -58,7 +58,7 @@ class Mahasiswa_Model extends CI_Model
     }
     public function AmbilMahasiswa($npm)
     {
-        if ($npm != null && $npm!=="undefined") {
+        if ($npm != null && $npm !== "undefined") {
             $ResultMahasiswa = $this->db->query("SELECT
                 `mahasiswa`.`npm`,
                 `mahasiswa`.`jenjang`,
@@ -125,7 +125,7 @@ class Mahasiswa_Model extends CI_Model
                 `mahasiswa`
                 WHERE
                 `mahasiswa`.`statuskul` IN ('AKTIF')");
-            if ($ResultMahasiswa->num_rows()>0) {
+            if ($ResultMahasiswa->num_rows() > 0) {
                 return $ResultMahasiswa->result();
             } else {
                 $data = [
@@ -136,7 +136,7 @@ class Mahasiswa_Model extends CI_Model
             }
         }
     }
-    public function MahasiswaPublick($npm=null)
+    public function MahasiswaPublick($npm = null)
     {
         if ($npm != null) {
             $ResultMahasiswa = $this->db->query("
@@ -171,7 +171,7 @@ class Mahasiswa_Model extends CI_Model
                 `mahasiswa`.`kurikulum`
             FROM
                 `mahasiswa` WHERE npm='$npm' AND statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER')");
-            if ($ResultMahasiswa->num_rows()>0) {
+            if ($ResultMahasiswa->num_rows() > 0) {
                 return $ResultMahasiswa->result()[0];
             } else {
                 $data = [
@@ -212,7 +212,7 @@ class Mahasiswa_Model extends CI_Model
                 `mahasiswa`.`kurikulum`
             FROM
             `mahasiswa` WHERE statuskul in('AKTIF', 'CUTI', 'TIDAK AKTIF', 'TRANSFER')");
-            if (count($ResultMahasiswa->result())>0) {
+            if (count($ResultMahasiswa->result()) > 0) {
                 return $ResultMahasiswa->result();
             } else {
                 $data = [
@@ -222,9 +222,9 @@ class Mahasiswa_Model extends CI_Model
             }
         }
     }
-    public function Matakuliah($npm=null)
+    public function Matakuliah($npm = null)
     {
-        
+
         $this->load->library('my_lib');
         $mahasiswa = $this->db->query("SELECT
             `mahasiswa`.`npm`,
@@ -238,20 +238,20 @@ class Mahasiswa_Model extends CI_Model
             `mahasiswa`
             LEFT JOIN `daftar_ulang` ON `daftar_ulang`.`idmahasiswa` = `mahasiswa`.`Id`
         WHERE
-            `mahasiswa`.`statuskul` = 'LULUS' AND 
+            `mahasiswa`.`statuskul` = 'LULUS' AND
             `mahasiswa`.`jursmu` <> '-' AND (SELECT COUNT(*) FROM daftar_ulang WHERE daftar_ulang.idmahasiswa=mahasiswa.id)>=8
         GROUP BY mahasiswa.id")->result();
 
         // $result = $this->db->query("SELECT
         //     `transkip`.`nmmk`,
         //     `transkip`.`nilai`,
-            // `transkip`.`smt`,
-            // CASE
-            //     WHEN nilai = 'A' THEN 4
-            //     WHEN nilai = 'B' THEN 3
-            //     WHEN nilai = 'C' THEN 2
-            //     WHEN nilai = 'D' THEN 1
-            // END AS bobotnilai
+        // `transkip`.`smt`,
+        // CASE
+        //     WHEN nilai = 'A' THEN 4
+        //     WHEN nilai = 'B' THEN 3
+        //     WHEN nilai = 'C' THEN 2
+        //     WHEN nilai = 'D' THEN 1
+        // END AS bobotnilai
         // FROM
         //     `transkip`
         // where SUBSTRING(npm, 1, 4) > '2010' AND smt <=4")->result();
@@ -279,6 +279,43 @@ class Mahasiswa_Model extends CI_Model
             ORDER BY krsm.sms ASC")->result();
         }
         // $temp = $this->my_lib->groupArray($result, "npm");
+        return $mahasiswa;
+    }
+    public function transkip($npm)
+    {
+
+        $this->load->library('my_lib');
+        $mahasiswa = $this->db->query("SELECT
+            `mahasiswa`.`npm`,
+            `mahasiswa`.`nmmhs`,
+            `mahasiswa`.`jursmu`,
+            `mahasiswa`.`nmsmu`,
+            `mahasiswa`.`jk`,
+            `mahasiswa`.`provsmu`,
+            (SELECT COUNT(*) FROM daftar_ulang WHERE daftar_ulang.idmahasiswa=mahasiswa.id) AS lamaKuliah
+        FROM
+            `mahasiswa`
+            LEFT JOIN `daftar_ulang` ON `daftar_ulang`.`idmahasiswa` = `mahasiswa`.`Id`
+        WHERE
+            `mahasiswa`.`npm` = '$npm'
+        GROUP BY mahasiswa.id")->row_object();
+
+        $mahasiswa->matakuliah = $this->db->query("SELECT
+                *,
+                CASE
+                    WHEN nilai = 'A' THEN 4
+                    WHEN nilai = 'B+' THEN 3.75
+                    WHEN nilai = 'B' THEN 3
+                    WHEN nilai = 'C+' THEN 2.5
+                    WHEN nilai = 'C' THEN 2
+                    WHEN nilai = 'D' THEN 1
+                    WHEN nilai = 'E' THEN 0
+                    WHEN nilai = '' THEN 0
+                END AS valuee
+            FROM
+                `transkip`
+            WHERE npm='$npm'
+            ORDER BY smt ASC")->result();
         return $mahasiswa;
     }
 }
