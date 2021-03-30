@@ -155,28 +155,27 @@ class BeritaAcara_Model extends CI_Model
     }
     public function Persetujuan()
     {
-        $result = $this->db->query("
-            SELECT
-                `bamengajardosen`.*,
-                `matakuliah`.`nmmk`,
-                `matakuliah`.`sks`,
-                `matakuliah`.`smt`,
-                `matakuliah`.`kdps`,
-                `jadwal_kuliah`.`kelas`,
-                `jadwal_kuliah`.`dsn_saji`
-            FROM
-                `bamengajardosen`
-                LEFT JOIN `matakuliah` ON `bamengajardosen`.`kmk` = `matakuliah`.`kmk`
-                LEFT JOIN `jadwal_kuliah` ON `jadwal_kuliah`.`idjadwal` =
-                `bamengajardosen`.`idjadwal`
-            WHERE
-                `bamengajardosen`.`status` = 'non'
-            ORDER BY
-                `matakuliah`.`nmmk`,
-                `jadwal_kuliah`.`kelas`,
-                `bamengajardosen`.`tanggal` DESC
-
-        ");
+        $result = $this->db->query("SELECT
+            `bamengajardosen`.*,
+            `matakuliah`.`nmmk`,
+            `matakuliah`.`sks`,
+            `matakuliah`.`smt`,
+            `matakuliah`.`kdps`,
+            `jadwal_kuliah`.`kelas`,
+            `jadwal_kuliah`.`dsn_saji`,
+            `program_studi`.`nmps`
+        FROM
+            `bamengajardosen`
+            LEFT JOIN `matakuliah` ON `bamengajardosen`.`kmk` = `matakuliah`.`kmk`
+            LEFT JOIN `jadwal_kuliah` ON `jadwal_kuliah`.`idjadwal` =
+            `bamengajardosen`.`idjadwal`
+            LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `jadwal_kuliah`.`kdps`
+        WHERE
+            `bamengajardosen`.`status` = 'non'
+        ORDER BY
+            `matakuliah`.`nmmk`,
+            `jadwal_kuliah`.`kelas`,
+            `bamengajardosen`.`tanggal` DESC");
         return $result->result_array();
     }
     public function rekap()
