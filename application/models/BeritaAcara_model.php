@@ -170,8 +170,6 @@ class BeritaAcara_Model extends CI_Model
             LEFT JOIN `jadwal_kuliah` ON `jadwal_kuliah`.`idjadwal` =
             `bamengajardosen`.`idjadwal`
             LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `jadwal_kuliah`.`kdps`
-        WHERE
-            `bamengajardosen`.`status` = 'non'
         ORDER BY
             `matakuliah`.`nmmk`,
             `jadwal_kuliah`.`kelas`,
