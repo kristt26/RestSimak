@@ -200,6 +200,31 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
         }
     }
 
+    public function histori_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->BeritaAcaraModel->hisroti();
+            if ($Output) {
+                $message = [
+                    "data" => $Output,
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            } else {
+                $message = [
+                    "data" => $Output,
+                ];
+                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+            }
+        } else {
+            $message = [
+                "data" => "Session Habis",
+            ];
+            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+
     public function HapusBa_delete()
     {
         $this->load->library('Authorization_Token');
