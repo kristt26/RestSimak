@@ -213,4 +213,17 @@ class BeritaAcara_Model extends CI_Model
         $a = $result->result_array();
         return $a;
     }
+
+    public function hisroti()
+    {
+        $resultTa = $this->db->query("call taAktif()");
+        $taAktif = $resultTa->result_object();
+        $ta = $taAktif[0]->thakademik;
+        $gg = $taAktif[0]->gg;
+        $resultTa->next_result(); 
+        // $resultTa->free_result(); 
+        $result = $this->db->query("call histori_ba('$ta', '$gg')");
+        $a = $result->result_array();
+        return $a;
+    }
 }
