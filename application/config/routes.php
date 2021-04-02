@@ -135,6 +135,7 @@ $route['api/BeritaAcara/updateBaMengajar']['put'] = 'api/BeritaAcara/updateBaMen
 $route['api/BeritaAcara/Rekap']['put'] = 'api/BeritaAcara/Rekap';
 $route['api/BeritaAcara/HapusBa']['delete'] = 'api/BeritaAcara/HapusBa';
 $route['api/BeritaAcara/laporan']['get'] = 'api/BeritaAcara/laporan';
+$route['api/BeritaAcara/histori']['get'] = 'api/BeritaAcara/histori';
 // Dosen
 $route['api/Dosen/GetDosen']['get'] = 'api/Dosen/GetDosen';
 $route['api/Dosen/GetPublikasi']['get'] = 'api/Dosen/GetPublikasi';
