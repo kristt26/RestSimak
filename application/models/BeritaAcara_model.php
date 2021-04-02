@@ -214,16 +214,89 @@ class BeritaAcara_Model extends CI_Model
         return $a;
     }
 
-    public function hisroti()
+    public function thba()
     {
-        $resultTa = $this->db->query("call taAktif()");
-        $taAktif = $resultTa->result_object();
-        $ta = $taAktif[0]->thakademik;
-        $gg = $taAktif[0]->gg;
-        $resultTa->next_result(); 
-        // $resultTa->free_result(); 
-        $result = $this->db->query("call histori_ba('$ta', '$gg')");
-        $a = $result->result_array();
-        return $a;
+        return $this->db->query("SELECT
+            CONCAT(jadwal_kuliah.thakademik, ' - ', jadwal_kuliah.gg) AS setthakademik,
+            jadwal_kuliah.thakademik,
+            jadwal_kuliah.gg
+        FROM
+            `bamengajardosen`
+            LEFT JOIN `jadwal_kuliah` ON `jadwal_kuliah`.`idjadwal` =
+            `bamengajardosen`.`idjadwal`
+        GROUP BY jadwal_kuliah.thakademik, jadwal_kuliah.gg")->result_array();
+    }
+
+    public function histori($data)
+    {
+        $message = [
+            "data" => array(),
+        ];
+        $thakademik = $data['thakademik'];
+        $gg = $data['gg'];
+        $DataMatakuliah = $this->db->query("SELECT
+            `m`.`kmk`,
+            `m`.`nmmk`,
+            `m`.`kdps`,
+            `m`.`kurikulum`,
+            `m`.`idmatakuliah`,
+            `jk`.`idjadwal`,
+            `jk`.`kelas`,
+            `jk`.`sks`,
+            `dosen`.`nmdsn`,
+            `program_studi`.`nmps`
+        FROM
+            `bamengajardosen` `bm`
+            LEFT JOIN `matakuliah` `m` ON `m`.`kmk` = `bm`.`kmk`
+            LEFT JOIN `jadwal_kuliah` `jk` ON `bm`.`idjadwal` = `jk`.`idjadwal`
+            LEFT JOIN `dosen_pengampu` ON
+            `jk`.`idpengampu` = `dosen_pengampu`.`idpengampu`
+            LEFT JOIN `dosen` ON `dosen_pengampu`.`iddosen` = `dosen`.`iddosen`
+            LEFT JOIN `program_studi` ON `jk`.`kdps` = `program_studi`.`kdps`
+        WHERE
+            `jk`.`thakademik` = '$thakademik' AND
+            `jk`.`gg` = '$gg'
+        GROUP BY jk.idjadwal")->result_array();
+        $DataBa = $this->db->query("SELECT
+            `bm`.`nidn`,
+            `bm`.`kmk`,
+            `bm`.`tanggalrekap`,
+            `bm`.`materi`,
+            `bm`.`hadir`,
+            `bm`.`tanggal`,
+            `bm`.`persetujuan1`,
+            `m`.`nmmk`,
+            `jk`.`idjadwal`,
+            `jk`.`kelas`,
+            `jk`.`hari`,
+            `jk`.`dsn_saji`,
+            `jk`.`thakademik`,
+            `jk`.`gg`,
+            `m`.`kdps`
+        FROM
+            `bamengajardosen` `bm`
+            LEFT JOIN `matakuliah` `m` ON `m`.`kmk` = `bm`.`kmk`
+            LEFT JOIN `jadwal_kuliah` `jk` ON `bm`.`idjadwal` = `jk`.`idjadwal`
+        WHERE
+            `jk`.`thakademik` = '$thakademik' AND
+            `jk`.`gg` = '$gg'")->result_array();
+        foreach ($DataMatakuliah as $key1 => $value1) {
+            $DatasMatakuliah = [
+                "Matakuliah" => $value1['nmmk'],
+                "dosen" => $value1['nmdsn'],
+                "kmk" => $value1['kmk'],
+                "kelas" => $value1['kelas'],
+                "sks" => $value1['sks'],
+                "jurusan" => $value1['nmps'],
+                "beritaacara" => array(),
+            ];
+            foreach ($DataBa as $key => $value2) {
+                if ($value1['idjadwal'] == $value2['idjadwal']) {
+                    array_push($DatasMatakuliah['beritaacara'], $value2);
+                }
+            }
+            array_push($message['data'], $DatasMatakuliah);
+        }
+        return $message['data'];
     }
 }

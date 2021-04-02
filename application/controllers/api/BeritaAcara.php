@@ -200,28 +200,36 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
         }
     }
 
-    public function histori_get()
+    public function histori_post()
     {
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
-            $Output = $this->BeritaAcaraModel->hisroti();
+            $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
+            $Output = $this->BeritaAcaraModel->histori($data);
             if ($Output) {
-                $message = [
-                    "data" => $Output,
-                ];
-                $this->response($message, REST_Controller::HTTP_OK);
+                $this->response($Output, REST_Controller::HTTP_OK);
             } else {
-                $message = [
-                    "data" => $Output,
-                ];
-                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+                $this->response('Tidak ada data', REST_Controller::HTTP_NOT_FOUND);
             }
         } else {
-            $message = [
-                "data" => "Session Habis",
-            ];
-            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+            $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    public function thba_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->BeritaAcaraModel->thba();
+            if ($Output) {
+                $this->response($Output, REST_Controller::HTTP_OK);
+            } else {
+                $this->response('data tidak ditemukan', REST_Controller::HTTP_NOT_FOUND);
+            }
+        } else {
+            $this->response( "Session Habis", REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
 
