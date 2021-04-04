@@ -26,14 +26,14 @@ class PenilaianDosen extends \Restserver\Libraries\REST_Controller
     {
         $id = $_GET;
         $Output = $this->PenilaianDosenModel->get($id);
-        if(!empty($Output)){
+        if (!empty($Output)) {
             $message = [
-                'status' => $Output
+                'status' => $Output,
             ];
             $this->response($message, REST_Controller::HTTP_OK);
-        }else{
+        } else {
             $message = [
-                'status' => $Output
+                'status' => $Output,
             ];
             $this->response($message, REST_Controller::HTTP_OK);
         }
@@ -43,14 +43,14 @@ class PenilaianDosen extends \Restserver\Libraries\REST_Controller
     {
         $data = json_decode($this->input->raw_input_stream);
         $Output = $this->PenilaianDosenModel->insert($data);
-        if($Output){
+        if ($Output) {
             $message = [
-                'status' => true
+                'status' => true,
             ];
             $this->response($message, REST_Controller::HTTP_OK);
-        }else{
+        } else {
             $message = [
-                'status' => false
+                'status' => false,
             ];
             $this->response($message, REST_Controller::HTTP_OK);
         }
@@ -60,33 +60,31 @@ class PenilaianDosen extends \Restserver\Libraries\REST_Controller
     {
         $data = json_decode($this->input->raw_input_stream);
         $result = $this->PenilaianDosenModel->update($data);
-        if ($result){
+        if ($result) {
             $message = [
-                'status' => true
+                'status' => true,
             ];
             $this->response($message, REST_Controller::HTTP_OK);
-        }else{
+        } else {
             $message = [
-                'status' => false
+                'status' => false,
             ];
             $this->response($message, REST_Controller::HTTP_OK);
         }
     }
 
-        
-
     public function DeletePenilaiEvaluasi()
     {
         $id = $_GET;
         $result = $this->PenilaianDosenModel->delete($id);
-        if ($result){
+        if ($result) {
             $message = [
-                'status' => true
+                'status' => true,
             ];
             $this->response($message, REST_Controller::HTTP_OK);
-        }else{
+        } else {
             $message = [
-                'status' => true
+                'status' => true,
             ];
             $this->response($message, REST_Controller::HTTP_OK);
         }
