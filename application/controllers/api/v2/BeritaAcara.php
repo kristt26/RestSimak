@@ -18,8 +18,8 @@ class BeritaAcara extends \Restserver\Libraries\REST_Controller
         $this->load->model('BeritaAcara_model', 'BeritaAcaraModel');
     }
 
-    public function index()
+    public function setData_get()
     {
-        echo json_encode(['data']);
+        echo json_encode($this->BeritaAcaraModel->setdata());
     }
 }

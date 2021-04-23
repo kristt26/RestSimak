@@ -206,3 +206,4 @@ $route['v2/datamahasiswa']['get'] = 'api/v2/Mahasiswa/DataMahasiswa';
 $route['v2/nilaimahasiswa']['get'] = 'api/v2/Mahasiswa/DataMhs';
 $route['v2/transkip/:num']['get'] = 'api/v2/Mahasiswa/Transkip';
 $route['v2/authorization']['post'] = 'api/v2/Users/Login';
+$route['v2/beritaacara']['get'] = 'api/v2/BeritaAcara/setData';

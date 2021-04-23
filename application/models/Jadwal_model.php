@@ -361,4 +361,6 @@ class Jadwal_Model extends CI_Model
         WHERE krsm_detail.kmk='$kmk' AND tahun_akademik.status='AKTIF' AND krsm_detail.kelas='$kelas'")->result();
         return $result;
     }
+
+    
 }

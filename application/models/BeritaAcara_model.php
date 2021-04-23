@@ -299,4 +299,131 @@ class BeritaAcara_Model extends CI_Model
         }
         return $message['data'];
     }
+    public function setdata()
+    {
+        $jadwal1 =  $this->db->query("SELECT
+                `jadwal_kuliah`.*,
+                `dosen`.`nidn`,
+                `matakuliah`.`smt`,
+                `matakuliah`.`kurikulum`,
+                `program_studi`.`nmps`,
+                `dosen`.`nmdsn`,
+                                (SELECT
+            COUNT(*)
+        FROM
+            `krsm_detail`
+            LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+        `krsm_detail`.`thakademik` AND `tahun_akademik`.`gg` = `krsm_detail`.`gg`
+        WHERE krsm_detail.kmk=jadwal_kuliah.kmk AND tahun_akademik.status='AKTIF' AND krsm_detail.kelas=jadwal_kuliah.kelas)AS jumlahmahasiswa
+            FROM
+                `jadwal_kuliah`
+                RIGHT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+            `jadwal_kuliah`.`thakademik` AND `tahun_akademik`.`gg` =
+            `jadwal_kuliah`.`gg`
+                LEFT JOIN `dosen_pengampu` ON `dosen_pengampu`.`thakademik` =
+            `tahun_akademik`.`thakademik` AND `dosen_pengampu`.`gg` =
+            `tahun_akademik`.`gg` AND `jadwal_kuliah`.`idpengampu` =
+            `dosen_pengampu`.`idpengampu`
+                LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
+                RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
+                LEFT JOIN `matakuliah` ON `matakuliah`.`idmatakuliah` =
+            `dosen_pengampu`.`idmatakuliah` AND `matakuliah`.`kdps` =
+            `jadwal_kuliah`.`kdps`
+                LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `matakuliah`.`kdps`
+            WHERE
+
+                `tahun_akademik`.`status` = 'AKTIF' AND
+                jadwal_kuliah.kelas = 'C'
+            GROUP BY jadwal_kuliah.thakademik, jadwal_kuliah.gg, jadwal_kuliah.kelas, jadwal_kuliah.kmk
+        ")->result();
+        $jadwal2 =  $this->db->query("SELECT
+                `jadwal_kuliah`.*,
+                `dosen`.`nidn`,
+                `matakuliah`.`smt`,
+                `matakuliah`.`kurikulum`,
+                `program_studi`.`nmps`,
+                `dosen`.`nmdsn`,
+                                (SELECT
+            COUNT(*)
+        FROM
+            `krsm_detail`
+            LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+        `krsm_detail`.`thakademik` AND `tahun_akademik`.`gg` = `krsm_detail`.`gg`
+        WHERE krsm_detail.kmk=jadwal_kuliah.kmk AND tahun_akademik.status='AKTIF' AND krsm_detail.kelas=jadwal_kuliah.kelas)AS jumlahmahasiswa
+            FROM
+                `jadwal_kuliah`
+                RIGHT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+            `jadwal_kuliah`.`thakademik` AND `tahun_akademik`.`gg` =
+            `jadwal_kuliah`.`gg`
+                LEFT JOIN `dosen_pengampu` ON `dosen_pengampu`.`thakademik` =
+            `tahun_akademik`.`thakademik` AND `dosen_pengampu`.`gg` =
+            `tahun_akademik`.`gg` AND `jadwal_kuliah`.`idpengampu` =
+            `dosen_pengampu`.`idpengampu`
+                LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
+                RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
+                LEFT JOIN `matakuliah` ON `matakuliah`.`idmatakuliah` =
+            `dosen_pengampu`.`idmatakuliah` AND `matakuliah`.`kdps` =
+            `jadwal_kuliah`.`kdps`
+                LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `matakuliah`.`kdps`
+            WHERE
+
+                `tahun_akademik`.`status` = 'AKTIF' AND
+                jadwal_kuliah.kelas = 'B'
+            GROUP BY jadwal_kuliah.thakademik, jadwal_kuliah.gg, jadwal_kuliah.kelas, jadwal_kuliah.kmk
+        ")->result();
+        $ba = $this->db->query("SELECT * FROM bamengajardosen WHERE status = 'non'")->result();
+        $this->db->trans_begin();
+        foreach ($jadwal1 as $keyjadwal => $valuejadwal) {
+            // $valuejadwal->bamengajar = [];
+            foreach ($ba as $keyba => $itemba) {
+                if($valuejadwal->kmk==$itemba->kmk){
+                    $setItem = [
+                        "nidn"=> $itemba->nidn,
+                        "idjadwal"=> $valuejadwal->idjadwal,
+                        "kmk"=> $itemba->kmk,
+                        "tanggal"=> $itemba->tanggal,
+                        "hadir"=> $valuejadwal->jumlahmahasiswa,
+                        "alpha"=> $itemba->alpha,
+                        "sakit"=> $itemba->sakit,
+                        "izin"=> $itemba->izin,
+                        "materi"=> $itemba->materi,
+                        "jumlah"=> $valuejadwal->jumlahmahasiswa,
+                        "status"=> "non"
+                    ];
+                    $this->db->insert("bamengajardosen", $setItem);
+                    // $itemba->idjadwal = $valuejadwal->idjadwal;
+                    // $itemba->hadir = $valuejadwal->jumlahmahasiswa;
+                    // $itemba->jumlah = $valuejadwal->jumlahmahasiswa;
+                    // array_push($valuejadwal->bamengajar, $setItem);
+                }
+            }
+        }
+        foreach ($jadwal2 as $keyjadwal => $valuejadwal) {
+            // $valuejadwal->bamengajar = [];
+            foreach ($ba as $keyba => $itemba) {
+                if($valuejadwal->kmk==$itemba->kmk){
+                    $setItem = [
+                        "nidn"=> $itemba->nidn,
+                        "idjadwal"=> $valuejadwal->idjadwal,
+                        "kmk"=> $itemba->kmk,
+                        "tanggal"=> $itemba->tanggal,
+                        "hadir"=> $valuejadwal->jumlahmahasiswa,
+                        "alpha"=> $itemba->alpha,
+                        "sakit"=> $itemba->sakit,
+                        "izin"=> $itemba->izin,
+                        "materi"=> $itemba->materi,
+                        "jumlah"=> $valuejadwal->jumlahmahasiswa,
+                        "status"=> "non"
+                    ];
+                    $this->db->insert("bamengajardosen", $setItem);
+                    // $itemba->idjadwal = $valuejadwal->idjadwal;
+                    // $itemba->hadir = $valuejadwal->jumlahmahasiswa;
+                    // $itemba->jumlah = $valuejadwal->jumlahmahasiswa;
+                    // array_push($valuejadwal->bamengajar, $setItem);
+                }
+            }
+        }
+        $this->db->trans_commit();
+        return $jadwal;
+    }
 }
