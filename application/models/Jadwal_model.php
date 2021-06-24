@@ -327,7 +327,7 @@ class Jadwal_Model extends CI_Model
                     FROM
                         `dosen_pengampu`
                         LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
-                    WHERE dosen_pengampu.idpengampu = '$itemmatakuliah->idpengampu'")->result();
+                    WHERE dosen_pengampu.kmk = '$itemmatakuliah->kmk'")->result();
                 }
 
             }
