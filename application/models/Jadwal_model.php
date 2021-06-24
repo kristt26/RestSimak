@@ -326,8 +326,10 @@ class Jadwal_Model extends CI_Model
                         dosen_pengampu.idpengampu
                     FROM
                         `dosen_pengampu`
-                        LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
-                    WHERE dosen_pengampu.kmk = '$itemmatakuliah->kmk'")->result();
+                        RIGHT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
+                        LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`idtahunakademik` =
+                        `dosen_pengampu`.`idtahunakademik`
+                    WHERE dosen_pengampu.kmk = '$itemmatakuliah->kmk' AND tahun_akademik.status='AKTIF'")->result();
                 }
 
             }
