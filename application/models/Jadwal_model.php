@@ -17,6 +17,8 @@ class Jadwal_Model extends CI_Model
 
     public function TambahJadwal($data = null)
     {
+        $this->load->model('TahunAkademik_Model');
+        $thakademik = $this->TahunAkademik_Model->TAAktif();
         $item = [
             'thakademik' => $data['thakademik'],
             'gg' => $data['gg'],
@@ -31,6 +33,7 @@ class Jadwal_Model extends CI_Model
             'ruangan' => $data['ruangan'],
             'dsn_saji' => $data['dsn_saji'],
             'idpengampu' => $data['idpengampu'],
+            'idtahunakademik' => $thakademik['idtahunakademik']
         ];
         $this->db->trans_begin();
         $this->db->insert("jadwal_kuliah", $item);
