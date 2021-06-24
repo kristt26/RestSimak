@@ -267,13 +267,19 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
         }
     }
 
-    public function hapus_delete()
+    public function hapus_delete($a = null)
     {
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
-            $idjadwal = $this->uri->segment(3);
-            $this->response($idjadwal, REST_Controller::HTTP_OK);
+            $idjadwal = $this->uri->segment(4);
+            $result = $this->JadwalModel->hapus($idjadwal);
+            if ($result) {
+                $this->response($result, REST_Controller::HTTP_OK);
+            } else {
+
+                $this->response($result, REST_Controller::HTTP_BAD_REQUEST);
+            }
             // $Output =
         }
     }

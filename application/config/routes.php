@@ -77,7 +77,7 @@ $route['api/jadwal/jadwalprodi'] = 'api/Jadwal/JadwalProdi';
 $route['api/jadwal/tambahjadwal'] = 'api/Jadwal/TambahJadwal';
 $route['api/jadwal/getalljadwal'] = 'api/Jadwal/GetAllJadwal';
 $route['api/jadwal/mahasiswakelas'] = 'api/Jadwal/MahasiswaKelas';
-$route['api/jadwal/delete/:num']['delete'] = 'api/Jadwal/hapus';
+$route['api/jadwal/delete/:num'] = 'api/Jadwal/hapus';
 
 $route['api/dosenampu/getdata'] = 'api/DosenPengampu/GetData';
 $route['api/dosenampu/simpan'] = 'api/DosenPengampu/Tambah';

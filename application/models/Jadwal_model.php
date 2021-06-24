@@ -33,7 +33,7 @@ class Jadwal_Model extends CI_Model
             'ruangan' => $data['ruangan'],
             'dsn_saji' => $data['dsn_saji'],
             'idpengampu' => $data['idpengampu'],
-            'idtahunakademik' => $thakademik['idtahunakademik']
+            'idtahunakademik' => $thakademik['idtahunakademik'],
         ];
         $this->db->trans_begin();
         $this->db->insert("jadwal_kuliah", $item);
@@ -371,6 +371,19 @@ class Jadwal_Model extends CI_Model
         `krsm_detail`.`thakademik` AND `tahun_akademik`.`gg` = `krsm_detail`.`gg`
         WHERE krsm_detail.kmk='$kmk' AND tahun_akademik.status='AKTIF' AND krsm_detail.kelas='$kelas'")->result();
         return $result;
+    }
+
+    public function hapus($idjadwal)
+    {
+        $this->db->trans_begin();
+        $this->db->delete('jadwal_kuliah', ['idjawal' => $idjadwal]);
+        if ($this->db->trans_status()) {
+            $this->db->trans_commit();
+            return true;
+        } else {
+            $this->db->trans_rollback();
+            return false;
+        }
     }
 
 }
