@@ -335,7 +335,8 @@ class Jadwal_Model extends CI_Model
         $kelas = $this->db->get("kelas")->result();
         $all = $this->db->query("SELECT
             `jadwal_kuliah`.*,
-            `program_studi`.`nmps`
+            `program_studi`.`nmps`,
+            `matakuliah`.`kurikulum`
         FROM
             `jadwal_kuliah`
             LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`idpengampu` =
@@ -343,7 +344,12 @@ class Jadwal_Model extends CI_Model
             LEFT JOIN `tahun_akademik` ON `dosen_pengampu`.`idtahunakademik` =
         `tahun_akademik`.`idtahunakademik`
             LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `jadwal_kuliah`.`kdps`
-        WHERE tahun_akademik.status='AKTIF' ORDER BY jadwal_kuliah.nmmk, jadwal_kuliah.kelas, program_studi.nmps")->result();
+            LEFT JOIN `matakuliah` ON `jadwal_kuliah`.`kmk` = `matakuliah`.`kmk`
+        WHERE
+            `tahun_akademik`.`status` = 'AKTIF'
+        ORDER BY
+            `jadwal_kuliah`.`nmmk`,
+            `jadwal_kuliah`.`kelas`")->result();
         return ['prodi' => $prodi, 'kelas' => $kelas, 'jadwal' => $all];
     }
 
@@ -362,5 +368,4 @@ class Jadwal_Model extends CI_Model
         return $result;
     }
 
-    
 }
