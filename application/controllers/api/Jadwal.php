@@ -32,10 +32,10 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
             if ($Output > 0 && !empty($Output)) {
                 $message = [
                     'status' => true,
-                    'data' => $Output
+                    'data' => $Output,
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'status' => false,
                     'message' => "Tidak Ada Data",
@@ -91,10 +91,10 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
             if ($Output > 0 && !empty($Output)) {
                 $message = [
                     'status' => true,
-                    'data' => $Output
+                    'data' => $Output,
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'status' => false,
                     'message' => [],
@@ -102,7 +102,7 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
                 $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
             }
 
-        }else{
+        } else {
             $message = [
                 "data" => "Session anda telah habis",
             ];
@@ -119,9 +119,10 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
             $kelas = $this->uri->segment(5);
             $Output = $this->JadwalModel->getMahasiswa($kmk, $kelas);
             $this->response($Output, REST_Controller::HTTP_OK);
-        }
-        else
+        } else {
             $this->response('Anda tidak memiliki akses, check session anda', REST_Controller::HTTP_UNAUTHORIZED);
+        }
+
     }
 
     /**
@@ -172,20 +173,20 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
                     $message = [
                         'status' => true,
                         'data' => $Datakirim,
-                        'set' => $Output['message']
+                        'set' => $Output['message'],
                     ];
                     $this->response($message, REST_Controller::HTTP_OK);
                 } else if ($Output['message'] == 'Jadwal') {
                     if ($Output['status'] == true) {
                         $Datakirim = array(
-                            'data' => $Output['Jadwal']
+                            'data' => $Output['Jadwal'],
                         );
                         $message = [
                             'status' => true,
                             'data' => $Datakirim,
                             'set' => $Output['message'],
                             'mahasiswa' => $Output['mahasiswa'],
-                            'semester' => $Output['semester']
+                            'semester' => $Output['semester'],
                         ];
                         $this->response($message, REST_Controller::HTTP_OK);
                     } else {
@@ -196,7 +197,7 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
                         ];
                         $this->response($message, REST_Controller::HTTP_NOT_FOUND);
                     }
-                } else if($Output['message'] == 'Krsm') {
+                } else if ($Output['message'] == 'Krsm') {
                     $Datakirim = array(
                         'status' => false,
                         'data' => $Output,
@@ -204,10 +205,10 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
                     $message = [
                         'status' => true,
                         'data' => $Datakirim,
-                        'set' => $Output['message']
+                        'set' => $Output['message'],
                     ];
                     $this->response($message, REST_Controller::HTTP_OK);
-                }else if($Output['message'] == 'Daftar Ulang') {
+                } else if ($Output['message'] == 'Daftar Ulang') {
                     $Datakirim = array(
                         'status' => false,
                         'data' => $Output,
@@ -215,13 +216,13 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
                     $message = [
                         'status' => true,
                         'data' => $Datakirim,
-                        'set' => $Output['message']
+                        'set' => $Output['message'],
                     ];
                     $this->response($message, REST_Controller::HTTP_OK);
-                }else{
+                } else {
                     $message = [
                         'status' => false,
-                        'set' => $Output['message']
+                        'set' => $Output['message'],
                     ];
                     $this->response($message, REST_Controller::HTTP_OK);
                 }
@@ -263,6 +264,23 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
                 'message' => "Pengajuan KRS Anda Gagal",
             ];
             $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function hapus_delete($a = null)
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $idjadwal = $this->uri->segment(4);
+            $result = $this->JadwalModel->hapus($idjadwal);
+            if ($result) {
+                $this->response($result, REST_Controller::HTTP_OK);
+            } else {
+
+                $this->response($result, REST_Controller::HTTP_BAD_REQUEST);
+            }
+            // $Output =
         }
     }
 }

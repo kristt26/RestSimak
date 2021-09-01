@@ -17,6 +17,8 @@ class Jadwal_Model extends CI_Model
 
     public function TambahJadwal($data = null)
     {
+        $this->load->model('TahunAkademik_Model');
+        $thakademik = $this->TahunAkademik_Model->TAAktif();
         $item = [
             'thakademik' => $data['thakademik'],
             'gg' => $data['gg'],
@@ -31,6 +33,7 @@ class Jadwal_Model extends CI_Model
             'ruangan' => $data['ruangan'],
             'dsn_saji' => $data['dsn_saji'],
             'idpengampu' => $data['idpengampu'],
+            'idtahunakademik' => $thakademik['idtahunakademik'],
         ];
         $this->db->trans_begin();
         $this->db->insert("jadwal_kuliah", $item);
@@ -326,8 +329,10 @@ class Jadwal_Model extends CI_Model
                         dosen_pengampu.idpengampu
                     FROM
                         `dosen_pengampu`
-                        LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
-                    WHERE dosen_pengampu.idpengampu = '$itemmatakuliah->idpengampu'")->result();
+                        RIGHT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
+                        LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`idtahunakademik` =
+                        `dosen_pengampu`.`idtahunakademik`
+                    WHERE dosen_pengampu.kmk = '$itemmatakuliah->kmk' AND tahun_akademik.status='AKTIF'")->result();
                 }
 
             }
@@ -335,7 +340,8 @@ class Jadwal_Model extends CI_Model
         $kelas = $this->db->get("kelas")->result();
         $all = $this->db->query("SELECT
             `jadwal_kuliah`.*,
-            `program_studi`.`nmps`
+            `program_studi`.`nmps`,
+            `matakuliah`.`kurikulum`
         FROM
             `jadwal_kuliah`
             LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`idpengampu` =
@@ -343,7 +349,12 @@ class Jadwal_Model extends CI_Model
             LEFT JOIN `tahun_akademik` ON `dosen_pengampu`.`idtahunakademik` =
         `tahun_akademik`.`idtahunakademik`
             LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `jadwal_kuliah`.`kdps`
-        WHERE tahun_akademik.status='AKTIF' ORDER BY jadwal_kuliah.nmmk, jadwal_kuliah.kelas, program_studi.nmps")->result();
+            LEFT JOIN `matakuliah` ON `jadwal_kuliah`.`kmk` = `matakuliah`.`kmk`
+        WHERE
+            `tahun_akademik`.`status` = 'AKTIF'
+        ORDER BY
+            `jadwal_kuliah`.`nmmk`,
+            `jadwal_kuliah`.`kelas`")->result();
         return ['prodi' => $prodi, 'kelas' => $kelas, 'jadwal' => $all];
     }
 
@@ -362,5 +373,17 @@ class Jadwal_Model extends CI_Model
         return $result;
     }
 
-    
+    public function hapus($idjadwal)
+    {
+        $this->db->trans_begin();
+        $this->db->delete('jadwal_kuliah', ['idjawal' => $idjadwal]);
+        if ($this->db->trans_status()) {
+            $this->db->trans_commit();
+            return true;
+        } else {
+            $this->db->trans_rollback();
+            return false;
+        }
+    }
+
 }

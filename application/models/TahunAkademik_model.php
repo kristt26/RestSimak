@@ -11,6 +11,15 @@ class TahunAkademik_Model extends CI_Model
             return 0;
         }
     }
+    public function TAAktif()
+    {
+        $result = $this->db->query("SELECT * FROM tahun_akademik WHERE status='AKTIF'");
+        if ($result->num_rows()) {
+            return $result->row_array();
+        } else {
+            return 0;
+        }
+    }
 
     public function select()
     {
