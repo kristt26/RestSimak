@@ -31,7 +31,7 @@ class SendMail extends \Restserver\Libraries\REST_Controller
             $mail->Username = 'emailfortesting1011@gmail.com'; //SMTP username
             $mail->Password = '26031988@Aj'; //SMTP password
             $mail->SMTPSecure = 'ssl'; //Enable implicit TLS encryption
-            $mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $mail->Port = 587; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
             $mail->setFrom('emailfortesting1011@gmail.com', 'Testing');
             $mail->addAddress('kristt26@gmail.com', "Ajenkris"); //Add a recipient
             $mail->isHTML(true); //Set email format to HTML
