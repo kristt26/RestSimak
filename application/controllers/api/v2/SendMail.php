@@ -26,7 +26,7 @@ class SendMail extends \Restserver\Libraries\REST_Controller
 		try {
 			$mail->SMTPDebug = SMTP::DEBUG_SERVER;
 			$mail->isSMTP();
-			$mail->Host = 'smtp.gmail.com';
+			$mail->Host = 'srv26.niagahoster.com';
 			$mail->SMTPAuth = true;
 			$mail->Username = 'kristt26@stimiksepnop.ac.id';
 			$mail->Password = '26031988@Aj';
