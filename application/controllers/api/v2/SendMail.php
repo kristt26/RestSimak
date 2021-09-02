@@ -27,20 +27,17 @@ class SendMail extends \Restserver\Libraries\REST_Controller
 			$mail->SMTPDebug = SMTP::DEBUG_SERVER;
 			$mail->isSMTP();
 			$mail->Host = 'smtp-relay.gmail.com';
-			$mail->SMTPAuth = true; //Enable SMTP authentication
-			$mail->Username = 'emailfortesting1011@gmail.com'; //SMTP username
-			$mail->Password = '26031988@Aj'; //SMTP password
-			$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; //Enable implicit TLS encryption
+			$mail->SMTPAuth = true;
+			$mail->Username = 'emailfortesting1011@gmail.com';
+			$mail->Password = '26031988@Aj';
+			$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 			$mail->Port = 587; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 			$mail->setFrom('emailfortesting1011@gmail.com', 'Testing');
-			$mail->addAddress('kristt26@gmail.com', "Ajenkris"); //Add a recipient
-			$mail->isHTML(true); //Set email format to HTML
+			$mail->addAddress('kristt26@gmail.com', "Ajenkris");
+			$mail->isHTML(true);
 			$mail->Subject = 'Undangan';
-			// $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-			// $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 			$mail->msgHTML("Testing");
 			$result = $mail->send();
-			// return true;
 			$this->response($result, REST_Controller::HTTP_OK);
 		} catch (Exception $e) {
 			$mail->ErrorInfo;
