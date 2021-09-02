@@ -32,8 +32,8 @@ class SendMail extends \Restserver\Libraries\REST_Controller
 			// $mail->Username = 'kristt26@stimiksepnop.ac.id';
 			$mail->Username = 'kristt26@zohomail.com';
 			$mail->Password = '26031988@Aj';
-			$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-			$mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+			$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+			$mail->Port = 587; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 			$mail->setFrom('kristt26@zohomail.com', 'Testing');
 			$mail->addAddress('kristt26@gmail.com', "Ajenkris");
 			$mail->isHTML(true);
