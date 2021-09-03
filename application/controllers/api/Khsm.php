@@ -6,6 +6,7 @@ use Restserver\Libraries\REST_Controller;
 require APPPATH . '/libraries/REST_Controller.php';
 
 class Khsm extends \Restserver\Libraries\REST_Controller
+
 {
     public function __construct($config = 'rest')
     {
@@ -41,32 +42,32 @@ class Khsm extends \Restserver\Libraries\REST_Controller
         $Output = $this->KhsmModel->AmbilIPS($npm);
         if (!empty($Output && $Output != false)) {
             $Datas = array(
-                'Data' =>[]
+                'Data' => []
             );
-            for ($i=1; $i <=8 ; $i++) { 
+            for ($i = 1; $i <= 8; $i++) {
                 $item = [
                     'Semester' => '',
                     'IPS' => '',
                     'SKS' => '',
                     'NSKS' => '',
-                    'ListMatakuliah' => array()
+                    'ListMatakuliah' => array(),
                 ];
                 $nilai = 0;
                 $sks = 0;
                 foreach ($Output['Datas'] as $key => $value) {
-                    if($value['smt']==$i){
-                        $nilai += (int)$value['nxsks'];
-                        $sks += (int)$value['sks'];
+                    if ($value['smt'] == $i) {
+                        $nilai += (int) $value['nxsks'];
+                        $sks += (int) $value['sks'];
                         array_push($item['ListMatakuliah'], $value);
                     }
                 }
                 $IPS = $nilai / $sks;
-                $item['Semester']= $i;
-                $item['IPS']=$IPS;
-                $item['SKS']=$sks;
-                $item['NSKS']=$nilai;
+                $item['Semester'] = $i;
+                $item['IPS'] = $IPS;
+                $item['SKS'] = $sks;
+                $item['NSKS'] = $nilai;
                 array_push($Datas['Data'], $item);
-                
+
             }
             $message = [
                 'status' => true,
@@ -90,17 +91,17 @@ class Khsm extends \Restserver\Libraries\REST_Controller
                     'message' => "Success",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'status' => false,
                     'message' => "Gagal Simpan",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }
-        }else{
+        } else {
             $message = [
                 'status' => false,
-                'message' => "Session Anda Habis"
+                'message' => "Session Anda Habis",
             ];
             $this->response($message, Rest_Controller::HTTP_OK);
         }
@@ -118,21 +119,51 @@ class Khsm extends \Restserver\Libraries\REST_Controller
                     'message' => "Success",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'status' => false,
                     'message' => "Kosong",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }
-        }else{
+        } else {
             $message = [
                 'status' => false,
-                'message' => "Session Anda Habis"
+                'message' => "Session Anda Habis",
             ];
             $this->response($message, Rest_Controller::HTTP_OK);
         }
     }
+
+    public function GetAllListKHS_get()
+    {
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->KhsmModel->getAllNilai($is_valid_token['data']);
+            if (!empty($Output)) {
+                $message = [
+                    'status' => true,
+                    'data' => (object) $Output,
+                    'message' => "Success",
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            } else {
+                $message = [
+                    'status' => false,
+                    'message' => "Kosong",
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }
+        } else {
+            $message = [
+                'status' => false,
+                'message' => "Session Anda Habis",
+            ];
+            $this->response($message, Rest_Controller::HTTP_OK);
+        }
+    }
+
     public function PutDetaiKHS_put()
     {
         $this->load->library('Authorization_Token');
@@ -146,17 +177,17 @@ class Khsm extends \Restserver\Libraries\REST_Controller
                     'message' => "Success",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $message = [
                     'status' => false,
                     'message' => "Gagal",
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }
-        }else{
+        } else {
             $message = [
                 'status' => false,
-                'message' => "Session Anda Habis"
+                'message' => "Session Anda Habis",
             ];
             $this->response($message, Rest_Controller::HTTP_OK);
         }

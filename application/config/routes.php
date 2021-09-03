@@ -151,6 +151,7 @@ $route['api/Pengampuh/GetPengampuh']['get'] = 'api/Pengampuh/GetPengampuh';
 // KHSM
 $route['api/Khsm/CreateKHS']['post'] = 'api/Khsm/CreateKHS';
 $route['api/Khsm/GetlistKHS']['get'] = 'api/Khsm/GetlistKHS';
+$route['api/Khsm/GetalllistKHS']['get'] = 'api/Khsm/GetAllListKHS';
 $route['api/Khsm/PutDetaiKHS']['put'] = 'api/Khsm/PutDetaiKHS';
 
 // Grade Nilai
