@@ -256,7 +256,7 @@ class Jadwal_Model extends CI_Model
                         $DataJadwal = array(
                             'message' => 'MulaiReg',
                             'status' => true,
-                            'dataReg'=> $DataTA
+                            'dataReg' => $DataTA,
                         );
                         return $DataJadwal;
                     }
