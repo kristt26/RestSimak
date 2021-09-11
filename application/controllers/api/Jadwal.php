@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
-date_default_timezone_set('Asia/Tokyo');
+date_default_timezone_set('Asia/Jayapura');
 
 use Restserver\Libraries\REST_Controller;
 
@@ -16,7 +16,7 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
         header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT, OPTIONS");
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         $this->load->model('Jadwal_model', 'JadwalModel');
-        date_default_timezone_set('Asia/Jayapura');
+
     }
     /**
      *  Jadwal Kuliah
