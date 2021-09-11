@@ -35,7 +35,6 @@ class Jadwal_Model extends CI_Model
             'idpengampu' => $data['idpengampu'],
             'idtahunakademik' => $thakademik['idtahunakademik'],
         ];
-        return $item;
         $this->db->trans_begin();
         $this->db->insert("jadwal_kuliah", $item);
         if ($this->db->trans_status() == true) {
