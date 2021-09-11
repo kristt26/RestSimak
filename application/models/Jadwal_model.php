@@ -35,16 +35,17 @@ class Jadwal_Model extends CI_Model
             'idpengampu' => $data['idpengampu'],
             'idtahunakademik' => $thakademik['idtahunakademik'],
         ];
-        $this->db->trans_begin();
-        $this->db->insert("jadwal_kuliah", $item);
-        if ($this->db->trans_status() == true) {
-            $this->db->trans_commit();
-            $data['idjadwal'] = $this->db->insert_id();
-            return $data;
-        } else {
-            $this->db->trans_rollback();
-            return false;
-        }
+        return $item;
+        // $this->db->trans_begin();
+        // $this->db->insert("jadwal_kuliah", $item);
+        // if ($this->db->trans_status() == true) {
+        //     $this->db->trans_commit();
+        //     $data['idjadwal'] = $this->db->insert_id();
+        //     return $data;
+        // } else {
+        //     $this->db->trans_rollback();
+        //     return false;
+        // }
     }
 
     public function selectAllJadwal()
