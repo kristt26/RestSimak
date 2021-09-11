@@ -23,7 +23,7 @@ class Jadwal_Model extends CI_Model
             'thakademik' => $data['thakademik'],
             'gg' => $data['gg'],
             'hari' => $data['hari'],
-            'ws' => $data['jammulai'],
+            'ws' => str_replace(".", ":", $data['jammulai']),
             'wm' => $data['jamselesai'],
             'kdps' => $data['kdps'],
             'kmk' => $data['kmk'],
@@ -33,7 +33,7 @@ class Jadwal_Model extends CI_Model
             'ruangan' => $data['ruangan'],
             'dsn_saji' => $data['dsn_saji'],
             'idpengampu' => $data['idpengampu'],
-            'idtahunakademik' => $thakademik['idtahunakademik'],
+            // 'idtahunakademik' => $thakademik['idtahunakademik'],
         ];
         $this->db->trans_begin();
         $this->db->insert("jadwal_kuliah", $item);
