@@ -17,8 +17,8 @@ class Jadwal_Model extends CI_Model
 
     public function TambahJadwal($data = null)
     {
-        $this->load->model('TahunAkademik_Model');
-        $thakademik = $this->TahunAkademik_Model->TAAktif();
+        $this->load->model('TahunAkademik_model', 'TahunAkademik');
+        $thakademik = $this->TahunAkademik->TAAktif();
         $item = [
             'thakademik' => $data['thakademik'],
             'gg' => $data['gg'],
