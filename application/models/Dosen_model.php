@@ -122,7 +122,7 @@ class Dosen_Model extends CI_Model
             'iddosen' => $data['iddosen'],
             'idmatakuliah' => $data['idmatakuliah'],
             'jenis' => $data['jenis'],
-            'mengajar' => $data['status'],
+            'mengajar' => $data['mengajar'],
             'idtahunakademik' => $data['idtahunakademik'],
         ];
         $this->db->insert('dosen_pengampu', $item);
