@@ -60,12 +60,13 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
     public function TambahJadwal_post()
     {
         $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
-        $this->load->library('Authorization_Token');
-        $is_valid_token = $this->authorization_token->validateToken();
-        if ($is_valid_token['status'] === true) {
-            $Output = $this->JadwalModel->TambahJadwal($data);
-            $this->response($Output, REST_Controller::HTTP_OK);
-        }
+        // $Output = $this->JadwalModel->TambahJadwal($data);
+        $this->response($data, REST_Controller::HTTP_OK);
+        // $this->load->library('Authorization_Token');
+        // $is_valid_token = $this->authorization_token->validateToken();
+        // if ($is_valid_token['status'] === true) {
+
+        // }
     }
 
     public function GetAllJadwal_get()
