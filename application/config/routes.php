@@ -195,6 +195,7 @@ $route['api/pegawai/:num']['get'] = 'api/Pegawai/getpegawai';
 
 // backup
 $route['api/backup']['get'] = 'api/Backup/datatable';
+$route['api/du']['get'] = 'api/DaftarUlang/cekDu';
 // api/v2
 
 $route['v2/getmahasiswa']['get'] = 'api/v2/Mahasiswa/GetMahasiswa';
