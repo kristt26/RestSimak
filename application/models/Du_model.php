@@ -33,6 +33,14 @@ class Du_Model extends CI_Model
 				array_push($data, $item);
 			}
 		}
-		return $data;
+		$this->db->trans_begin();
+		$this->db->insert_batch('daftar_ulang', $data);
+		if ($this->db->trans_status()) {
+            $this->db->trans_commit();
+            return $data;
+        } else {
+            $this->db->trans_rollback();
+            return false;
+        }
     }
 }
