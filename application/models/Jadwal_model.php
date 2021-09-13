@@ -17,14 +17,14 @@ class Jadwal_Model extends CI_Model
 
     public function TambahJadwal($data = null)
     {
-        $this->load->model('TahunAkademik_Model');
-        $thakademik = $this->TahunAkademik_Model->TAAktif();
+        $this->load->model('TahunAkademik_model', 'TahunAkademik');
+        $thakademik = $this->TahunAkademik->TAAktif();
         $item = [
             'thakademik' => $data['thakademik'],
             'gg' => $data['gg'],
             'hari' => $data['hari'],
-            'ws' => $data['jammulai'],
-            'wm' => $data['jamselesai'],
+            'ws' => str_replace(".", ":", $data['jamselesai']),
+            'wm' => str_replace(".", ":", $data['jammulai']),
             'kdps' => $data['kdps'],
             'kmk' => $data['kmk'],
             'kelas' => $data['kelas'],
@@ -33,7 +33,7 @@ class Jadwal_Model extends CI_Model
             'ruangan' => $data['ruangan'],
             'dsn_saji' => $data['dsn_saji'],
             'idpengampu' => $data['idpengampu'],
-            'idtahunakademik' => $thakademik['idtahunakademik'],
+            // 'idtahunakademik' => $thakademik['idtahunakademik'],
         ];
         $this->db->trans_begin();
         $this->db->insert("jadwal_kuliah", $item);
@@ -256,6 +256,7 @@ class Jadwal_Model extends CI_Model
                         $DataJadwal = array(
                             'message' => 'MulaiReg',
                             'status' => true,
+                            'dataReg' => $DataTA,
                         );
                         return $DataJadwal;
                     }

@@ -1,11 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
-date_default_timezone_set('Asia/Tokyo');
+date_default_timezone_set('Asia/Jayapura');
 
 use Restserver\Libraries\REST_Controller;
 
 require APPPATH . '/libraries/REST_Controller.php';
 
 class Jadwal extends \Restserver\Libraries\REST_Controller
+
 {
     public function __construct($config = 'rest')
     {
@@ -15,7 +16,7 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
         header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT, OPTIONS");
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         $this->load->model('Jadwal_model', 'JadwalModel');
-        date_default_timezone_set('Asia/Jayapura');
+
     }
     /**
      *  Jadwal Kuliah
@@ -59,12 +60,13 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
     public function TambahJadwal_post()
     {
         $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
-        $this->load->library('Authorization_Token');
-        $is_valid_token = $this->authorization_token->validateToken();
-        if ($is_valid_token['status'] === true) {
-            $Output = $this->JadwalModel->TambahJadwal($data);
-            $this->response($Output, REST_Controller::HTTP_OK);
-        }
+        $Output = $this->JadwalModel->TambahJadwal($data);
+        $this->response($Output, REST_Controller::HTTP_OK);
+        // $this->load->library('Authorization_Token');
+        // $is_valid_token = $this->authorization_token->validateToken();
+        // if ($is_valid_token['status'] === true) {
+
+        // }
     }
 
     public function GetAllJadwal_get()
@@ -223,6 +225,7 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
                     $message = [
                         'status' => false,
                         'set' => $Output['message'],
+                        'dataReg' => $Output['dataReg'],
                     ];
                     $this->response($message, REST_Controller::HTTP_OK);
                 }
