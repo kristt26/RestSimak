@@ -27,14 +27,14 @@ class SendMail extends \Restserver\Libraries\REST_Controller
 			$mail->SMTPDebug = SMTP::DEBUG_SERVER;
 			$mail->isSMTP();
 			// $mail->Host = 'srv26.niagahoster.com';
-			$mail->Host = 'smtp.zoho.com';
+			$mail->Host = 'smtp-relay.sendinblue.com';
 			$mail->SMTPAuth = true;
 			// $mail->Username = 'kristt26@stimiksepnop.ac.id';
-			$mail->Username = 'kristt26@zohomail.com';
-			$mail->Password = '26031988@Aj';
+			$mail->Username = 'ocph23@gmail.com';
+			$mail->Password = 'js7X8SwIrbxDkR56';
 			$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 			$mail->Port = 587; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-			$mail->setFrom('kristt26@zohomail.com', 'Testing');
+			$mail->setFrom('ocph23@gmail.com', 'Testing');
 			$mail->addAddress('kristt26@gmail.com', "Ajenkris");
 			$mail->isHTML(true);
 			$mail->Subject = 'Undangan';
