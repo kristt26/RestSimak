@@ -168,6 +168,8 @@ class Users extends \Restserver\Libraries\REST_Controller
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }
+        }else{
+            $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
     public function AmbilUser_get()
