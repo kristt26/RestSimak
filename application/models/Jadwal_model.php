@@ -47,6 +47,38 @@ class Jadwal_Model extends CI_Model
         }
     }
 
+    public function UbahJadwal($data = null)
+    {
+        $this->load->model('TahunAkademik_model', 'TahunAkademik');
+        $thakademik = $this->TahunAkademik->TAAktif();
+        $item = [
+            'thakademik' => $data['thakademik'],
+            'gg' => $data['gg'],
+            'hari' => $data['hari'],
+            'ws' => str_replace(".", ":", $data['jamselesai']),
+            'wm' => str_replace(".", ":", $data['jammulai']),
+            'kdps' => $data['kdps'],
+            'kmk' => $data['kmk'],
+            'kelas' => $data['kelas'],
+            'nmmk' => $data['nmmk'],
+            'sks' => $data['sks'],
+            'ruangan' => $data['ruangan'],
+            'dsn_saji' => $data['dsn_saji'],
+            'idpengampu' => $data['idpengampu'],
+            // 'idtahunakademik' => $thakademik['idtahunakademik'],
+        ];
+        $this->db->trans_begin();
+        $this->db->where('idjadwal', $data['idjadwal']);
+        $this->db->update("jadwal_kuliah", $item);
+        if ($this->db->trans_status() == true) {
+            $this->db->trans_commit();
+            return $data;
+        } else {
+            $this->db->trans_rollback();
+            return false;
+        }
+    }
+
     public function selectAllJadwal()
     {
         $result = $this->db->query("SELECT
