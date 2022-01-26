@@ -66,7 +66,7 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
         if ($is_valid_token['status'] === true) {
             $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
             $result = $this->MahasiswaModel->addmahasiswa($data);
-            if ($result) {
+            if ($result != false) {
                 $this->response($result, REST_Controller::HTTP_OK);
             } else {
                 $this->response($result, REST_Controller::HTTP_BAD_REQUEST);
