@@ -286,7 +286,7 @@ class Mahasiswa_Model extends CI_Model
         }
     }
 
-    public function addmahasiswa($data = null)
+    public function addmahasiswa($data)
     {
         $mahasiswa = [
             'npm'=>$data->npm,
