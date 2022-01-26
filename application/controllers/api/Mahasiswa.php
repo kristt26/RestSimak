@@ -61,8 +61,7 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
     public function AddMahasiswa_post()
     {
         $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
-        echo json_encode($data);
-        // $this->response($data, REST_Controller::HTTP_OK);
+        $this->response($data, REST_Controller::HTTP_OK);
         // $this->load->library('Authorization_Token');
         // $is_valid_token = $this->authorization_token->validateToken();
         // if ($is_valid_token['status'] === true) {
