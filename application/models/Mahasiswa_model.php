@@ -294,15 +294,15 @@ class Mahasiswa_Model extends CI_Model
         if(count($cek >0)){
             return false;
         }else{
+            $itemuser = [
+                'Username' => $data->npm,
+                'Password' => md5("stimik1011"),
+                'Email' => $data->npm."@stimiksepnop.ac.id",
+                'Status' => 'true',
+            ];
+            $this->db->insert('user', $itemuser);
             try {
                 $this->db->trans_begin();
-                $itemuser = [
-                    'Username' => $data->npm,
-                    'Password' => md5("stimik1011"),
-                    'Email' => $data->npm."@stimiksepnop.ac.id",
-                    'Status' => 'true',
-                ];
-                $this->db->insert('user', $itemuser);
                 // $IdUser = $this->db->insert_id();
                 // $userinrole = [
                 //     'RoleId' => 4,
