@@ -589,7 +589,7 @@ $config['allowed_cors_methods'] = [
 | source domain
 |
  */
-$config['allow_any_cors_domain'] = false;
+$config['allow_any_cors_domain'] = true;
 
 /*
 |--------------------------------------------------------------------------
