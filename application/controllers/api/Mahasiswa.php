@@ -99,7 +99,7 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
         }
     }
     
-    public function getadd_get()
+    public function GetAdd_get()
     {
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
