@@ -302,7 +302,7 @@ class Mahasiswa_Model extends CI_Model
             'RoleId' => 4,
             'IdUser' => $IdUser,
         ];
-        $data['IdUser'] = $IdUser;
+        $this->db->insert('userinrole', $userinrole);
         $mahasiswa = [
             'npm'=>$data->npm,
             'kdps'=>$data->kdps,
@@ -348,7 +348,7 @@ class Mahasiswa_Model extends CI_Model
             'idmahasiswa'=>$data->Id,
         ];
         $this->db->insert('daftar_ulang', $du);
-        return false;
+        return $data;
         // if ($this->db->trans_status()) {
         //     $this->db->trans_commit();
         //     return $data;
