@@ -101,14 +101,8 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
     
     public function GetAdd_get()
     {
-        $this->load->library('Authorization_Token');
-        $is_valid_token = $this->authorization_token->validateToken();
-        if ($is_valid_token['status'] === true) {
-            $Output = $this->ProdiModel->select();
-            $this->response($Output, REST_Controller::HTTP_OK);
-        } else {
-            $this->response('anda tidak memiliki akses, silahkan login terlebih dahulu', REST_Controller::HTTP_UNAUTHORIZED);
-        }
+        $Output = $this->ProdiModel->select();
+        $this->response($Output, REST_Controller::HTTP_OK);
         
     }
 }
