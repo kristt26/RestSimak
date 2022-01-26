@@ -286,10 +286,11 @@ class Mahasiswa_Model extends CI_Model
         }
     }
 
-    public function addmahasiswa($data)
+    public function addmahasiswa($param)
     {
+        $data = (object) $param;
         $mahasiswa = [
-            'npm'=>$data['npm'],
+            'npm'=>$data->npm,
             'kdps'=>$data->kdps,
             'jenjang'=>$data->jenjang,
             'kelas'=>$data->kelas,
