@@ -15,6 +15,7 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
         header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT, OPTIONS");
         header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         $this->load->model('Mahasiswa_model', 'MahasiswaModel');
+        $this->load->model('Prodi_model', 'ProdiModel');
     }
     public function GetMahasiswa_get()
     {
@@ -96,5 +97,11 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
         } else {
             $this->response('anda tidak memiliki akses, silahkan login terlebih dahulu', REST_Controller::HTTP_UNAUTHORIZED);
         }
+    }
+    
+    public function getadd_get()
+    {
+        $Output = $this->getadd->select();
+        $this->response($Output, REST_Controller::HTTP_OK);
     }
 }

@@ -292,7 +292,7 @@ class Mahasiswa_Model extends CI_Model
         $itemuser = [
             'Username' => $data['npm'],
             'Password' => md5($data['Password']),
-            'Email' => md5($data['Email']),
+            'Email' => $data['npm']."@stimiksepnop.ac.id",
             'Status' => 'true',
         ];
         $this->db->insert('user', $itemuser);
