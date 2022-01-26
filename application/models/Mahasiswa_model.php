@@ -289,7 +289,7 @@ class Mahasiswa_Model extends CI_Model
     public function addmahasiswa($param)
     {
         $data = (object) $param;
-        // $this->db->trans_begin();
+        $this->db->trans_begin();
         $itemuser = [
             'Username' => $data->npm,
             'Password' => md5("stimik1011"),
@@ -348,13 +348,13 @@ class Mahasiswa_Model extends CI_Model
             'idmahasiswa'=>$data->Id,
         ];
         $this->db->insert('daftar_ulang', $du);
-        return $data;
-        // if ($this->db->trans_status()) {
-        //     $this->db->trans_commit();
-        //     return $data;
-        // } else {
-        //     $this->db->trans_rollback();
-        // }
+        // return $data;
+        if ($this->db->trans_status()) {
+            $this->db->trans_commit();
+            return $data;
+        } else {
+            $this->db->trans_rollback();
+        }
     }
 
     public function MahasiswabyProdi($user)
