@@ -101,7 +101,7 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
     
     public function getadd_get()
     {
-        // $Output = $this->getadd->select();
-        $this->response("OK", REST_Controller::HTTP_OK);
+        $Output = $this->getadd->select();
+        $this->response($Output, REST_Controller::HTTP_OK);
     }
 }
