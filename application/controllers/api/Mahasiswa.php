@@ -10,10 +10,10 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
     public function __construct($config = 'rest')
     {
         parent::__construct($config);
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
-        header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT, OPTIONS");
-        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        // header("Access-Control-Allow-Origin: *");
+        // header("Content-Type: application/json; charset=UTF-8");
+        // header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT, OPTIONS");
+        // header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         $this->load->model('Mahasiswa_model', 'MahasiswaModel');
         $this->load->model('Prodi_model', 'ProdiModel');
     }
