@@ -288,29 +288,78 @@ class Mahasiswa_Model extends CI_Model
 
     public function addmahasiswa($data = null)
     {
-        $this->db->trans_begin();
-        $itemuser = [
-            'Username' => $data['npm'],
-            'Password' => md5($data['Password']),
-            'Email' => $data['npm']."@stimiksepnop.ac.id",
-            'Status' => 'true',
+        $mahasiswa = [
+            'npm'=>$data->npm,
+            'kdps'=>$data->kdps,
+            'jenjang'=>$data->jenjang,
+            'kelas'=>$data->kelas,
+            'nmmhs'=>$data->nmmhs,
+            'tmlhr'=>$data->tmlhr,
+            'tglhr'=>$data->tglhr,
+            'jk'=>$data->jk,
+            'agama'=>$data->agama,
+            'kewarga'=>$data->kewarga,
+            'pendidikan'=>$data->pendidikan,
+            'nmsmu'=>$data->nmsmu,
+            'jursmu'=>$data->jursmu,
+            'kotasmu'=>$data->kotasmu,
+            'kabsmu'=>$data->kabsmu,
+            'provsmu'=>$data->provsmu,
+            'pekerjaan'=>$data->pekerjaan,
+            'almt'=>$data->almt,
+            'notlp'=>$data->notlp,
+            'status'=>$data->status,
+            'jmsaudara'=>$data->jmsaudara,
+            'nmayah'=>$data->nmayah,
+            'almtayah'=>$data->almtayah,
+            'nmibu'=>$data->nmibu,
+            'sumbiaya'=>$data->sumbiaya,
+            'statuskul'=>"TIDAK AKTIF",
+            'tgdaftar'=>$data->tgdaftar,
+            'kurikulum'=>$data->kurikulum->kurikulum,
+            'IdUser'=>$IdUser,
         ];
-        $this->db->insert('user', $itemuser);
-        $IdUser = $this->db->insert_id();
-        $userinrole = [
-            'RoleId' => 4,
-            'IdUser' => $IdUser,
-        ];
-        $data['IdUser'] = $IdUser;
-        $this->db->insert('mahasiswa', $data);
-        $data['Id'] = $this->db->insert_id();
-        if ($this->db->trans_status()) {
-            $this->db->trans_commit();
-            return $data;
-        } else {
-            $this->db->trans_rollback();
-            return false;
-        }
+        // $cek = $this->db->query("SELECT * FROM mahasiswa where npm = $data->npm")->row_array();
+        // if(count($cek >0)){
+        //     return false;
+        // }else{
+        //     $this->db->trans_begin();
+        //     $itemuser = [
+        //         'Username' => $data['npm'],
+        //         'Password' => md5($data['Password']),
+        //         'Email' => $data['npm']."@stimiksepnop.ac.id",
+        //         'Status' => 'true',
+        //     ];
+        //     $this->db->insert('user', $itemuser);
+        //     $IdUser = $this->db->insert_id();
+        //     $userinrole = [
+        //         'RoleId' => 4,
+        //         'IdUser' => $IdUser,
+        //     ];
+        //     $data['IdUser'] = $IdUser;
+            
+        //     $this->db->insert('mahasiswa', $mahasiswa);
+        //     $data['Id'] = $this->db->insert_id();
+        //     $thakademik = $this->db->query("SELECT * FROM tahun_akademik WHERE status = 'AKTIF'")->row_object();
+        //     $itemTahun = [
+        //         'thakademik'=>$thakademik->thakademik,
+        //         'gg'=>$thakademik->gg,
+        //         'npm'=>$data->npm,
+        //         'kdps'=>$data->kdps,
+        //         'tgdu'=>$thakademik->tglMulai,
+        //         'stdu'=>"TIDAK AKTIF",
+        //         'last_reg'=>$thakademik->tglTutup,
+        //         'idmahasiswa'=>$data['Id'],
+        //     ];
+        //     if ($this->db->trans_status()) {
+        //         $this->db->trans_commit();
+        //         return $data;
+        //     } else {
+        //         $this->db->trans_rollback();
+        //         return false;
+        //     }
+        // }
+        return $mahasiswa;
 
     }
 

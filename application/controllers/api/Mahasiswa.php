@@ -65,13 +65,12 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
             $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
-            $this->response($data, REST_Controller::HTTP_OK);
-            // $result = $this->MahasiswaModel->addmahasiswa($data);
-            // if ($result !== false) {
-            //     $this->response($result, REST_Controller::HTTP_OK);
-            // } else {
-            //     $this->response($result, REST_Controller::HTTP_BAD_REQUEST);
-            // }
+            $result = $this->MahasiswaModel->addmahasiswa($data);
+            if ($result !== false) {
+                $this->response($result, REST_Controller::HTTP_OK);
+            } else {
+                $this->response($result, REST_Controller::HTTP_BAD_REQUEST);
+            }
         } else {
             $this->response("Token Session Anda kadaluarsa", REST_Controller::HTTP_UNAUTHORIZED);
         }
