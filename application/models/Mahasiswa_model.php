@@ -353,7 +353,7 @@ class Mahasiswa_Model extends CI_Model
                 //     'last_reg'=>$thakademik->tglTutup,
                 //     'idmahasiswa'=>$data['Id'],
                 // ];
-                $this->db->insert('daftar_ulang', $du);
+                // $this->db->insert('daftar_ulang', $du);
                 if ($this->db->trans_status()) {
                     $this->db->trans_commit();
                     return true;
