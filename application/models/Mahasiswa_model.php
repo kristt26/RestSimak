@@ -297,9 +297,9 @@ class Mahasiswa_Model extends CI_Model
             try {
                 $this->db->trans_begin();
                 $itemuser = [
-                    'Username' => $data['npm'],
-                    'Password' => md5($data['Password']),
-                    'Email' => $data['npm']."@stimiksepnop.ac.id",
+                    'Username' => $data->npm,
+                    'Password' => md5("stimik1011"),
+                    'Email' => $data->npm."@stimiksepnop.ac.id",
                     'Status' => 'true',
                 ];
                 $this->db->insert('user', $itemuser);
