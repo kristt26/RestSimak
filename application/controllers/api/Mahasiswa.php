@@ -102,7 +102,7 @@ class Mahasiswa extends \Restserver\Libraries\REST_Controller
     public function GetAdd_get()
     {
         $Output = $this->ProdiModel->select();
-        $this->response($Output, REST_Controller::HTTP_OK);
+        // $this->response($Output, REST_Controller::HTTP_OK);
         
     }
 }
