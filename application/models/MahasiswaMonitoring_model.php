@@ -40,5 +40,41 @@ class MahasiswaMonitoring_model extends CI_Model
             ];
             return $message;
         }
+    }   
+     
+    public function prodi($data)
+    {
+        if(!empty($data) && $this->authorization_token->userInRole("Mahasiswa")){
+            $result = $this->db->query(
+                "SELECT
+                *
+              FROM
+                `ViewMhsWarning`
+                LEFT JOIN `mahasiswa` ON `mahasiswa`.`npm` = `ViewMhsWarning`.`npm`
+              WHERE mahasiswa.IdUser = '$data->id'"
+            );
+            $message = [
+                'status' => 'Mahasiswa',
+                'data'=> $result->result_object()
+            ];
+            return $message;
+        }else
+        {
+            $result = $this->db->query(
+                "SELECT
+                    `ViewMonitorMhs`.*
+                FROM
+                    `ViewMonitorMhs`
+                    LEFT JOIN `program_studi` ON `ViewMonitorMhs`.`kdps` = `program_studi`.`kdps`
+                    LEFT JOIN `kaprodi` ON `program_studi`.`idprodi` = `kaprodi`.`idprodi`
+                    LEFT JOIN `pegawai` ON `kaprodi`.`idpegawai` = `pegawai`.`idpegawai`
+                WHERE IdUser = '$data->id'"
+            );
+            $message = [
+                'status' => 'DosenWali',
+                'data'=> $result->result_object()
+            ];
+            return $message;
+        }
     }    
 }

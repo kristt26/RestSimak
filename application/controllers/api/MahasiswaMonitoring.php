@@ -52,4 +52,38 @@ class MahasiswaMonitoring extends \Restserver\Libraries\REST_Controller
             $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
+    public function Prodi_get()
+    {
+        $isValidate = $this->authorization_token->validateToken();
+        if($isValidate['status']===true){
+            $result = $this->MahasiswaMonitoringModel->prodi($isValidate['data']);
+            if($result['status']=='Mahasiswa'){
+                if(!empty($result['data'])){
+                    $message = [
+                        'pesan' => "PERINGATAN",
+                        'data' => $result['data']
+                    ];
+                    $this->response($message, REST_Controller::HTTP_OK);
+                }else{
+                    $message = [
+                        'pesan' => "true",
+                        'data' => []
+                    ];
+                    $this->response($message, REST_Controller::HTTP_OK);
+                }
+            }else{
+                $message=[
+                    'data' => $result
+                ];
+                $this->response($message, REST_Controller::HTTP_OK);
+            }
+            
+            
+        }else{
+            $message = [
+                'message' => 'Anda tidak memiliki Akses',
+            ];
+            $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
+        }
+    }
 }
