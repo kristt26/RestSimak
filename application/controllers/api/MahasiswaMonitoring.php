@@ -57,11 +57,16 @@ class MahasiswaMonitoring extends \Restserver\Libraries\REST_Controller
         $isValidate = $this->authorization_token->validateToken();
         if($isValidate['status']===true){
             $result = $this->MahasiswaMonitoringModel->prodi($isValidate['data']);
+            $mahasiswa = $this->MahasiswaMonitoringModel->mahasiswa_prodi($isValidate['data']);
             if($result['status']=='Mahasiswa'){
                 if(!empty($result['data'])){
+                    $item=[
+                        'mahasiswa'=>$mahasiswa,
+                        'warning'=>$result['data']
+                    ];
                     $message = [
                         'pesan' => "PERINGATAN",
-                        'data' => $result['data']
+                        'data' => $item
                     ];
                     $this->response($message, REST_Controller::HTTP_OK);
                 }else{
