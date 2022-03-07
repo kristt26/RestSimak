@@ -78,7 +78,8 @@ class MahasiswaMonitoring extends \Restserver\Libraries\REST_Controller
                 }
             }else{
                 $message=[
-                    'data' => $result
+                    'mahasiswa'=>$mahasiswa,
+                    'warning' => $result
                 ];
                 $this->response($message, REST_Controller::HTTP_OK);
             }
