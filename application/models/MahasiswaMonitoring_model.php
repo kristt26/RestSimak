@@ -110,7 +110,7 @@ class MahasiswaMonitoring_model extends CI_Model
             ELSE
             0*transkip.sks
             END)FROM transkip WHERE transkip.npm=`mahasiswa`.`npm`) AS SKSLulus,
-            (SELECT COUNT(daftar_ulang.thakademik) FROM daftar_ulang where daftar_ulang.npm = `mahasiswa`.`npm`) AS Semester
+            (SELECT COUNT(0) FROM `daftar_ulang` du WHERE `du`.`npm` = `m`.`npm`) AS 'Semester'
           FROM
             `mahasiswa`
             LEFT JOIN `program_studi` ON `mahasiswa`.`kdps` = `program_studi`.`kdps`
