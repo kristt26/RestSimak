@@ -27,6 +27,22 @@ class DosenPengampu extends \Restserver\Libraries\REST_Controller
             $this->response($result, REST_Controller::HTTP_OK);
         }
     }
+    
+    public function bymk_get()
+    {
+        
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $kmk = $this->uri->segment(3);
+            $th = $this->uri->segment(4);
+            $gg = $this->uri->segment(5);
+            return $kmk;
+            // $result = $this->DosenModel->select();
+            // $this->response($result, REST_Controller::HTTP_OK);
+        }
+    }
+    
     public function Tambah_post()
     {
         $data = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
