@@ -110,6 +110,21 @@ class Dosen_Model extends CI_Model
         WHERE `tahun_akademik`.`status`='AKTIF'")->result();
         return ['prodi' => $prodi, 'dosen' => $dosen, 'pengampu' => $pengampu];
     }
+    
+    public function bymk($kmk)
+    {
+        $tahunakademik = $this->db->get_where('tahun_akademik', ['status' => 'AKTIF'])->result()[0];
+        $pengampu = $this->db->query("SELECT
+            `dosen_pengampu`.*,
+            `dosen`.`nmdsn`
+        FROM
+            `dosen_pengampu`
+            LEFT JOIN `tahun_akademik` ON `dosen_pengampu`.`idtahunakademik` =
+            `tahun_akademik`.`idtahunakademik`
+            LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
+        WHERE `tahun_akademik`.`status`='AKTIF' AND kmk='$kmk'")->result();
+        return $pengampu;
+    }
 
     public function insertpengampu($data = null)
     {

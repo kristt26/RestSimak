@@ -34,11 +34,11 @@ class DosenPengampu extends \Restserver\Libraries\REST_Controller
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
-            $kmk = $this->uri->segment(1);
-            $th = $this->uri->segment(4);
-            $gg = $this->uri->segment(5);
+            $kmk = $this->uri->segment(4);
+            $th = $this->uri->segment(5);
+            $gg = $this->uri->segment(6);
+            $result = $this->DosenModel->bymk($kmk);
             $this->response($kmk, REST_Controller::HTTP_OK);
-            // $result = $this->DosenModel->select();
         }
     }
     
