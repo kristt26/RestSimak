@@ -81,7 +81,7 @@ $route['api/jadwal/mahasiswakelas'] = 'api/Jadwal/MahasiswaKelas';
 $route['api/jadwal/delete/:num'] = 'api/Jadwal/hapus';
 
 $route['api/dosenampu/getdata'] = 'api/DosenPengampu/GetData';
-$route['api/dosenampu/bymk/:any/:any/:any'] = 'api/DosenPengampu/GetData';
+$route['api/dosenampu/bymk/:any/:any/:any'] = 'api/DosenPengampu/bymk';
 $route['api/dosenampu/simpan'] = 'api/DosenPengampu/Tambah';
 $route['api/dosenampu/ubah'] = 'api/DosenPengampu/Ubah';
 
