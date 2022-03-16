@@ -38,7 +38,7 @@ class DosenPengampu extends \Restserver\Libraries\REST_Controller
             $th = $this->uri->segment(5);
             $gg = $this->uri->segment(6);
             $result = $this->DosenModel->bymk($kmk);
-            $this->response($kmk, REST_Controller::HTTP_OK);
+            $this->response($result, REST_Controller::HTTP_OK);
         }
     }
     
