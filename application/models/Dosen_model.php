@@ -122,7 +122,7 @@ class Dosen_Model extends CI_Model
             LEFT JOIN `tahun_akademik` ON `dosen_pengampu`.`idtahunakademik` =
             `tahun_akademik`.`idtahunakademik`
             LEFT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_pengampu`.`iddosen`
-        WHERE `tahun_akademik`.`status`='AKTIF' AND kmk='$kmk'")->result();
+        WHERE `tahun_akademik`.`status`='AKTIF' AND kmk='$kmk' GROUP BY jenis")->result();
         return $pengampu;
     }
 
