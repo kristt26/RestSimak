@@ -408,7 +408,7 @@ class Jadwal_Model extends CI_Model
 
     public function hapus($idjadwal)
     {
-        $this->db->where('idjawal', $idjadwal);
+        $this->db->where('idjadwal', $idjadwal);
         $result = $this->db->delete('jadwal_kuliah');
         return $result;
     }
