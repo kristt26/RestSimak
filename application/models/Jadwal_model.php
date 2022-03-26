@@ -409,13 +409,14 @@ class Jadwal_Model extends CI_Model
     public function hapus($idjadwal)
     {
         $this->db->trans_begin();
-        $this->db->delete('jadwal_kuliah', ['idjawal' => $idjadwal]);
+        $this->db->where('idjawal', $idjadwal);
+        $this->db->delete('jadwal_kuliah');
         if ($this->db->trans_status()) {
             $this->db->trans_commit();
             return true;
         } else {
             $this->db->trans_rollback();
-            return $idjadwal;
+            return false;
         }
     }
 
