@@ -415,7 +415,7 @@ class Jadwal_Model extends CI_Model
             return true;
         } else {
             $this->db->trans_rollback();
-            return false;
+            return $idjadwal;
         }
     }
 
