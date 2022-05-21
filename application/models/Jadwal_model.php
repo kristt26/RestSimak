@@ -432,7 +432,7 @@ class Jadwal_Model extends CI_Model
 				LEFT JOIN `matakuliah` ON `jadwal_kuliah`.`kmk` = `matakuliah`.`kmk`
 				LEFT JOIN `dosen` ON `dosen_pengampu`.`iddosen` = `dosen`.`iddosen`
 			WHERE
-				`tahun_akademik`.`status` = 'AKTIF' AND program_studi.kdps='$kdps' AND RIGHT(matakuliah.nmmk, 5)='(KBR)'
+				`tahun_akademik`.`status` = 'AKTIF' AND program_studi.kdps='$kdps' AND RIGHT(matakuliah.nmmk, 5)='(KBR)' AND matakuliah.status_mk='OK
 			ORDER BY
 				`jadwal_kuliah`.`nmmk`,
 				`jadwal_kuliah`.`kelas`")->result();
@@ -454,7 +454,7 @@ class Jadwal_Model extends CI_Model
 				LEFT JOIN `matakuliah` ON `jadwal_kuliah`.`kmk` = `matakuliah`.`kmk`
 				LEFT JOIN `dosen` ON `dosen_pengampu`.`iddosen` = `dosen`.`iddosen`
 			WHERE
-				`tahun_akademik`.`status` = 'AKTIF' AND program_studi.kdps='$kdps' AND RIGHT(matakuliah.nmmk, 3)='[+]'
+				`tahun_akademik`.`status` = 'AKTIF' AND program_studi.kdps='$kdps' AND RIGHT(matakuliah.nmmk, 3)='[+]' AND matakuliah.status_mk='OK'
 			ORDER BY
 				`jadwal_kuliah`.`nmmk`,
 				`jadwal_kuliah`.`kelas`")->result();
