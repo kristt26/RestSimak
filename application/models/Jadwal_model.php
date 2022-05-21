@@ -415,7 +415,8 @@ class Jadwal_Model extends CI_Model
 	public function jadwal_praktikum($kdps)
 	{
 		$prodi = $this->db->query("SELECT nmps AS prodi, kdps, jenjang FROM program_studi WHERE kdps='$kdps'")->row_array();
-		$prodi['matakuliah'] = $this->db->query("SELECT
+		if ($prodi['kdps'] == "55420") {
+			$prodi['matakuliah'] = $this->db->query("SELECT
 			`jadwal_kuliah`.*,
 			`program_studi`.`nmps`,
 			`matakuliah`.`kurikulum`,
@@ -431,10 +432,11 @@ class Jadwal_Model extends CI_Model
 			LEFT JOIN `matakuliah` ON `jadwal_kuliah`.`kmk` = `matakuliah`.`kmk`
 			LEFT JOIN `dosen` ON `dosen_pengampu`.`iddosen` = `dosen`.`iddosen`
 		WHERE
-			`tahun_akademik`.`status` = 'AKTIF' AND program_studi.kdps='$kdps'
+			`tahun_akademik`.`status` = 'AKTIF' AND program_studi.kdps='$kdps' AND RIGHT(matakuliah.nmmk, 5)='(KBR)'
 		ORDER BY
 			`jadwal_kuliah`.`nmmk`,
 			`jadwal_kuliah`.`kelas`")->result();
+		}
 		return $prodi;
 	}
 }
