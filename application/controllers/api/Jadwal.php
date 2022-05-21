@@ -294,8 +294,8 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
 
 	public function jadwalByProdi_get()
 	{
-		$id_prodi = $_GET['id_prodi'];
-		$Output = $this->JadwalModel->getJadwalProdi();
-		$this->response($id_prodi, REST_Controller::HTTP_OK);
+		$kdps = $_GET['kdps'];
+		$Output = $this->JadwalModel->jadwal_praktikum($kdps);
+		$this->response($Output, REST_Controller::HTTP_OK);
 	}
 }
