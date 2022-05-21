@@ -292,7 +292,7 @@ class Jadwal extends \Restserver\Libraries\REST_Controller
 		}
 	}
 
-	public function jadwal_by_prodi()
+	public function jadwalByProdi_get()
 	{
 		$id_prodi = $_GET['id_prodi'];
 		$Output = $this->JadwalModel->getJadwalProdi();
