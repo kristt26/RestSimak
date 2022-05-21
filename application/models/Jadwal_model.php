@@ -156,7 +156,7 @@ class Jadwal_Model extends CI_Model
         }
     }
 
-    public function getAllJadwal(Type $var = null)
+    public function getAllJadwal($var = null)
     {
         $hasil = $this->db->query("SELECT
                 `jadwal_kuliah`.*,
