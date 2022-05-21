@@ -441,6 +441,7 @@ class Jadwal_Model extends CI_Model
 				`jadwal_kuliah`.*,
 				`program_studi`.`nmps`,
 				`matakuliah`.`kurikulum`,
+				`matakuliah`.`idmatakuliah`,
 				`dosen`.`nidn`,
 				`dosen`.`nmdsn`
 			FROM
