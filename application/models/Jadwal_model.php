@@ -417,25 +417,46 @@ class Jadwal_Model extends CI_Model
 		$prodi = $this->db->query("SELECT nmps AS prodi, kdps, jenjang FROM program_studi WHERE kdps='$kdps'")->row_array();
 		if ($prodi['kdps'] == "55420") {
 			$prodi['matakuliah'] = $this->db->query("SELECT
-			`jadwal_kuliah`.*,
-			`program_studi`.`nmps`,
-			`matakuliah`.`kurikulum`,
-			`dosen`.`nidn`,
-			`dosen`.`nmdsn`
-		FROM
-			`jadwal_kuliah`
-			LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`idpengampu` =
-		`dosen_pengampu`.`idpengampu`
-			LEFT JOIN `tahun_akademik` ON `dosen_pengampu`.`idtahunakademik` =
-		`tahun_akademik`.`idtahunakademik`
-			LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `jadwal_kuliah`.`kdps`
-			LEFT JOIN `matakuliah` ON `jadwal_kuliah`.`kmk` = `matakuliah`.`kmk`
-			LEFT JOIN `dosen` ON `dosen_pengampu`.`iddosen` = `dosen`.`iddosen`
-		WHERE
-			`tahun_akademik`.`status` = 'AKTIF' AND program_studi.kdps='$kdps' AND RIGHT(matakuliah.nmmk, 5)='(KBR)'
-		ORDER BY
-			`jadwal_kuliah`.`nmmk`,
-			`jadwal_kuliah`.`kelas`")->result();
+				`jadwal_kuliah`.*,
+				`program_studi`.`nmps`,
+				`matakuliah`.`kurikulum`,
+				`dosen`.`nidn`,
+				`dosen`.`nmdsn`
+			FROM
+				`jadwal_kuliah`
+				LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`idpengampu` =
+			`dosen_pengampu`.`idpengampu`
+				LEFT JOIN `tahun_akademik` ON `dosen_pengampu`.`idtahunakademik` =
+			`tahun_akademik`.`idtahunakademik`
+				LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `jadwal_kuliah`.`kdps`
+				LEFT JOIN `matakuliah` ON `jadwal_kuliah`.`kmk` = `matakuliah`.`kmk`
+				LEFT JOIN `dosen` ON `dosen_pengampu`.`iddosen` = `dosen`.`iddosen`
+			WHERE
+				`tahun_akademik`.`status` = 'AKTIF' AND program_studi.kdps='$kdps' AND RIGHT(matakuliah.nmmk, 5)='(KBR)'
+			ORDER BY
+				`jadwal_kuliah`.`nmmk`,
+				`jadwal_kuliah`.`kelas`")->result();
+		} else if ($prodi['kdps'] == "57201") {
+			$prodi['matakuliah'] = $this->db->query("SELECT
+				`jadwal_kuliah`.*,
+				`program_studi`.`nmps`,
+				`matakuliah`.`kurikulum`,
+				`dosen`.`nidn`,
+				`dosen`.`nmdsn`
+			FROM
+				`jadwal_kuliah`
+				LEFT JOIN `dosen_pengampu` ON `jadwal_kuliah`.`idpengampu` =
+			`dosen_pengampu`.`idpengampu`
+				LEFT JOIN `tahun_akademik` ON `dosen_pengampu`.`idtahunakademik` =
+			`tahun_akademik`.`idtahunakademik`
+				LEFT JOIN `program_studi` ON `program_studi`.`kdps` = `jadwal_kuliah`.`kdps`
+				LEFT JOIN `matakuliah` ON `jadwal_kuliah`.`kmk` = `matakuliah`.`kmk`
+				LEFT JOIN `dosen` ON `dosen_pengampu`.`iddosen` = `dosen`.`iddosen`
+			WHERE
+				`tahun_akademik`.`status` = 'AKTIF' AND program_studi.kdps='$kdps' AND RIGHT(matakuliah.nmmk, 3)='[+]'
+			ORDER BY
+				`jadwal_kuliah`.`nmmk`,
+				`jadwal_kuliah`.`kelas`")->result();
 		}
 		return $prodi;
 	}
