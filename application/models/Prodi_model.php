@@ -13,7 +13,7 @@ class Prodi_Model extends CI_Model
 
 	public function get()
 	{
-		$data = $this->db->query("SELECT * FROM program_studi")->result_object();
+		$data = $this->db->query("SELECT * FROM program_studi WHERE status='true'")->result_object();
 		return $data;
 	}
 }
