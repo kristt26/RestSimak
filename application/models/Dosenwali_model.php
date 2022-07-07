@@ -16,7 +16,7 @@ class Dosenwali_model extends CI_Model
 		FROM
 			`dosen_wali`
 			LEFT JOIN `mahasiswa` ON `dosen_wali`.`npm` = `mahasiswa`.`npm`
-		WHERE kdps='$kdps' AND iddosen='$iddosen'")->result();
+		WHERE kdps='$kdps' AND iddosen='$iddosen' AND statuskul IN ('AKTIF', 'TIDAK AKTIF')")->result();
 		return $result;
 	}
 }
