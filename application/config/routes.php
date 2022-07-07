@@ -204,6 +204,10 @@ $route['api/du']['get'] = 'api/DaftarUlang/cekDu';
 
 // Program Studi
 $route['api/prodi']['get'] = 'api/Prodi/read';
+
+// Dosen Wali
+$route['api/dosen_wali/insert']['post'] = 'api/DosenWali/insert';
+
 // api/v2
 
 $route['v2/getmahasiswa']['get'] = 'api/v2/Mahasiswa/GetMahasiswa';
