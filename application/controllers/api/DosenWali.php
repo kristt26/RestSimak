@@ -22,11 +22,10 @@ class DosenWali extends \Restserver\Libraries\REST_Controller
 		$this->load->library('Authorization_Token');
 		$is_valid_token = $this->authorization_token->validateToken();
 		if ($is_valid_token['status'] === true) {
-			// $_POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
-			// $result = $this->DosenWaliModel->get();
+			$result = $this->DosenWaliModel->read($kdps, $iddosen);
 			$message = [
 				'status' => true,
-				'data' => ['kdps' => $kdps, 'iddosen' => $iddosen],
+				'data' => $result,
 				'message' => "Success",
 			];
 			$this->response($message, REST_Controller::HTTP_OK);

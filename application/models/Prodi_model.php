@@ -14,6 +14,7 @@ class Prodi_Model extends CI_Model
 	public function get()
 	{
 		$data['ta'] = $this->db->query("SELECT * FROM tahun_akademik WHERE status='AKTIF'")->row_object();
+		$data['prodi'] = $this->db->query("SELECT * FROM program_studi WHERE status='true'")->row_object();
 		$data['dosen'] = $this->db->query("SELECT * FROM dosen")->result_object();
 		$data['mahasiswa'] = $this->db->query("SELECT
 			`mahasiswa`.`npm`,
