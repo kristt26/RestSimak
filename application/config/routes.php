@@ -203,7 +203,7 @@ $route['api/backup']['get'] = 'api/Backup/datatable';
 $route['api/du']['get'] = 'api/DaftarUlang/cekDu';
 
 // Program Studi
-$route['api/prodi']['get'] = 'api/Prodi/read';
+$route['api/prodi/read']['get'] = 'api/Prodi/read';
 
 // Dosen Wali
 $route['api/dosen_wali/insert']['post'] = 'api/DosenWali/insert';
