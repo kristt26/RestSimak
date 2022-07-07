@@ -207,7 +207,7 @@ $route['api/prodi/read']['get'] = 'api/Prodi/read';
 
 // Dosen Wali
 $route['api/dosen_wali/insert']['post'] = 'api/DosenWali/insert';
-$route['api/dosen_wali/read/(:any)/(:any)']['get'] = 'api/DosenWali/read';
+$route['api/dosen_wali/read/(:any)/(:any)']['get'] = 'api/DosenWali/read/$1/$2';
 
 // api/v2
 
