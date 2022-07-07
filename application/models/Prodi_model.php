@@ -15,6 +15,16 @@ class Prodi_Model extends CI_Model
 	{
 		$data['prodi'] = $this->db->query("SELECT * FROM program_studi WHERE status='true'")->result_object();
 		$data['dosen'] = $this->db->query("SELECT * FROM dosen")->result_object();
+		$data['mahasiswa'] = $this->db->query("SELECT
+			`mahasiswa`.`npm`,
+			`mahasiswa`.`kdps`,
+			`mahasiswa`.`nmmhs`
+		FROM
+			`mahasiswa`
+			LEFT JOIN `dosen_wali` ON `mahasiswa`.`npm` = `dosen_wali`.`npm`
+		WHERE
+			`mahasiswa`.`status` IN ('AKTIF', 'TIDAK AKTIF') AND
+			`dosen_wali`.`Id` IS NULL")->result_object();
 		return $data;
 	}
 }
