@@ -17,7 +17,7 @@ class DosenWali extends \Restserver\Libraries\REST_Controller
 		$this->load->model('Dosenwali_model', 'DosenWaliModel');
 	}
 
-	public function read_get($kdps, $iddosen)
+	public function read_post($kdps, $iddosen)
 	{
 		$this->load->library('Authorization_Token');
 		$is_valid_token = $this->authorization_token->validateToken();
