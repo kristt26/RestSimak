@@ -204,7 +204,7 @@ $route['api/du']['get'] = 'api/DaftarUlang/cekDu';
 
 // Program Studi
 $route['api/prodi/read']['get'] = 'api/Prodi/read';
-$route['api/prodi/read/(:any)/(:any)']['get'] = 'api/Prodi/readbydosen/$1/$2';
+$route['api/prodi/readbydosen/(:any)/(:any)']['get'] = 'api/Prodi/readbydosen/$1/$2';
 
 
 // Dosen Wali
