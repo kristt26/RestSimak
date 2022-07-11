@@ -178,6 +178,7 @@ $route['api/PenilaianDosen/DeletePenilaiEvaluasi']['delete'] = 'api/PenilaianDos
 
 // Mahasiswa Wali
 $route['api/MahasiswaWali']['get'] = 'api/MahasiswaWali/GetMahasiswaWali';
+$route['api/MahasiswaWali/getwali']['get'] = 'api/MahasiswaWali/GetWali';
 
 // Monitoring
 $route['api/MahasiswaMonitoring/getList']['get'] = 'api/MahasiswaMonitoring/Select';
