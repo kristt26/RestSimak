@@ -12,6 +12,7 @@ class Dosenwali_model extends CI_Model
 			`mahasiswa`.`npm`,
 			`mahasiswa`.`kdps`,
 			`mahasiswa`.`jenjang`,
+			substring(`mahasiswa`.`npm`, 1, 4) AS angkatan,
 			`mahasiswa`.`nmmhs`
 		FROM
 			`dosen_wali`
