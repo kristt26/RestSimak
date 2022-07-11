@@ -14,8 +14,9 @@ RewriteCond %{REQUEST_URI} !^/\.well
 RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Sectigo\ DCV)?$
 RewriteRule ^/?$ "https\:\/\/www\.restsimak\.stimiksepnop\.ac\.id\/" [R=301,L]
 
-<ifmodule mod_headers.c="">
-   Header set Access-Control-Allow-Origin "*"
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
    Header set Access-Control-Allow-Methods: "*"
    Header set Access-Control-Allow-Headers: "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-</ifmodule>
+</IfModule>
