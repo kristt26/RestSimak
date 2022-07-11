@@ -34,4 +34,4 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 
 test/*
 application/config/database.php
-htaccess
+.htaccess
