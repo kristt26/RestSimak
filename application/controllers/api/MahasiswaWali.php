@@ -38,14 +38,13 @@ class MahasiswaWali extends \Restserver\Libraries\REST_Controller
 		$this->load->library('Authorization_Token');
 		$is_valid_token = $this->authorization_token->validateToken();
 		if ($is_valid_token['status'] === true) {
+			$result = $this->DosenWaliModel->read($id, $dosen);
 			$message = [
 				'status' => true,
-				'data' => [$id, $dosen],
+				'data' => $result,
+				'message' => "Success",
 			];
 			$this->response($message, REST_Controller::HTTP_OK);
-			// $Output = $this->MahasiswaWaliModel->Select($is_valid_token['data']->id);
-			// if (!empty($Output)) {
-			// }
 		}
 	}
 }
