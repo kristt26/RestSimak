@@ -14,7 +14,7 @@ class DosenWali extends \Restserver\Libraries\REST_Controller
 		header("Content-Type: application/json; charset=UTF-8");
 		header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT, OPTIONS");
 		header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-		$this->load->model('Dosenwali_model', 'DosenWaliModel');
+		// $this->load->model('Dosenwali_model', 'DosenWaliModel');
 	}
 
 	public function read_post()
