@@ -15,6 +15,7 @@ class MahasiswaWali extends \Restserver\Libraries\REST_Controller
 		header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT");
 		header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 		$this->load->model('MahasiswaWali_model', 'MahasiswaWaliModel');
+		$this->load->model('Dosenwali_model', 'DosenWaliModel');
 	}
 	public function GetMahasiswaWali_get()
 	{
@@ -32,14 +33,14 @@ class MahasiswaWali extends \Restserver\Libraries\REST_Controller
 		}
 	}
 
-	public function GetWali_get()
+	public function GetWali_get($id, $dosen)
 	{
 		$this->load->library('Authorization_Token');
 		$is_valid_token = $this->authorization_token->validateToken();
 		if ($is_valid_token['status'] === true) {
 			$message = [
 				'status' => true,
-				'data' => [],
+				'data' => [$id, $dosen],
 			];
 			$this->response($message, REST_Controller::HTTP_OK);
 			// $Output = $this->MahasiswaWaliModel->Select($is_valid_token['data']->id);
