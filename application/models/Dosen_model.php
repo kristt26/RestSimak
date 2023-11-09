@@ -91,7 +91,7 @@ class Dosen_Model extends CI_Model
                     matakuliah.*
                 FROM
                     `matakuliah`
-                WHERE matakuliah.kurikulum ='$itemkurikulum->kurikulum' AND matakuliah.kdps='$itemprodi->kdps' AND (matakuliah.smt%2)=$gg
+                WHERE matakuliah.kurikulum ='$itemkurikulum->kurikulum' AND matakuliah.kdps='$itemprodi->kdps'
                 GROUP BY matakuliah.kmk")->result();
             }
         }
