@@ -36,7 +36,7 @@ class GradeNilai extends \Restserver\Libraries\REST_Controller
 		}else{
 			$message = [
 				'status' => true,
-				'message' => "Tanggal pengisian berita acara telah ditutup",
+				'message' => "Batas pengisian nilai telah ditutup",
 			];
 			$this->response($message, REST_Controller::HTTP_BAD_REQUEST);
 		}
