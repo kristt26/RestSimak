@@ -326,6 +326,11 @@ class Jadwal_Model extends CI_Model
 						'DetailKrsm' => $resultDetailKrsm->result(),
 						'message' => 'Krsm',
 					);
+					foreach ($DataKrsm['DetailKrsm'] as $key => $value) {
+						if($value->bup=='B'){
+							$this->db->query("UPDATE transkip set nilai = '$value->nhuruf', nxsks='$value->nxsks' WHERE npm = '$DataMahasiswa->npm' AND kmk = '$value->kmk'");
+						}
+					}
 					return $DataKrsm;
 				} else {
 					$DataJadwal = array(
