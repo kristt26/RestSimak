@@ -108,7 +108,7 @@ class Khsm extends \Restserver\Libraries\REST_Controller
     }
     public function GetlistKHS_get()
     {
-		if (strtotime(date("Y/m/d")." 23:59:59") <= strtotime("2024/01/08 23:59:59")) {
+		if (strtotime(date("Y/m/d")." 23:59:59") <= strtotime("2024/01/02 23:59:59")) {
 			$this->load->library('Authorization_Token');
 			$is_valid_token = $this->authorization_token->validateToken();
 			if ($is_valid_token['status'] === true) {
