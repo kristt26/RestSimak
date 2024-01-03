@@ -21,7 +21,7 @@ class GradeNilai extends \Restserver\Libraries\REST_Controller
     {
         
         // $_POST = $this->security->xss_clean($_POST);
-		if (strtotime(date("Y/m/d")." 23:59:59") >= strtotime("2024/01/08 23:59:59")) {
+		if (strtotime(date("Y/m/d")." 23:59:59") <= strtotime("2024/01/08 23:59:59")) {
 			$this->load->library('Authorization_Token');
 			$is_valid_token = $this->authorization_token->validateToken();
 			if ($is_valid_token['status'] === true) {
