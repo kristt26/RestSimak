@@ -328,6 +328,7 @@ class Khsm_Model extends CI_Model
                     `khsm_detail`.`nxsks`,
                     `khsm_detail`.`ket`,
                     `krsm_detail`.`sks`,
+                    `krsm_detail`.`bup`,
                     `matakuliah`.`nmmk`,
                     `khsm_detail`.`kmk`,
                     `khsm_detail`.`nilai`,
@@ -484,13 +485,14 @@ class Khsm_Model extends CI_Model
             $this->db->where("npm", $value['npm']);
             $this->db->where("kmk", $value['kmk']);
             $this->db->update("khsm_detail");
+
             $this->db->where("npm", $value['npm']);
             $this->db->where("kdps", $item['kdps']);
             $this->db->where("kmk", $value['kmk']);
             $result = $this->db->get('transkip');
             if ($result->num_rows() > 0) {
                 $DataTranskip = $result->result_object();
-                if ($value['nxsks'] > $DataTranskip[0]->nxsks) {
+                if ($value['nxsks'] > $DataTranskip[0]->nxsks || $value['nxsks']=='B') {
                     $this->db->set("nxsks", $value['nxsks']);
                     $this->db->set("nilai", $value['nhuruf']);
                     $this->db->set("ket", $value['ket']);
