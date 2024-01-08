@@ -362,7 +362,7 @@ class Khsm_Model extends CI_Model
 
 	public function getProgress($data = null) {
 		$data = $this->db->query("SELECT
-		`jadwal_kuliah`.*,
+		`jadwal_kuliah`.*, `program_studi`.`nmps`,
 		(SELECT COUNT(*) FROM khsm_detail LEFT JOIN mahasiswa on mahasiswa.npm = khsm_detail.npm WHERE jadwal_kuliah.kelas = mahasiswa.kelas AND jadwal_kuliah.kmk=khsm_detail.kmk AND jadwal_kuliah.thakademik=khsm_detail.thakademik AND jadwal_kuliah.gg = khsm_detail.gg AND khsm_detail.ket='L')as lulus, 
 		(SELECT COUNT(*) FROM khsm_detail LEFT JOIN mahasiswa on mahasiswa.npm = khsm_detail.npm WHERE jadwal_kuliah.kelas = mahasiswa.kelas AND jadwal_kuliah.kmk=khsm_detail.kmk AND jadwal_kuliah.thakademik=khsm_detail.thakademik AND jadwal_kuliah.gg = khsm_detail.gg)as total, 
 		(SELECT COUNT(*) FROM khsm_detail LEFT JOIN mahasiswa on mahasiswa.npm = khsm_detail.npm WHERE jadwal_kuliah.kelas = mahasiswa.kelas AND jadwal_kuliah.kmk=khsm_detail.kmk AND jadwal_kuliah.thakademik=khsm_detail.thakademik AND jadwal_kuliah.gg = khsm_detail.gg AND khsm_detail.ket IS NULL)as belum
