@@ -143,6 +143,23 @@ class Khsm extends \Restserver\Libraries\REST_Controller
 		}
     }
 
+    public function GetProgress_get()
+    {
+		$this->load->library('Authorization_Token');
+		$is_valid_token = $this->authorization_token->validateToken();
+		if ($is_valid_token['status'] === true) {
+			$Output = $this->KhsmModel->getProgress($is_valid_token['data']);
+			$this->response($Output, REST_Controller::HTTP_OK);
+			
+		} else {
+			$message = [
+				'status' => false,
+				'message' => "Session Anda Habis",
+			];
+			$this->response($message, Rest_Controller::HTTP_OK);
+		}
+    }
+
     public function GetAllListKHS_get()
     {
         $this->load->library('Authorization_Token');

@@ -359,6 +359,27 @@ class Khsm_Model extends CI_Model
         return $a;
 
     }
+
+	public function getProgress($data = null) {
+		$data = $this->db->query("SELECT
+		`jadwal_kuliah`.*,
+		(SELECT COUNT(*) FROM khsm_detail LEFT JOIN mahasiswa on mahasiswa.npm = khsm_detail.npm WHERE jadwal_kuliah.kelas = mahasiswa.kelas AND jadwal_kuliah.kmk=khsm_detail.kmk AND jadwal_kuliah.thakademik=khsm_detail.thakademik AND jadwal_kuliah.gg = khsm_detail.gg AND khsm_detail.ket='L')as lulus, 
+		(SELECT COUNT(*) FROM khsm_detail LEFT JOIN mahasiswa on mahasiswa.npm = khsm_detail.npm WHERE jadwal_kuliah.kelas = mahasiswa.kelas AND jadwal_kuliah.kmk=khsm_detail.kmk AND jadwal_kuliah.thakademik=khsm_detail.thakademik AND jadwal_kuliah.gg = khsm_detail.gg)as total, 
+		(SELECT COUNT(*) FROM khsm_detail LEFT JOIN mahasiswa on mahasiswa.npm = khsm_detail.npm WHERE jadwal_kuliah.kelas = mahasiswa.kelas AND jadwal_kuliah.kmk=khsm_detail.kmk AND jadwal_kuliah.thakademik=khsm_detail.thakademik AND jadwal_kuliah.gg = khsm_detail.gg AND khsm_detail.ket IS NULL)as belum
+		FROM
+		`jadwal_kuliah`
+		LEFT JOIN `dosen_pengampu` ON `dosen_pengampu`.`idpengampu` =
+		`jadwal_kuliah`.`idpengampu`
+		LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`idtahunakademik` =
+		`dosen_pengampu`.`idtahunakademik`
+		LEFT JOIN `matakuliah` ON `matakuliah`.`idmatakuliah` =
+		`dosen_pengampu`.`idmatakuliah`
+		LEFT JOIN `program_studi` ON `jadwal_kuliah`.`kdps` = `program_studi`.`kdps`
+		LEFT JOIN `kaprodi` ON `program_studi`.`idprodi` = `kaprodi`.`idprodi`
+		LEFT JOIN `pegawai` ON `kaprodi`.`idpegawai` = `pegawai`.`idpegawai`
+		WHERE pegawai.IdUser='$data->id' AND tahun_akademik.status='AKTIF' ORDER by smt,nmmk,kelas asc")->result();
+		return $data;
+	}
     
     public function getAllNilai($item)
     {
