@@ -111,8 +111,8 @@ class Khsm extends \Restserver\Libraries\REST_Controller
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
             $ta = $this->db->query("SELECT * FROM tahun_akademik WHERE status = 'AKTIF'")->result();
-            if (!is_null($ta->tgl_nilai)) {
-                if (strtotime(date("Y/m/d") . " 23:59:59") <= strtotime(str_replace("-","/",$ta->tgl_nilai))) {
+            if (!is_null($ta[0]->tgl_nilai)) {
+                if (strtotime(date("Y/m/d") . " 23:59:59") <= strtotime(str_replace("-","/",$ta[0]->tgl_nilai))) {
                     $Output = $this->KhsmModel->getNilai($is_valid_token['data']);
                     if (!empty($Output)) {
                         $message = [
