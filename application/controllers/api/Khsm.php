@@ -67,7 +67,6 @@ class Khsm extends \Restserver\Libraries\REST_Controller
                 $item['SKS'] = $sks;
                 $item['NSKS'] = $nilai;
                 array_push($Datas['Data'], $item);
-
             }
             $message = [
                 'status' => true,
@@ -108,56 +107,74 @@ class Khsm extends \Restserver\Libraries\REST_Controller
     }
     public function GetlistKHS_get()
     {
-		if (strtotime(date("Y/m/d")." 23:59:59") <= strtotime("2024/01/21 23:59:59")) {
-			$this->load->library('Authorization_Token');
-			$is_valid_token = $this->authorization_token->validateToken();
-			if ($is_valid_token['status'] === true) {
-				$Output = $this->KhsmModel->getNilai($is_valid_token['data']);
-				if (!empty($Output)) {
-					$message = [
-						'status' => true,
-						'data' => (object) $Output,
-						'message' => "Success",
-					];
-					$this->response($message, REST_Controller::HTTP_OK);
-				} else {
-					$message = [
-						'status' => false,
-						'message' => "Kosong",
-					];
-					$this->response($message, REST_Controller::HTTP_OK);
-				}
-			} else {
-				$message = [
-					'status' => false,
-					'message' => "Session Anda Habis",
-				];
-				$this->response($message, Rest_Controller::HTTP_OK);
-			}
-		}else{
-			$message = [
-				'status' => true,
-				'message' => "Batas pengisian nilai telah ditutup",
-			];
-			$this->response($message, REST_Controller::HTTP_BAD_REQUEST);
-		}
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $ta = $this->db->query("SELECT * FROM tahun_akademik WHERE status = 'AKTIF'")->result();
+            if (!is_null($ta->tgl_nilai)) {
+                if (strtotime(date("Y/m/d") . " 23:59:59") <= strtotime(str_replace("-","/",$ta->tgl_nilai))) {
+                    $Output = $this->KhsmModel->getNilai($is_valid_token['data']);
+                    if (!empty($Output)) {
+                        $message = [
+                            'status' => true,
+                            'data' => (object) $Output,
+                            'message' => "Success",
+                        ];
+                        $this->response($message, REST_Controller::HTTP_OK);
+                    } else {
+                        $message = [
+                            'status' => false,
+                            'message' => "Kosong",
+                        ];
+                        $this->response($message, REST_Controller::HTTP_OK);
+                    }
+                } else {
+                    $message = [
+                        'status' => true,
+                        'message' => "Batas pengisian nilai telah ditutup",
+                    ];
+                    $this->response($message, REST_Controller::HTTP_BAD_REQUEST);
+                }
+            } else {
+                $Output = $this->KhsmModel->getNilai($is_valid_token['data']);
+                if (!empty($Output)) {
+                    $message = [
+                        'status' => true,
+                        'data' => (object) $Output,
+                        'message' => "Success",
+                    ];
+                    $this->response($message, REST_Controller::HTTP_OK);
+                } else {
+                    $message = [
+                        'status' => false,
+                        'message' => "Kosong",
+                    ];
+                    $this->response($message, REST_Controller::HTTP_OK);
+                }
+            }
+        } else {
+            $message = [
+                'status' => false,
+                'message' => "Session Anda Habis",
+            ];
+            $this->response($message, Rest_Controller::HTTP_OK);
+        }
     }
 
     public function GetProgress_get()
     {
-		$this->load->library('Authorization_Token');
-		$is_valid_token = $this->authorization_token->validateToken();
-		if ($is_valid_token['status'] === true) {
-			$Output = $this->KhsmModel->getProgress($is_valid_token['data']);
-			$this->response($Output, REST_Controller::HTTP_OK);
-			
-		} else {
-			$message = [
-				'status' => false,
-				'message' => "Session Anda Habis",
-			];
-			$this->response($message, Rest_Controller::HTTP_OK);
-		}
+        $this->load->library('Authorization_Token');
+        $is_valid_token = $this->authorization_token->validateToken();
+        if ($is_valid_token['status'] === true) {
+            $Output = $this->KhsmModel->getProgress($is_valid_token['data']);
+            $this->response($Output, REST_Controller::HTTP_OK);
+        } else {
+            $message = [
+                'status' => false,
+                'message' => "Session Anda Habis",
+            ];
+            $this->response($message, Rest_Controller::HTTP_OK);
+        }
     }
 
     public function GetAllListKHS_get()
