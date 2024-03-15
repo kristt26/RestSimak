@@ -32,6 +32,21 @@ class MahasiswaWali extends \Restserver\Libraries\REST_Controller
 			}
 		}
 	}
+	public function GetStatusDaftarUlang_get()
+	{
+		$this->load->library('Authorization_Token');
+		$is_valid_token = $this->authorization_token->validateToken();
+		if ($is_valid_token['status'] === true) {
+			$Output = $this->MahasiswaWaliModel->statusDaftar($is_valid_token['data']->id);
+			if (!empty($Output)) {
+				$message = [
+					'status' => true,
+					'data' => $Output,
+				];
+				$this->response($message, REST_Controller::HTTP_OK);
+			}
+		}
+	}
 
 	public function GetWali_get($id, $dosen)
 	{

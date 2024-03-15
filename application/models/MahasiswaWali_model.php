@@ -45,4 +45,24 @@ class MahasiswaWali_model extends CI_Model
         );
         return $result->result_object();
     }
+
+		function statusDaftar($uid) {
+			return $this->db->query("SELECT
+				`dosen_wali`.*,
+				`mahasiswa`.`nmmhs`,
+				`daftar_ulang`.`stdu`,
+				`tem_krsm`.`status`
+			FROM
+				`dosen_wali`
+				LEFT JOIN `mahasiswa` ON `dosen_wali`.`npm` = `mahasiswa`.`npm`
+				LEFT JOIN `dosen` ON `dosen`.`nidn` = `dosen_wali`.`nidn`
+				LEFT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
+				LEFT JOIN `daftar_ulang` ON `mahasiswa`.`npm` = `daftar_ulang`.`npm`
+				LEFT JOIN `tem_krsm` ON `daftar_ulang`.`npm` = `tem_krsm`.`npm` AND
+			`daftar_ulang`.`thakademik` = `tem_krsm`.`thakademik` AND
+			`daftar_ulang`.`gg` = `tem_krsm`.`gg`
+			LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+			`daftar_ulang`.`thakademik` AND `tahun_akademik`.`gg` = `daftar_ulang`.`gg`
+			WHERE pegawai.IdUser = '$uid' AND tahun_akademik.status = 'AKTIF'")->result_object();
+		}
 }
