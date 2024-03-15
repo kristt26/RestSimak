@@ -32,7 +32,7 @@ class MahasiswaWali extends \Restserver\Libraries\REST_Controller
 			}
 		}
 	}
-	public function GetStatusDaftar_get()
+	public function StatusDaftar_get()
 	{
 		$this->load->library('Authorization_Token');
 		$is_valid_token = $this->authorization_token->validateToken();
