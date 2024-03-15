@@ -41,7 +41,7 @@ class MahasiswaWali extends \Restserver\Libraries\REST_Controller
 			if (!empty($Output)) {
 				$message = [
 					'status' => true,
-					'data' => [],
+					'data' => $Output,
 				];
 				$this->response($message, REST_Controller::HTTP_OK);
 			}
