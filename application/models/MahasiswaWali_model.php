@@ -63,6 +63,6 @@ class MahasiswaWali_model extends CI_Model
 			`daftar_ulang`.`gg` = `tem_krsm`.`gg`
 			LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
 			`daftar_ulang`.`thakademik` AND `tahun_akademik`.`gg` = `daftar_ulang`.`gg`
-			WHERE pegawai.IdUser = '$uid' AND tahun_akademik.status = 'AKTIF'")->result_object();
+			WHERE tahun_akademik.status = 'AKTIF'")->result_object();
 		}
 }
