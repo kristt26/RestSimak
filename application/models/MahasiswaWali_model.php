@@ -46,7 +46,7 @@ class MahasiswaWali_model extends CI_Model
         return $result->result_object();
     }
 
-		function AmbilStatus($uid) {
+		public function AmbilStatus($uid) {
 			$result = $this->db->query("SELECT
 				`dosen_wali`.*,
 				`mahasiswa`.`nmmhs`,
