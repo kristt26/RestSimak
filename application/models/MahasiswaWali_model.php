@@ -47,7 +47,7 @@ class MahasiswaWali_model extends CI_Model
     }
 
 		function statusDaftar($uid) {
-			return $this->db->query("SELECT
+			$result = $this->db->query("SELECT
 				`dosen_wali`.*,
 				`mahasiswa`.`nmmhs`,
 				`daftar_ulang`.`stdu`,
@@ -63,6 +63,7 @@ class MahasiswaWali_model extends CI_Model
 			`daftar_ulang`.`gg` = `tem_krsm`.`gg`
 			LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
 			`daftar_ulang`.`thakademik` AND `tahun_akademik`.`gg` = `daftar_ulang`.`gg`
-			WHERE tahun_akademik.status = 'AKTIF'")->result_object();
+			WHERE pegawai.IdUser = '$uid' AND tahun_akademik.status = 'AKTIF'");
+			return $result->result_object();
 		}
 }
