@@ -45,6 +45,13 @@ class MahasiswaWali extends \Restserver\Libraries\REST_Controller
 				];
 				$this->response($message, REST_Controller::HTTP_OK);
 			}
+		}else{
+			$message = [
+                'status' => false,
+                'data' => [],
+                'message' => "Kosong",
+            ];
+            $this->response($message, REST_Controller::HTTP_NOT_FOUND);
 		}
 	}
 
