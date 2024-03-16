@@ -16,6 +16,8 @@ class MahasiswaWali_model extends CI_Model
             `program_studi`.`kdps`,
             `program_studi`.`nmps`,
             `program_studi`.`jenjang`,
+						`daftar_ulang`.`stdu`,
+						`tem_krsm`.`status`,
             (SELECT
             SUM(CASE
             WHEN transkip.ket= 'L' THEN 1*transkip.nxsks
@@ -41,7 +43,13 @@ class MahasiswaWali_model extends CI_Model
             RIGHT JOIN `program_studi` ON `mahasiswa`.`kdps` = `program_studi`.`kdps`
             RIGHT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_wali`.`iddosen`
             RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
-          WHERE mahasiswa.statuskul IN('AKTIF','TIDAK AKTIF','CUTI') AND pegawai.IdUser='$IdUser'"
+						EFT JOIN `daftar_ulang` ON `mahasiswa`.`npm` = `daftar_ulang`.`npm`
+						LEFT JOIN `tem_krsm` ON `daftar_ulang`.`npm` = `tem_krsm`.`npm` AND
+						`daftar_ulang`.`thakademik` = `tem_krsm`.`thakademik` AND
+						`daftar_ulang`.`gg` = `tem_krsm`.`gg`
+						LEFT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
+						`daftar_ulang`.`thakademik` AND `tahun_akademik`.`gg` = `daftar_ulang`.`gg`
+          WHERE mahasiswa.statuskul IN('AKTIF','TIDAK AKTIF','CUTI') AND pegawai.IdUser='$IdUser' AND tahun_akademik.status = 'AKTIF'"
         );
         return $result->result_object();
     }
