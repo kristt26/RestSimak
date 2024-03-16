@@ -43,7 +43,7 @@ class MahasiswaWali_model extends CI_Model
             RIGHT JOIN `program_studi` ON `mahasiswa`.`kdps` = `program_studi`.`kdps`
             RIGHT JOIN `dosen` ON `dosen`.`iddosen` = `dosen_wali`.`iddosen`
             RIGHT JOIN `pegawai` ON `pegawai`.`idpegawai` = `dosen`.`idpegawai`
-						EFT JOIN `daftar_ulang` ON `mahasiswa`.`npm` = `daftar_ulang`.`npm`
+						LEFT JOIN `daftar_ulang` ON `mahasiswa`.`npm` = `daftar_ulang`.`npm`
 						LEFT JOIN `tem_krsm` ON `daftar_ulang`.`npm` = `tem_krsm`.`npm` AND
 						`daftar_ulang`.`thakademik` = `tem_krsm`.`thakademik` AND
 						`daftar_ulang`.`gg` = `tem_krsm`.`gg`
