@@ -27,6 +27,7 @@ class MahasiswaWali extends \Restserver\Libraries\REST_Controller
 				$message = [
 					'status' => true,
 					'data' => $Output,
+					'daftar' => $this->MahasiswaWaliModel->AmbilStatus($is_valid_token['data']->id)
 				];
 				$this->response($message, REST_Controller::HTTP_OK);
 			}
