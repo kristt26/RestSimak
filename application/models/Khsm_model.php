@@ -285,8 +285,7 @@ class Khsm_Model extends CI_Model
             `jadwal_kuliah`
             LEFT JOIN `krsm_detail` ON `krsm_detail`.`thakademik` =
         `jadwal_kuliah`.`thakademik` AND `krsm_detail`.`gg` = `jadwal_kuliah`.`gg`
-        AND `krsm_detail`.`kmk` = `jadwal_kuliah`.`kmk` AND `krsm_detail`.`kelas` =
-        `jadwal_kuliah`.`kelas`
+        AND `krsm_detail`.`kmk` = `jadwal_kuliah`.`kmk`
             RIGHT JOIN `tahun_akademik` ON `tahun_akademik`.`thakademik` =
         `jadwal_kuliah`.`thakademik` AND `tahun_akademik`.`gg` =
         `jadwal_kuliah`.`gg`
