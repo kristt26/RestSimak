@@ -145,7 +145,7 @@ class Users extends \Restserver\Libraries\REST_Controller
                     'data' => $return_data,
                     'message' => "Login Berhasil",
                 ];
-                $this->response($message, REST_Controller::HTTP_OK);
+                $this->response($Output, REST_Controller::HTTP_OK);
             } else {
                 $message = [
                     'status' => false,
