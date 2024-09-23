@@ -136,7 +136,7 @@ class Users extends \Restserver\Libraries\REST_Controller
                     'Username' => $Output->Username,
                     'Email' => $Output->Email,
                     'NamaUser' => $Output->NamaUser,
-                    'RoleUser' => $Output->Role,
+                    'RoleUser' => $Output->role,
                     'DataRole' => $Output->dataRole,
                     'Token' => $UserToken,
                 ];
