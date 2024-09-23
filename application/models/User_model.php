@@ -141,7 +141,7 @@ class User_Model extends CI_Model
                         $Nama = "NamaUser";
                         $Role = "role";
                         $a->$Nama = $Biodata->row('Nama');
-                        $a->role = $datarole;
+                        $a->role = (object) $roleitem;
 						$a->dataRole = $datarole;
                     }
                 }
